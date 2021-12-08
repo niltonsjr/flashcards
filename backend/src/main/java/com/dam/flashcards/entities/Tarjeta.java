@@ -30,7 +30,6 @@ public class Tarjeta implements Serializable {
 
 	public Tarjeta(Long id, String frontal, String trasera, Boolean conocida, Instant fechaUltimaRespuesta,
 			Integer totalConocidas, Integer totalNoConocidas) {
-		super();
 		this.id = id;
 		this.frontal = frontal;
 		this.trasera = trasera;

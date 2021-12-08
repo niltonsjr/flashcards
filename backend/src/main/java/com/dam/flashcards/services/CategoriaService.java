@@ -1,14 +1,14 @@
 package com.dam.flashcards.services;
 
-import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 import javax.persistence.EntityNotFoundException;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.EmptyResultDataAccessException;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -25,9 +25,9 @@ public class CategoriaService {
 	private CategoriaRepository repository;
 
 	@Transactional(readOnly = true)
-	public List<CategoriaDTO> findAll() {
-		List<Categoria> list = repository.findAll();
-		return list.stream().map(x -> new CategoriaDTO(x)).collect(Collectors.toList());
+	public Page<CategoriaDTO> findAllPaged(PageRequest pageRequest) {
+		Page<Categoria> list = repository.findAll(pageRequest);
+		return list.map(x -> new CategoriaDTO(x));
 	}
 
 	@Transactional(readOnly = true)
@@ -59,14 +59,13 @@ public class CategoriaService {
 		}
 
 	}
-	
+
 	public void delete(Long id) {
 		try {
 			repository.deleteById(id);
 		} catch (EmptyResultDataAccessException e) {
 			throw new ResourceNotFoundException("Categoria no encontrada: " + id);
-		}
-		catch (DataIntegrityViolationException e) {
+		} catch (DataIntegrityViolationException e) {
 			throw new DatabaseException("Violación de integridad.");
 		}
 	}
