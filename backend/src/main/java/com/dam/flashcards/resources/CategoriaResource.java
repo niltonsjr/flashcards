@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.dam.flashcards.entities.Categoria;
+import com.dam.flashcards.dto.CategoriaDTO;
 import com.dam.flashcards.services.CategoriaService;
 
 @RestController
@@ -19,9 +19,8 @@ public class CategoriaResource {
 	private CategoriaService service;
 	
 	@GetMapping
-	public ResponseEntity<List<Categoria>> findAll() {
-		List<Categoria> list = service.findAll();
-		
+	public ResponseEntity<List<CategoriaDTO>> findAll() {
+		List<CategoriaDTO> list = service.findAll();		
 		return ResponseEntity.ok().body(list);
 	}
 }
