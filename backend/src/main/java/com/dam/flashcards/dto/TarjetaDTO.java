@@ -1,49 +1,29 @@
-package com.dam.flashcards.entities;
+package com.dam.flashcards.dto;
 
 import java.io.Serializable;
 import java.time.Instant;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.Table;
+import com.dam.flashcards.entities.Tarjeta;
 
-@Entity
-@Table(name = "tb_tarjeta")
-public class Tarjeta implements Serializable {
+public class TarjetaDTO implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	private String frontal;
 	private String trasera;
 	private Boolean conocida;
-	
-	@Column(columnDefinition = "TIMESTAMP WITHOUT TIME ZONE")
 	private Instant fechaUltimaRespuesta;
-	
 	private Integer totalConocidas;
 	private Integer totalNoConocidas;
+	private CategoriaDTO categoria;
+	private UsuarioDTO usuario;
 
-	@ManyToOne
-	@JoinColumn(name = "categoria_id")
-	private Categoria categoria;
-
-	@ManyToOne
-	@JoinColumn(name = "usuario_id")
-	private Usuario usuario;
-
-	public Tarjeta() {
+	public TarjetaDTO() {
 	}
 
-	public Tarjeta(Long id, String frontal, String trasera, Boolean conocida, Instant fechaUltimaRespuesta,
-			Integer totalConocidas, Integer totalNoConocidas) {
+	public TarjetaDTO(Long id, String frontal, String trasera, Boolean conocida, Instant fechaUltimaRespuesta,
+			Integer totalConocidas, Integer totalNoConocidas, CategoriaDTO categoria, UsuarioDTO usuario) {
 		this.id = id;
 		this.frontal = frontal;
 		this.trasera = trasera;
@@ -51,6 +31,20 @@ public class Tarjeta implements Serializable {
 		this.fechaUltimaRespuesta = fechaUltimaRespuesta;
 		this.totalConocidas = totalConocidas;
 		this.totalNoConocidas = totalNoConocidas;
+		this.categoria = categoria;
+		this.usuario = usuario;
+	}
+
+	public TarjetaDTO(Tarjeta entity) {
+		this.id = entity.getId();
+		this.frontal = entity.getFrontal();
+		this.trasera = entity.getTrasera();
+		this.conocida = entity.getConocida();
+		this.fechaUltimaRespuesta = entity.getFechaUltimaRespuesta();
+		this.totalConocidas = entity.getTotalConocidas();
+		this.totalNoConocidas = entity.getTotalNoConocidas();
+		this.categoria = new CategoriaDTO(entity.getCategoria());
+		this.usuario = new UsuarioDTO(entity.getUsuario());
 	}
 
 	public Long getId() {
@@ -109,45 +103,20 @@ public class Tarjeta implements Serializable {
 		this.totalNoConocidas = totalNoConocidas;
 	}
 
-	public Categoria getCategoria() {
+	public CategoriaDTO getCategoria() {
 		return categoria;
 	}
 
-	public void setCategoria(Categoria categoria) {
+	public void setCategoria(CategoriaDTO categoria) {
 		this.categoria = categoria;
 	}
 
-	public Usuario getUsuario() {
+	public UsuarioDTO getUsuario() {
 		return usuario;
 	}
 
-	public void setUsuario(Usuario usuario) {
+	public void setUsuario(UsuarioDTO usuario) {
 		this.usuario = usuario;
-	}
-
-	@Override
-	public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		result = prime * result + ((id == null) ? 0 : id.hashCode());
-		return result;
-	}
-
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		Tarjeta other = (Tarjeta) obj;
-		if (id == null) {
-			if (other.id != null)
-				return false;
-		} else if (!id.equals(other.id))
-			return false;
-		return true;
 	}
 
 }

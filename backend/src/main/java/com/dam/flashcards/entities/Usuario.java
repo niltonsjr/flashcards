@@ -1,7 +1,9 @@
 package com.dam.flashcards.entities;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import javax.persistence.Entity;
@@ -11,6 +13,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 @Entity
@@ -18,7 +21,7 @@ import javax.persistence.Table;
 public class Usuario implements Serializable {
 
 	private static final long serialVersionUID = 1L;
-	
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
@@ -27,14 +30,20 @@ public class Usuario implements Serializable {
 	private String apellidos;
 	private String email;
 	private String contrasena;
-	
+
 	@ManyToMany
-	@JoinTable(name = "tb_usuario_rol",
-		joinColumns = @JoinColumn(name = "usuario_id"),
+	@JoinTable(name = "tb_usuario_rol", 
+		joinColumns = @JoinColumn(name = "usuario_id"), 
 		inverseJoinColumns = @JoinColumn(name = "rol_id"))
 	private Set<Rol> roles = new HashSet<>();
-	
-	public Usuario( ) {		
+
+	@OneToMany(mappedBy = "usuario")
+	private List<Tarjeta> tarjetas = new ArrayList<>();
+
+	@OneToMany(mappedBy = "usuario")
+	private Set<Categoria> categorias = new HashSet<>();
+
+	public Usuario() {
 	}
 
 	public Usuario(Long id, String nombreDeUsuario, String nombre, String apellidos, String email, String contrasena) {
@@ -92,10 +101,18 @@ public class Usuario implements Serializable {
 
 	public void setContrasena(String contrasena) {
 		this.contrasena = contrasena;
-	}	
+	}
 
 	public Set<Rol> getRoles() {
 		return roles;
+	}
+
+	public List<Tarjeta> getTarjetas() {
+		return tarjetas;
+	}
+
+	public Set<Categoria> getCategorias() {
+		return categorias;
 	}
 
 	@Override
@@ -121,5 +138,5 @@ public class Usuario implements Serializable {
 		} else if (!id.equals(other.id))
 			return false;
 		return true;
-	}		
+	}
 }
