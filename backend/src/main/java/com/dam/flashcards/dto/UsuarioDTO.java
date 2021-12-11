@@ -43,7 +43,7 @@ public class UsuarioDTO implements Serializable {
 		this.email = entity.getEmail();
 	}
 
-	public UsuarioDTO(Usuario entity, Set<Categoria> categorias, Set<Rol> roles, Set<Tarjeta> tarjetas) {
+	public UsuarioDTO(Usuario entity, Set<Categoria> categorias, Set<Rol> roles, List<Tarjeta> tarjetas) {
 		this(entity);
 		categorias.forEach(cat -> this.categorias.add(new CategoriaDTO(cat)));
 		roles.forEach(rol -> this.roles.add(new RolDTO(rol)));

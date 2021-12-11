@@ -13,59 +13,66 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.dam.flashcards.dto.CategoriaDTO;
+import com.dam.flashcards.dto.RolDTO;
 import com.dam.flashcards.dto.TarjetaDTO;
+import com.dam.flashcards.dto.UsuarioDTO;
 import com.dam.flashcards.entities.Categoria;
+import com.dam.flashcards.entities.Rol;
 import com.dam.flashcards.entities.Tarjeta;
+import com.dam.flashcards.entities.Usuario;
 import com.dam.flashcards.repositories.CategoriaRepository;
+import com.dam.flashcards.repositories.RolRepository;
 import com.dam.flashcards.repositories.TarjetaRepository;
 import com.dam.flashcards.repositories.UsuarioRepository;
 import com.dam.flashcards.services.exceptions.DatabaseException;
 import com.dam.flashcards.services.exceptions.ResourceNotFoundException;
 
 @Service
-public class CategoriaService {
+public class UsuarioService {
 
 	@Autowired
-	private CategoriaRepository repository;
+	private UsuarioRepository repository;
 
 	@Autowired
 	private TarjetaRepository tarjetaRepository;
-	
+
 	@Autowired
-	private UsuarioRepository usuarioRepository;
+	private CategoriaRepository categoriaRepository;
+
+	@Autowired
+	private RolRepository rolRepository;
 
 	@Transactional(readOnly = true)
-	public Page<CategoriaDTO> findAllPaged(PageRequest pageRequest) {
-		Page<Categoria> list = repository.findAll(pageRequest);
-		return list.map(x -> new CategoriaDTO(x));
+	public Page<UsuarioDTO> findAllPaged(PageRequest pageRequest) {
+		Page<Usuario> list = repository.findAll(pageRequest);
+		return list.map(x -> new UsuarioDTO(x));
 	}
 
 	@Transactional(readOnly = true)
-	public CategoriaDTO findById(Long id) {
-		Optional<Categoria> obj = repository.findById(id);
-		Categoria entity = obj
-				.orElseThrow(() -> new ResourceNotFoundException("La categoria no existe en el sistema."));
-		return new CategoriaDTO(entity, entity.getTarjetas());
+	public UsuarioDTO findById(Long id) {
+		Optional<Usuario> obj = repository.findById(id);
+		Usuario entity = obj.orElseThrow(() -> new ResourceNotFoundException("La categoria no existe en el sistema."));
+		return new UsuarioDTO(entity, entity.getCategorias(), entity.getRoles(), entity.getTarjetas());
 	}
 
 	@Transactional
-	public CategoriaDTO insert(CategoriaDTO dto) {
-		Categoria entity = new Categoria();
+	public UsuarioDTO insert(UsuarioDTO dto) {
+		Usuario entity = new Usuario();
 		copyDtoToEntity(dto, entity);
 		entity = repository.save(entity);
-		return new CategoriaDTO(entity);
+		return new UsuarioDTO(entity);
 	}
 
 	@Transactional
-	public CategoriaDTO update(Long id, CategoriaDTO dto) {
-		Categoria entity;
+	public UsuarioDTO update(Long id, UsuarioDTO dto) {
+		Usuario entity;
 		try {
 			entity = repository.getOne(id);
 			copyDtoToEntity(dto, entity);
 			entity = repository.save(entity);
-			return new CategoriaDTO(entity);
+			return new UsuarioDTO(entity);
 		} catch (EntityNotFoundException e) {
-			throw new ResourceNotFoundException("Categoria no encontrada: " + id);
+			throw new ResourceNotFoundException("Usuario no encontrada: " + id);
 		}
 
 	}
@@ -74,20 +81,34 @@ public class CategoriaService {
 		try {
 			repository.deleteById(id);
 		} catch (EmptyResultDataAccessException e) {
-			throw new ResourceNotFoundException("Categoria no encontrada: " + id);
+			throw new ResourceNotFoundException("Usuario no encontrada: " + id);
 		} catch (DataIntegrityViolationException e) {
 			throw new DatabaseException("Violación de integridad.");
 		}
 	}
 
-	private void copyDtoToEntity(CategoriaDTO dto, Categoria entity) {
+	private void copyDtoToEntity(UsuarioDTO dto, Usuario entity) {
+		entity.setNombreDeUsuario(dto.getNombreDeUsuario());
 		entity.setNombre(dto.getNombre());
-		entity.setUsuario(usuarioRepository.getOne(dto.getUsuario().getId()));
+		entity.setApellidos(dto.getApellidos());
+		entity.setEmail(dto.getEmail());
+
+		entity.getCategorias().clear();
+		for (CategoriaDTO catDto : dto.getCategorias()) {
+			Categoria categoria = categoriaRepository.getOne(catDto.getId());
+			entity.getCategorias().add(categoria);
+		}
 
 		entity.getTarjetas().clear();
 		for (TarjetaDTO tarDto : dto.getTarjetas()) {
 			Tarjeta tarjeta = tarjetaRepository.getOne(tarDto.getId());
 			entity.getTarjetas().add(tarjeta);
+		}
+
+		entity.getRoles().clear();
+		for (RolDTO rolDto : dto.getRoles()) {
+			Rol rol = rolRepository.getOne(rolDto.getId());
+			entity.getRoles().add(rol);
 		}
 	}
 

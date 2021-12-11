@@ -12,9 +12,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.dam.flashcards.dto.CategoriaDTO;
 import com.dam.flashcards.dto.TarjetaDTO;
-import com.dam.flashcards.entities.Categoria;
 import com.dam.flashcards.entities.Tarjeta;
 import com.dam.flashcards.repositories.CategoriaRepository;
 import com.dam.flashcards.repositories.TarjetaRepository;
@@ -23,49 +21,49 @@ import com.dam.flashcards.services.exceptions.DatabaseException;
 import com.dam.flashcards.services.exceptions.ResourceNotFoundException;
 
 @Service
-public class CategoriaService {
+public class TarjetaService {
 
 	@Autowired
-	private CategoriaRepository repository;
-
+	private TarjetaRepository repository;
+	
 	@Autowired
-	private TarjetaRepository tarjetaRepository;
+	private CategoriaRepository categoriaRepository;
 	
 	@Autowired
 	private UsuarioRepository usuarioRepository;
 
 	@Transactional(readOnly = true)
-	public Page<CategoriaDTO> findAllPaged(PageRequest pageRequest) {
-		Page<Categoria> list = repository.findAll(pageRequest);
-		return list.map(x -> new CategoriaDTO(x));
+	public Page<TarjetaDTO> findAllPaged(PageRequest pageRequest) {
+		Page<Tarjeta> list = repository.findAll(pageRequest);
+		return list.map(x -> new TarjetaDTO(x));
 	}
 
 	@Transactional(readOnly = true)
-	public CategoriaDTO findById(Long id) {
-		Optional<Categoria> obj = repository.findById(id);
-		Categoria entity = obj
+	public TarjetaDTO findById(Long id) {
+		Optional<Tarjeta> obj = repository.findById(id);
+		Tarjeta entity = obj
 				.orElseThrow(() -> new ResourceNotFoundException("La categoria no existe en el sistema."));
-		return new CategoriaDTO(entity, entity.getTarjetas());
+		return new TarjetaDTO(entity);
 	}
 
 	@Transactional
-	public CategoriaDTO insert(CategoriaDTO dto) {
-		Categoria entity = new Categoria();
+	public TarjetaDTO insert(TarjetaDTO dto) {
+		Tarjeta entity = new Tarjeta();
 		copyDtoToEntity(dto, entity);
 		entity = repository.save(entity);
-		return new CategoriaDTO(entity);
+		return new TarjetaDTO(entity);
 	}
 
 	@Transactional
-	public CategoriaDTO update(Long id, CategoriaDTO dto) {
-		Categoria entity;
+	public TarjetaDTO update(Long id, TarjetaDTO dto) {
+		Tarjeta entity;
 		try {
 			entity = repository.getOne(id);
 			copyDtoToEntity(dto, entity);
 			entity = repository.save(entity);
-			return new CategoriaDTO(entity);
+			return new TarjetaDTO(entity);
 		} catch (EntityNotFoundException e) {
-			throw new ResourceNotFoundException("Categoria no encontrada: " + id);
+			throw new ResourceNotFoundException("Tarjeta no encontrada: " + id);
 		}
 
 	}
@@ -74,21 +72,21 @@ public class CategoriaService {
 		try {
 			repository.deleteById(id);
 		} catch (EmptyResultDataAccessException e) {
-			throw new ResourceNotFoundException("Categoria no encontrada: " + id);
+			throw new ResourceNotFoundException("Tarjeta no encontrada: " + id);
 		} catch (DataIntegrityViolationException e) {
 			throw new DatabaseException("Violación de integridad.");
 		}
 	}
-
-	private void copyDtoToEntity(CategoriaDTO dto, Categoria entity) {
-		entity.setNombre(dto.getNombre());
+	
+	private void copyDtoToEntity(TarjetaDTO dto, Tarjeta entity) {
+		entity.setFrontal(dto.getFrontal());
+		entity.setTrasera(dto.getTrasera());
+		entity.setFechaUltimaRespuesta(dto.getFechaUltimaRespuesta());
+		entity.setConocida(dto.getConocida());
+		entity.setTotalConocidas(dto.getTotalConocidas());
+		entity.setTotalNoConocidas(dto.getTotalNoConocidas());
+		entity.setCategoria(categoriaRepository.getOne(dto.getCategoria().getId()));
 		entity.setUsuario(usuarioRepository.getOne(dto.getUsuario().getId()));
-
-		entity.getTarjetas().clear();
-		for (TarjetaDTO tarDto : dto.getTarjetas()) {
-			Tarjeta tarjeta = tarjetaRepository.getOne(tarDto.getId());
-			entity.getTarjetas().add(tarjeta);
-		}
 	}
 
 }
