@@ -8,7 +8,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -16,6 +17,7 @@ import com.dam.flashcards.dto.CategoriaDTO;
 import com.dam.flashcards.dto.RolDTO;
 import com.dam.flashcards.dto.TarjetaDTO;
 import com.dam.flashcards.dto.UsuarioDTO;
+import com.dam.flashcards.dto.UsuarioInsertDTO;
 import com.dam.flashcards.entities.Categoria;
 import com.dam.flashcards.entities.Rol;
 import com.dam.flashcards.entities.Tarjeta;
@@ -41,10 +43,13 @@ public class UsuarioService {
 
 	@Autowired
 	private RolRepository rolRepository;
+	
+	@Autowired
+	private BCryptPasswordEncoder passwordEncoder;
 
 	@Transactional(readOnly = true)
-	public Page<UsuarioDTO> findAllPaged(PageRequest pageRequest) {
-		Page<Usuario> list = repository.findAll(pageRequest);
+	public Page<UsuarioDTO> findAllPaged(Pageable pageable) {
+		Page<Usuario> list = repository.findAll(pageable);
 		return list.map(x -> new UsuarioDTO(x));
 	}
 
@@ -52,13 +57,14 @@ public class UsuarioService {
 	public UsuarioDTO findById(Long id) {
 		Optional<Usuario> obj = repository.findById(id);
 		Usuario entity = obj.orElseThrow(() -> new ResourceNotFoundException("La categoria no existe en el sistema."));
-		return new UsuarioDTO(entity, entity.getCategorias(), entity.getRoles(), entity.getTarjetas());
+		return new UsuarioDTO(entity, entity.getCategorias(), entity.getTarjetas());
 	}
 
 	@Transactional
-	public UsuarioDTO insert(UsuarioDTO dto) {
+	public UsuarioDTO insert(UsuarioInsertDTO dto) {
 		Usuario entity = new Usuario();
 		copyDtoToEntity(dto, entity);
+		entity.setContrasena(passwordEncoder.encode(dto.getContrasena()));
 		entity = repository.save(entity);
 		return new UsuarioDTO(entity);
 	}

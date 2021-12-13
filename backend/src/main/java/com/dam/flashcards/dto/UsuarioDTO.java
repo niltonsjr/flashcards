@@ -7,7 +7,6 @@ import java.util.List;
 import java.util.Set;
 
 import com.dam.flashcards.entities.Categoria;
-import com.dam.flashcards.entities.Rol;
 import com.dam.flashcards.entities.Tarjeta;
 import com.dam.flashcards.entities.Usuario;
 
@@ -36,17 +35,17 @@ public class UsuarioDTO implements Serializable {
 	}
 
 	public UsuarioDTO(Usuario entity) {
-		this.id = entity.getId();
-		this.nombreDeUsuario = entity.getNombreDeUsuario();
-		this.nombre = entity.getNombre();
-		this.apellidos = entity.getApellidos();
-		this.email = entity.getEmail();
+		id = entity.getId();
+		nombreDeUsuario = entity.getNombreDeUsuario();
+		nombre = entity.getNombre();
+		apellidos = entity.getApellidos();
+		email = entity.getEmail();
+		entity.getRoles().forEach(rol -> this.roles.add(new RolDTO(rol)));
 	}
 
-	public UsuarioDTO(Usuario entity, Set<Categoria> categorias, Set<Rol> roles, List<Tarjeta> tarjetas) {
+	public UsuarioDTO(Usuario entity, Set<Categoria> categorias, List<Tarjeta> tarjetas) {
 		this(entity);
 		categorias.forEach(cat -> this.categorias.add(new CategoriaDTO(cat)));
-		roles.forEach(rol -> this.roles.add(new RolDTO(rol)));
 		tarjetas.forEach(tar -> this.tarjetas.add(new TarjetaDTO(tar)));
 	}
 

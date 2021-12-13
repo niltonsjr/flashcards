@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import com.dam.flashcards.dto.UsuarioDTO;
+import com.dam.flashcards.dto.UsuarioInsertDTO;
 import com.dam.flashcards.services.UsuarioService;
 
 @RestController
@@ -46,10 +47,10 @@ public class UsuarioResource {
 	}
 
 	@PostMapping
-	public ResponseEntity<UsuarioDTO> insert(@RequestBody UsuarioDTO dto) {
-		dto = service.insert(dto);
-		URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(dto.getId()).toUri();
-		return ResponseEntity.created(uri).body(dto);
+	public ResponseEntity<UsuarioDTO> insert(@RequestBody UsuarioInsertDTO dto) {
+		UsuarioDTO newDto = service.insert(dto);
+		URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(newDto.getId()).toUri();
+		return ResponseEntity.created(uri).body(newDto);
 	}
 
 	@PutMapping(value = "/{id}")

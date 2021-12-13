@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Set;
 
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -31,7 +32,7 @@ public class Usuario implements Serializable {
 	private String email;
 	private String contrasena;
 
-	@ManyToMany
+	@ManyToMany(fetch = FetchType.EAGER)
 	@JoinTable(name = "tb_usuario_rol", 
 		joinColumns = @JoinColumn(name = "usuario_id"), 
 		inverseJoinColumns = @JoinColumn(name = "rol_id"))
