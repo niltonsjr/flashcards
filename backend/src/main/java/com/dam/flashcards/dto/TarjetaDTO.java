@@ -3,6 +3,8 @@ package com.dam.flashcards.dto;
 import java.io.Serializable;
 import java.time.Instant;
 
+import javax.validation.constraints.NotBlank;
+
 import com.dam.flashcards.entities.Tarjeta;
 
 public class TarjetaDTO implements Serializable {
@@ -10,7 +12,9 @@ public class TarjetaDTO implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	private Long id;
+	@NotBlank(message = "Campo obligatorio.")
 	private String frontal;
+	@NotBlank(message = "Campo obligatorio.")
 	private String trasera;
 	private Boolean conocida;
 	private Instant fechaUltimaRespuesta;

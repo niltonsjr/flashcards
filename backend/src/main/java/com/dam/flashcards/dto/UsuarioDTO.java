@@ -6,6 +6,10 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Size;
+
 import com.dam.flashcards.entities.Categoria;
 import com.dam.flashcards.entities.Tarjeta;
 import com.dam.flashcards.entities.Usuario;
@@ -15,9 +19,14 @@ public class UsuarioDTO implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	private Long id;
+	@Size(min=5, max=10, message="El nombre de usuario debe tener entre 5 y 10 caracteres.")
+	@NotBlank(message = "Campo obligatorio.")
 	private String nombreDeUsuario;
+	@NotBlank(message = "Campo obligatorio.")
 	private String nombre;
+	@NotBlank(message = "Campo obligatorio.")
 	private String apellidos;
+	@Email(message = "Introducir una dirección de correo electrónico válida.")
 	private String email;
 	private Set<RolDTO> roles = new HashSet<>();
 	private List<TarjetaDTO> tarjetas = new ArrayList<>();
