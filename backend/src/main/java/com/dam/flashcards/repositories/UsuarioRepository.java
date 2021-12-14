@@ -7,4 +7,8 @@ import com.dam.flashcards.entities.Usuario;
 
 @Repository
 public interface UsuarioRepository extends JpaRepository<Usuario, Long>{
+	
+	Usuario findByEmail(String email);
+	
+	Usuario findByNombreDeUsuario(String nombreDeUsuario);
 }

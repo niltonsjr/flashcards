@@ -2,6 +2,9 @@ package com.dam.flashcards.dto;
 
 import javax.validation.constraints.NotBlank;
 
+import com.dam.flashcards.services.validation.UserInsertValid;
+
+@UserInsertValid
 public class UsuarioInsertDTO extends UsuarioDTO {
 
 	private static final long serialVersionUID = 1L;
