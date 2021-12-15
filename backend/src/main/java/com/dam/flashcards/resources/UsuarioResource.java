@@ -22,6 +22,7 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import com.dam.flashcards.dto.UsuarioDTO;
 import com.dam.flashcards.dto.UsuarioInsertDTO;
+import com.dam.flashcards.dto.UsuarioUpdateDTO;
 import com.dam.flashcards.services.UsuarioService;
 
 @RestController
@@ -56,9 +57,9 @@ public class UsuarioResource {
 	}
 
 	@PutMapping(value = "/{id}")
-	public ResponseEntity<UsuarioDTO> update(@Valid @PathVariable Long id, @RequestBody UsuarioDTO dto) {
-		dto = service.update(id, dto);
-		return ResponseEntity.ok().body(dto);
+	public ResponseEntity<UsuarioDTO> update(@Valid @PathVariable Long id, @Valid @RequestBody UsuarioUpdateDTO dto) {
+		UsuarioDTO newDto = service.update(id, dto);
+		return ResponseEntity.ok().body(newDto);
 	}
 
 	@DeleteMapping(value = "/{id}")

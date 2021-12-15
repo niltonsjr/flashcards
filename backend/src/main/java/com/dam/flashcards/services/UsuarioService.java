@@ -18,6 +18,7 @@ import com.dam.flashcards.dto.RolDTO;
 import com.dam.flashcards.dto.TarjetaDTO;
 import com.dam.flashcards.dto.UsuarioDTO;
 import com.dam.flashcards.dto.UsuarioInsertDTO;
+import com.dam.flashcards.dto.UsuarioUpdateDTO;
 import com.dam.flashcards.entities.Categoria;
 import com.dam.flashcards.entities.Rol;
 import com.dam.flashcards.entities.Tarjeta;
@@ -70,7 +71,7 @@ public class UsuarioService {
 	}
 
 	@Transactional
-	public UsuarioDTO update(Long id, UsuarioDTO dto) {
+	public UsuarioDTO update(Long id, UsuarioUpdateDTO dto) {
 		Usuario entity;
 		try {
 			entity = repository.getOne(id);
