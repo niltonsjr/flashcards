@@ -2,9 +2,11 @@ package com.dam.flashcards.entities;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -18,9 +20,13 @@ import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
+
 @Entity
 @Table(name = "tb_usuario")
-public class Usuario implements Serializable {
+public class Usuario implements UserDetails, Serializable {
 
 	private static final long serialVersionUID = 1L;
 
@@ -36,9 +42,7 @@ public class Usuario implements Serializable {
 	private String contrasena;
 
 	@ManyToMany(fetch = FetchType.EAGER)
-	@JoinTable(name = "tb_usuario_rol", 
-		joinColumns = @JoinColumn(name = "usuario_id"), 
-		inverseJoinColumns = @JoinColumn(name = "rol_id"))
+	@JoinTable(name = "tb_usuario_rol", joinColumns = @JoinColumn(name = "usuario_id"), inverseJoinColumns = @JoinColumn(name = "rol_id"))
 	private Set<Rol> roles = new HashSet<>();
 
 	@OneToMany(mappedBy = "usuario")
@@ -141,6 +145,41 @@ public class Usuario implements Serializable {
 				return false;
 		} else if (!id.equals(other.id))
 			return false;
+		return true;
+	}
+
+	@Override
+	public Collection<? extends GrantedAuthority> getAuthorities() {
+		return roles.stream().map(rol -> new SimpleGrantedAuthority(rol.getNombre())).collect(Collectors.toList());
+	}
+
+	@Override
+	public String getPassword() {
+		return contrasena;
+	}
+
+	@Override
+	public String getUsername() {
+		return nombreDeUsuario;
+	}
+
+	@Override
+	public boolean isAccountNonExpired() {
+		return true;
+	}
+
+	@Override
+	public boolean isAccountNonLocked() {
+		return true;
+	}
+
+	@Override
+	public boolean isCredentialsNonExpired() {
+		return true;
+	}
+
+	@Override
+	public boolean isEnabled() {
 		return true;
 	}
 }

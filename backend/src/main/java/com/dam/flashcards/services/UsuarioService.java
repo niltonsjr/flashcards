@@ -4,11 +4,16 @@ import java.util.Optional;
 
 import javax.persistence.EntityNotFoundException;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -31,7 +36,9 @@ import com.dam.flashcards.services.exceptions.DatabaseException;
 import com.dam.flashcards.services.exceptions.ResourceNotFoundException;
 
 @Service
-public class UsuarioService {
+public class UsuarioService implements UserDetailsService {
+
+	private static Logger logger = LoggerFactory.getLogger(UsuarioService.class);
 
 	@Autowired
 	private UsuarioRepository repository;
@@ -44,7 +51,7 @@ public class UsuarioService {
 
 	@Autowired
 	private RolRepository rolRepository;
-	
+
 	@Autowired
 	private BCryptPasswordEncoder passwordEncoder;
 
@@ -117,6 +124,17 @@ public class UsuarioService {
 			Rol rol = rolRepository.getOne(rolDto.getId());
 			entity.getRoles().add(rol);
 		}
+	}
+
+	@Override
+	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+		Usuario usuario = repository.findByNombreDeUsuario(username);
+		if (usuario == null) {
+			logger.error("Usuario no encontrado: " + username);
+			throw new UsernameNotFoundException("Nombre de usuario no encontrado");
+		}
+		logger.info("Usuario encontrado: " + username);
+		return usuario;
 	}
 
 }
