@@ -23,7 +23,6 @@ public class Rol implements Serializable{
 	}
 
 	public Rol(Long id, String nombre) {
-		super();
 		this.id = id;
 		this.nombre = nombre;
 	}

@@ -23,7 +23,7 @@ public class Tarjeta implements Serializable {
 	private Long id;
 	private String frontal;
 	private String trasera;
-	private Boolean conocida;
+	private boolean conocida;
 	
 	@Column(columnDefinition = "TIMESTAMP WITHOUT TIME ZONE")
 	private Instant fechaUltimaRespuesta;

@@ -182,4 +182,13 @@ public class Usuario implements UserDetails, Serializable {
 	public boolean isEnabled() {
 		return true;
 	}
+
+	public boolean tieneRol(String nombreRol) {
+		for (Rol rol : roles) {
+			if (rol.getNombre().equals(nombreRol)) {
+				return true;
+			}
+		}
+		return false;
+	}
 }

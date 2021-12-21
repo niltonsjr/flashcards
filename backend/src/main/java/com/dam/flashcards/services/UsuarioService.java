@@ -44,6 +44,9 @@ public class UsuarioService implements UserDetailsService {
 	private UsuarioRepository repository;
 
 	@Autowired
+	private AuthService authService;
+
+	@Autowired
 	private TarjetaRepository tarjetaRepository;
 
 	@Autowired
@@ -63,6 +66,8 @@ public class UsuarioService implements UserDetailsService {
 
 	@Transactional(readOnly = true)
 	public UsuarioDTO findById(Long id) {
+		logger.info("Buscando usuario por ID: " + id);
+		authService.ValidarUsuarioLogadoOAdministrador(id);
 		Optional<Usuario> obj = repository.findById(id);
 		Usuario entity = obj.orElseThrow(() -> new ResourceNotFoundException("La categoria no existe en el sistema."));
 		return new UsuarioDTO(entity, entity.getCategorias(), entity.getTarjetas());
