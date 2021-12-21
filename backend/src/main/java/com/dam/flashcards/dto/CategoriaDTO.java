@@ -13,23 +13,22 @@ public class CategoriaDTO implements Serializable {
 
 	private Long id;
 	private String nombre;
-	private UsuarioDTO usuario;
+	private Long usuarioId;
 	private Set<TarjetaDTO> tarjetas = new HashSet<>();
 
 	public CategoriaDTO() {
 	}
 
-	public CategoriaDTO(Long id, String nombre, UsuarioDTO usuario) {
-		super();
+	public CategoriaDTO(Long id, String nombre, Long usuarioId) {
 		this.id = id;
 		this.nombre = nombre;
-		this.usuario = usuario;
+		this.usuarioId = usuarioId;
 	}
 
 	public CategoriaDTO(Categoria entity) {
-		this.id = entity.getId();
-		this.nombre = entity.getNombre();
-		this.usuario = new UsuarioDTO(entity.getUsuario());
+		id = entity.getId();
+		nombre = entity.getNombre();
+		usuarioId = entity.getUsuario().getId();
 	}
 
 	public CategoriaDTO(Categoria entity, Set<Tarjeta> tarjetas) {
@@ -53,12 +52,12 @@ public class CategoriaDTO implements Serializable {
 		this.nombre = nombre;
 	}
 
-	public UsuarioDTO getUsuario() {
-		return usuario;
+	public Long getUsuarioId() {
+		return usuarioId;
 	}
 
-	public void setUsuario(UsuarioDTO usuario) {
-		this.usuario = usuario;
+	public void setUsuarioId(Long usuarioId) {
+		this.usuarioId = usuarioId;
 	}
 
 	public Set<TarjetaDTO> getTarjetas() {

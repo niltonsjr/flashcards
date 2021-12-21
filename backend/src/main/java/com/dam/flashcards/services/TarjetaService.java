@@ -14,6 +14,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.dam.flashcards.dto.TarjetaDTO;
 import com.dam.flashcards.entities.Tarjeta;
+import com.dam.flashcards.entities.Usuario;
 import com.dam.flashcards.repositories.CategoriaRepository;
 import com.dam.flashcards.repositories.TarjetaRepository;
 import com.dam.flashcards.repositories.UsuarioRepository;
@@ -25,24 +26,27 @@ public class TarjetaService {
 
 	@Autowired
 	private TarjetaRepository repository;
-	
+
+	@Autowired
+	private AuthService authService;
+
 	@Autowired
 	private CategoriaRepository categoriaRepository;
-	
+
 	@Autowired
 	private UsuarioRepository usuarioRepository;
 
 	@Transactional(readOnly = true)
 	public Page<TarjetaDTO> findAllPaged(Pageable pageable) {
-		Page<Tarjeta> list = repository.findAll(pageable);
+		Usuario usuario = authService.autenticado();
+		Page<Tarjeta> list = repository.findByUsuario(usuario, pageable);
 		return list.map(x -> new TarjetaDTO(x));
 	}
 
 	@Transactional(readOnly = true)
 	public TarjetaDTO findById(Long id) {
 		Optional<Tarjeta> obj = repository.findById(id);
-		Tarjeta entity = obj
-				.orElseThrow(() -> new ResourceNotFoundException("La categoria no existe en el sistema."));
+		Tarjeta entity = obj.orElseThrow(() -> new ResourceNotFoundException("La categoria no existe en el sistema."));
 		return new TarjetaDTO(entity);
 	}
 
@@ -77,7 +81,7 @@ public class TarjetaService {
 			throw new DatabaseException("Violación de integridad.");
 		}
 	}
-	
+
 	private void copyDtoToEntity(TarjetaDTO dto, Tarjeta entity) {
 		entity.setFrontal(dto.getFrontal());
 		entity.setTrasera(dto.getTrasera());
@@ -85,8 +89,8 @@ public class TarjetaService {
 		entity.setConocida(dto.getConocida());
 		entity.setTotalConocidas(dto.getTotalConocidas());
 		entity.setTotalNoConocidas(dto.getTotalNoConocidas());
-		entity.setCategoria(categoriaRepository.getOne(dto.getCategoria().getId()));
-		entity.setUsuario(usuarioRepository.getOne(dto.getUsuario().getId()));
+		entity.setCategoria(categoriaRepository.getOne(dto.getCategoriaId()));
+		entity.setUsuario(usuarioRepository.getOne(dto.getUsuarioId()));
 	}
 
 }

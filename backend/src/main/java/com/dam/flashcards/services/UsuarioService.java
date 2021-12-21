@@ -65,8 +65,7 @@ public class UsuarioService implements UserDetailsService {
 	}
 
 	@Transactional(readOnly = true)
-	public UsuarioDTO findById(Long id) {
-		logger.info("Buscando usuario por ID: " + id);
+	public UsuarioDTO findById(Long id) {		
 		authService.ValidarUsuarioLogadoOAdministrador(id);
 		Optional<Usuario> obj = repository.findById(id);
 		Usuario entity = obj.orElseThrow(() -> new ResourceNotFoundException("La categoria no existe en el sistema."));

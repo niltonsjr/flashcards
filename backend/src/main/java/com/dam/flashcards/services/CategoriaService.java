@@ -82,7 +82,7 @@ public class CategoriaService {
 
 	private void copyDtoToEntity(CategoriaDTO dto, Categoria entity) {
 		entity.setNombre(dto.getNombre());
-		entity.setUsuario(usuarioRepository.getOne(dto.getUsuario().getId()));
+		entity.setUsuario(usuarioRepository.getOne(dto.getUsuarioId()));
 
 		entity.getTarjetas().clear();
 		for (TarjetaDTO tarDto : dto.getTarjetas()) {

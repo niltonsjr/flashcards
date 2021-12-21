@@ -20,14 +20,14 @@ public class TarjetaDTO implements Serializable {
 	private Instant fechaUltimaRespuesta;
 	private Integer totalConocidas;
 	private Integer totalNoConocidas;
-	private CategoriaDTO categoria;
-	private UsuarioDTO usuario;
+	private Long categoriaId;
+	private Long usuarioId;
 
 	public TarjetaDTO() {
 	}
 
 	public TarjetaDTO(Long id, String frontal, String trasera, Boolean conocida, Instant fechaUltimaRespuesta,
-			Integer totalConocidas, Integer totalNoConocidas, CategoriaDTO categoria, UsuarioDTO usuario) {
+			Integer totalConocidas, Integer totalNoConocidas, Long categoriaId, Long usuarioId) {
 		this.id = id;
 		this.frontal = frontal;
 		this.trasera = trasera;
@@ -35,20 +35,20 @@ public class TarjetaDTO implements Serializable {
 		this.fechaUltimaRespuesta = fechaUltimaRespuesta;
 		this.totalConocidas = totalConocidas;
 		this.totalNoConocidas = totalNoConocidas;
-		this.categoria = categoria;
-		this.usuario = usuario;
+		this.categoriaId = categoriaId;
+		this.usuarioId = usuarioId;
 	}
 
 	public TarjetaDTO(Tarjeta entity) {
-		this.id = entity.getId();
-		this.frontal = entity.getFrontal();
-		this.trasera = entity.getTrasera();
-		this.conocida = entity.getConocida();
-		this.fechaUltimaRespuesta = entity.getFechaUltimaRespuesta();
-		this.totalConocidas = entity.getTotalConocidas();
-		this.totalNoConocidas = entity.getTotalNoConocidas();
-		this.categoria = new CategoriaDTO(entity.getCategoria());
-		this.usuario = new UsuarioDTO(entity.getUsuario());
+		id = entity.getId();
+		frontal = entity.getFrontal();
+		trasera = entity.getTrasera();
+		conocida = entity.getConocida();
+		fechaUltimaRespuesta = entity.getFechaUltimaRespuesta();
+		totalConocidas = entity.getTotalConocidas();
+		totalNoConocidas = entity.getTotalNoConocidas();
+		categoriaId = entity.getCategoria().getId();
+		usuarioId = entity.getUsuario().getId();
 	}
 
 	public Long getId() {
@@ -107,20 +107,20 @@ public class TarjetaDTO implements Serializable {
 		this.totalNoConocidas = totalNoConocidas;
 	}
 
-	public CategoriaDTO getCategoria() {
-		return categoria;
+	public Long getCategoriaId() {
+		return categoriaId;
 	}
 
-	public void setCategoria(CategoriaDTO categoria) {
-		this.categoria = categoria;
+	public void setCategoriaId(Long categoriaId) {
+		this.categoriaId = categoriaId;
 	}
 
-	public UsuarioDTO getUsuario() {
-		return usuario;
+	public Long getUsuarioId() {
+		return usuarioId;
 	}
 
-	public void setUsuario(UsuarioDTO usuario) {
-		this.usuario = usuario;
+	public void setUsuarioId(Long usuarioId) {
+		this.usuarioId = usuarioId;
 	}
 
 }
