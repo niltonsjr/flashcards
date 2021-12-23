@@ -16,6 +16,7 @@ import com.dam.flashcards.dto.CategoriaDTO;
 import com.dam.flashcards.dto.TarjetaDTO;
 import com.dam.flashcards.entities.Categoria;
 import com.dam.flashcards.entities.Tarjeta;
+import com.dam.flashcards.entities.Usuario;
 import com.dam.flashcards.repositories.CategoriaRepository;
 import com.dam.flashcards.repositories.TarjetaRepository;
 import com.dam.flashcards.repositories.UsuarioRepository;
@@ -33,10 +34,14 @@ public class CategoriaService {
 
 	@Autowired
 	private UsuarioRepository usuarioRepository;
+	
+	@Autowired
+	private AuthService authService;
 
 	@Transactional(readOnly = true)
 	public Page<CategoriaDTO> findAllPaged(Pageable pageable) {
-		Page<Categoria> list = repository.findAll(pageable);
+		Usuario usuario = authService.autenticado();
+		Page<Categoria> list = repository.findByUsuario(usuario, pageable);
 		return list.map(x -> new CategoriaDTO(x));
 	}
 
