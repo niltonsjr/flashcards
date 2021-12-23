@@ -11,6 +11,7 @@ import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -58,6 +59,7 @@ public class UsuarioService implements UserDetailsService {
 	@Autowired
 	private BCryptPasswordEncoder passwordEncoder;
 
+	@PreAuthorize("hasRole('ADMINISTRADOR')")
 	@Transactional(readOnly = true)
 	public Page<UsuarioDTO> findAllPaged(Pageable pageable) {
 		Page<Usuario> list = repository.findAll(pageable);
