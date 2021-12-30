@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.dam.flashcards.dto.TarjetaDTO;
+import com.dam.flashcards.entities.Categoria;
 import com.dam.flashcards.entities.Tarjeta;
 import com.dam.flashcards.entities.Usuario;
 import com.dam.flashcards.repositories.CategoriaRepository;
@@ -37,9 +38,10 @@ public class TarjetaService {
 	private UsuarioRepository usuarioRepository;
 
 	@Transactional(readOnly = true)
-	public Page<TarjetaDTO> findAllPaged(Pageable pageable) {
+	public Page<TarjetaDTO> findAllPaged(Long categoriaId, Pageable pageable) {
 		Usuario usuario = authService.autenticado();
-		Page<Tarjeta> list = repository.findByUsuario(usuario, pageable);
+		Categoria categoria = (categoriaId == 0) ? null : categoriaRepository.getOne(categoriaId);
+		Page<Tarjeta> list = repository.findByUsuarioAndCategoria(usuario, categoria, pageable);
 		return list.map(x -> new TarjetaDTO(x));
 	}
 

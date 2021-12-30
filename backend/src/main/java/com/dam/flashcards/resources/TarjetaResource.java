@@ -32,12 +32,13 @@ public class TarjetaResource {
 
 	@GetMapping
 	public ResponseEntity<Page<TarjetaDTO>> findAll(@RequestParam(value = "pagina", defaultValue = "0") Integer pagina,
+			@RequestParam(value = "categoriaId", defaultValue = "0") Long categoriaId,
 			@RequestParam(value = "lineasPorPagina", defaultValue = "12") Integer lineasPorPagina,
 			@RequestParam(value = "direccion", defaultValue = "ASC") String direccion,
 			@RequestParam(value = "ordenarPor", defaultValue = "nombre") String ordenarPor) {
 		PageRequest pageRequest = PageRequest.of(pagina, lineasPorPagina, Direction.valueOf(direccion), ordenarPor);
 
-		Page<TarjetaDTO> list = service.findAllPaged(pageRequest);
+		Page<TarjetaDTO> list = service.findAllPaged(categoriaId, pageRequest);
 		return ResponseEntity.ok().body(list);
 	}
 

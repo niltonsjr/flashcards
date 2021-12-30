@@ -21,7 +21,9 @@ public class Tarjeta implements Serializable {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
+	@Column(columnDefinition = "TEXT")
 	private String frontal;
+	@Column(columnDefinition = "TEXT")
 	private String trasera;
 	private boolean conocida;
 	

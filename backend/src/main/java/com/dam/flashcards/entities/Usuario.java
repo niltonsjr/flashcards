@@ -1,6 +1,5 @@
 package com.dam.flashcards.entities;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashSet;
@@ -26,9 +25,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 @Entity
 @Table(name = "tb_usuario")
-public class Usuario implements UserDetails, Serializable {
-
-	private static final long serialVersionUID = 1L;
+public class Usuario implements UserDetails {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
