@@ -26,10 +26,10 @@ public class Tarjeta implements Serializable {
 	@Column(columnDefinition = "TEXT")
 	private String trasera;
 	private boolean conocida;
-	
+
 	@Column(columnDefinition = "TIMESTAMP WITHOUT TIME ZONE")
 	private Instant fechaUltimaRespuesta;
-	
+
 	private Integer totalConocidas;
 	private Integer totalNoConocidas;
 

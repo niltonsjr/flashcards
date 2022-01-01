@@ -13,9 +13,10 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface TarjetaRepository extends JpaRepository<Tarjeta, Long> {
 
-	@Query("SELECT tar FROM Tarjeta tar WHERE "
-			+ "(:categoria IS NULL OR :categoria = tar.categoria) "
-			+ "AND :usuario = tar.usuario")
+	@Query("SELECT tar FROM Tarjeta tar WHERE " +
+			"(:categoria IS NULL OR :categoria = tar.categoria) " +
+			"AND :usuario = tar.usuario " +
+			"ORDER BY tar.conocida, tar.fechaUltimaRespuesta ASC NULLS FIRST")
 	Page<Tarjeta> findByUsuarioAndCategoria(Usuario usuario, Categoria categoria, Pageable pageable);
 
 }

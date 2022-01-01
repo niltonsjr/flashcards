@@ -4,6 +4,10 @@ import java.net.URI;
 
 import javax.validation.Valid;
 
+import com.dam.flashcards.dto.TarjetaBasicaDTO;
+import com.dam.flashcards.dto.TarjetaDTO;
+import com.dam.flashcards.services.TarjetaService;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -20,9 +24,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
-import com.dam.flashcards.dto.TarjetaDTO;
-import com.dam.flashcards.services.TarjetaService;
-
 @RestController
 @RequestMapping(value = "/tarjetas")
 public class TarjetaResource {
@@ -31,14 +32,13 @@ public class TarjetaResource {
 	private TarjetaService service;
 
 	@GetMapping
-	public ResponseEntity<Page<TarjetaDTO>> findAll(@RequestParam(value = "pagina", defaultValue = "0") Integer pagina,
+	public ResponseEntity<Page<TarjetaBasicaDTO>> findAll(
+			@RequestParam(value = "pagina", defaultValue = "0") Integer pagina,
 			@RequestParam(value = "categoriaId", defaultValue = "0") Long categoriaId,
-			@RequestParam(value = "lineasPorPagina", defaultValue = "12") Integer lineasPorPagina,
-			@RequestParam(value = "direccion", defaultValue = "ASC") String direccion,
-			@RequestParam(value = "ordenarPor", defaultValue = "nombre") String ordenarPor) {
-		PageRequest pageRequest = PageRequest.of(pagina, lineasPorPagina, Direction.valueOf(direccion), ordenarPor);
+			@RequestParam(value = "lineasPorPagina", defaultValue = "12") Integer lineasPorPagina) {
+		PageRequest pageRequest = PageRequest.of(pagina, lineasPorPagina);
 
-		Page<TarjetaDTO> list = service.findAllPaged(categoriaId, pageRequest);
+		Page<TarjetaBasicaDTO> list = service.findAllPaged(categoriaId, pageRequest);
 		return ResponseEntity.ok().body(list);
 	}
 

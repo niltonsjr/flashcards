@@ -4,6 +4,24 @@ import java.util.Optional;
 
 import javax.persistence.EntityNotFoundException;
 
+import com.dam.flashcards.dto.CategoriaDTO;
+import com.dam.flashcards.dto.RolDTO;
+import com.dam.flashcards.dto.TarjetaDTO;
+import com.dam.flashcards.dto.UsuarioBasicoDTO;
+import com.dam.flashcards.dto.UsuarioDTO;
+import com.dam.flashcards.dto.UsuarioInsertDTO;
+import com.dam.flashcards.dto.UsuarioUpdateDTO;
+import com.dam.flashcards.entities.Categoria;
+import com.dam.flashcards.entities.Rol;
+import com.dam.flashcards.entities.Tarjeta;
+import com.dam.flashcards.entities.Usuario;
+import com.dam.flashcards.repositories.CategoriaRepository;
+import com.dam.flashcards.repositories.RolRepository;
+import com.dam.flashcards.repositories.TarjetaRepository;
+import com.dam.flashcards.repositories.UsuarioRepository;
+import com.dam.flashcards.services.exceptions.DatabaseException;
+import com.dam.flashcards.services.exceptions.ResourceNotFoundException;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,23 +36,6 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import com.dam.flashcards.dto.CategoriaDTO;
-import com.dam.flashcards.dto.RolDTO;
-import com.dam.flashcards.dto.TarjetaDTO;
-import com.dam.flashcards.dto.UsuarioDTO;
-import com.dam.flashcards.dto.UsuarioInsertDTO;
-import com.dam.flashcards.dto.UsuarioUpdateDTO;
-import com.dam.flashcards.entities.Categoria;
-import com.dam.flashcards.entities.Rol;
-import com.dam.flashcards.entities.Tarjeta;
-import com.dam.flashcards.entities.Usuario;
-import com.dam.flashcards.repositories.CategoriaRepository;
-import com.dam.flashcards.repositories.RolRepository;
-import com.dam.flashcards.repositories.TarjetaRepository;
-import com.dam.flashcards.repositories.UsuarioRepository;
-import com.dam.flashcards.services.exceptions.DatabaseException;
-import com.dam.flashcards.services.exceptions.ResourceNotFoundException;
 
 @Service
 public class UsuarioService implements UserDetailsService {
@@ -72,6 +73,14 @@ public class UsuarioService implements UserDetailsService {
 		Optional<Usuario> obj = repository.findById(id);
 		Usuario entity = obj.orElseThrow(() -> new ResourceNotFoundException("La categoria no existe en el sistema."));
 		return new UsuarioDTO(entity, entity.getCategorias(), entity.getTarjetas());
+	}
+
+	@Transactional(readOnly = true)
+	public UsuarioBasicoDTO findBasicoById(Long id) {		
+		authService.ValidarUsuarioLogadoOAdministrador(id);
+		Optional<Usuario> obj = repository.findById(id);
+		Usuario entity = obj.orElseThrow(() -> new ResourceNotFoundException("La categoria no existe en el sistema."));
+		return new UsuarioBasicoDTO(entity);
 	}
 
 	@Transactional

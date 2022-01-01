@@ -9,17 +9,17 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "tb_rol")
-public class Rol implements Serializable{
+@Table(name = "tb_rol") 
+public class Rol implements Serializable {
 
 	private static final long serialVersionUID = 1L;
-	
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	private String nombre;
-	
-	public Rol() {		
+
+	public Rol() {
 	}
 
 	public Rol(Long id, String nombre) {

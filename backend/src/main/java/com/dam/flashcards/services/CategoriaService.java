@@ -65,7 +65,7 @@ public class CategoriaService {
 	public CategoriaDTO update(Long id, CategoriaDTO dto) {
 		Categoria entity;
 		try {
-			entity = repository.getOne(id);
+			entity = repository.getById(id);
 			copyDtoToEntity(dto, entity);
 			entity = repository.save(entity);
 			return new CategoriaDTO(entity);
@@ -87,11 +87,11 @@ public class CategoriaService {
 
 	private void copyDtoToEntity(CategoriaDTO dto, Categoria entity) {
 		entity.setNombre(dto.getNombre());
-		entity.setUsuario(usuarioRepository.getOne(dto.getUsuarioId()));
+		entity.setUsuario(usuarioRepository.getById(dto.getUsuarioId()));
 
 		entity.getTarjetas().clear();
 		for (TarjetaDTO tarDto : dto.getTarjetas()) {
-			Tarjeta tarjeta = tarjetaRepository.getOne(tarDto.getId());
+			Tarjeta tarjeta = tarjetaRepository.getById(tarDto.getId());
 			entity.getTarjetas().add(tarjeta);
 		}
 	}

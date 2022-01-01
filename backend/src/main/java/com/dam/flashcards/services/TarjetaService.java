@@ -4,14 +4,7 @@ import java.util.Optional;
 
 import javax.persistence.EntityNotFoundException;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.dao.DataIntegrityViolationException;
-import org.springframework.dao.EmptyResultDataAccessException;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
-
+import com.dam.flashcards.dto.TarjetaBasicaDTO;
 import com.dam.flashcards.dto.TarjetaDTO;
 import com.dam.flashcards.entities.Categoria;
 import com.dam.flashcards.entities.Tarjeta;
@@ -21,6 +14,14 @@ import com.dam.flashcards.repositories.TarjetaRepository;
 import com.dam.flashcards.repositories.UsuarioRepository;
 import com.dam.flashcards.services.exceptions.DatabaseException;
 import com.dam.flashcards.services.exceptions.ResourceNotFoundException;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.dao.EmptyResultDataAccessException;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 public class TarjetaService {
@@ -38,11 +39,11 @@ public class TarjetaService {
 	private UsuarioRepository usuarioRepository;
 
 	@Transactional(readOnly = true)
-	public Page<TarjetaDTO> findAllPaged(Long categoriaId, Pageable pageable) {
+	public Page<TarjetaBasicaDTO> findAllPaged(Long categoriaId, Pageable pageable) {
 		Usuario usuario = authService.autenticado();
 		Categoria categoria = (categoriaId == 0) ? null : categoriaRepository.getOne(categoriaId);
 		Page<Tarjeta> list = repository.findByUsuarioAndCategoria(usuario, categoria, pageable);
-		return list.map(x -> new TarjetaDTO(x));
+		return list.map(x -> new TarjetaBasicaDTO(x));
 	}
 
 	@Transactional(readOnly = true)
