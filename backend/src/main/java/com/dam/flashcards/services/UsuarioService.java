@@ -96,7 +96,7 @@ public class UsuarioService implements UserDetailsService {
 	public UsuarioDTO update(Long id, UsuarioUpdateDTO dto) {
 		Usuario entity;
 		try {
-			entity = repository.getOne(id);
+			entity = repository.getById(id);
 			copyDtoToEntity(dto, entity);
 			entity = repository.save(entity);
 			return new UsuarioDTO(entity);
@@ -124,19 +124,19 @@ public class UsuarioService implements UserDetailsService {
 
 		entity.getCategorias().clear();
 		for (CategoriaDTO catDto : dto.getCategorias()) {
-			Categoria categoria = categoriaRepository.getOne(catDto.getId());
+			Categoria categoria = categoriaRepository.getById(catDto.getId());
 			entity.getCategorias().add(categoria);
 		}
 
 		entity.getTarjetas().clear();
 		for (TarjetaDTO tarDto : dto.getTarjetas()) {
-			Tarjeta tarjeta = tarjetaRepository.getOne(tarDto.getId());
+			Tarjeta tarjeta = tarjetaRepository.getById(tarDto.getId());
 			entity.getTarjetas().add(tarjeta);
 		}
 
 		entity.getRoles().clear();
 		for (RolDTO rolDto : dto.getRoles()) {
-			Rol rol = rolRepository.getOne(rolDto.getId());
+			Rol rol = rolRepository.getById(rolDto.getId());
 			entity.getRoles().add(rol);
 		}
 	}

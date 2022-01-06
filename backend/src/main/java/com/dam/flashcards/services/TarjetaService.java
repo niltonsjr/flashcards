@@ -41,7 +41,7 @@ public class TarjetaService {
 	@Transactional(readOnly = true)
 	public Page<TarjetaBasicaDTO> findAllPaged(Long categoriaId, Pageable pageable) {
 		Usuario usuario = authService.autenticado();
-		Categoria categoria = (categoriaId == 0) ? null : categoriaRepository.getOne(categoriaId);
+		Categoria categoria = (categoriaId == 0) ? null : categoriaRepository.getById(categoriaId);
 		Page<Tarjeta> list = repository.findByUsuarioAndCategoria(usuario, categoria, pageable);
 		return list.map(x -> new TarjetaBasicaDTO(x));
 	}
@@ -65,7 +65,7 @@ public class TarjetaService {
 	public TarjetaDTO update(Long id, TarjetaDTO dto) {
 		Tarjeta entity;
 		try {
-			entity = repository.getOne(id);
+			entity = repository.getById(id);
 			copyDtoToEntity(dto, entity);
 			entity = repository.save(entity);
 			return new TarjetaDTO(entity);
@@ -92,8 +92,8 @@ public class TarjetaService {
 		entity.setConocida(dto.getConocida());
 		entity.setTotalConocidas(dto.getTotalConocidas());
 		entity.setTotalNoConocidas(dto.getTotalNoConocidas());
-		entity.setCategoria(categoriaRepository.getOne(dto.getCategoriaId()));
-		entity.setUsuario(usuarioRepository.getOne(dto.getUsuarioId()));
+		entity.setCategoria(categoriaRepository.getById(dto.getCategoriaId()));
+		entity.setUsuario(usuarioRepository.getById(dto.getUsuarioId()));
 	}
 
 }

@@ -50,7 +50,7 @@ public class RolService {
 	public RolDTO update(Long id, RolDTO dto) {
 		Rol entity;
 		try {
-			entity = repository.getOne(id);
+			entity = repository.getById(id);
 			entity.setNombre(dto.getNombre());
 			entity = repository.save(entity);
 			return new RolDTO(entity);
