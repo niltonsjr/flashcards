@@ -4,19 +4,19 @@ import java.util.Optional;
 
 import javax.persistence.EntityNotFoundException;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.dao.DataIntegrityViolationException;
-import org.springframework.dao.EmptyResultDataAccessException;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
-
 import com.dam.flashcards.dto.RolDTO;
 import com.dam.flashcards.entities.Rol;
 import com.dam.flashcards.repositories.RolRepository;
 import com.dam.flashcards.services.exceptions.DatabaseException;
 import com.dam.flashcards.services.exceptions.ResourceNotFoundException;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.dao.EmptyResultDataAccessException;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 public class RolService {
@@ -25,8 +25,8 @@ public class RolService {
 	private RolRepository repository;
 
 	@Transactional(readOnly = true)
-	public Page<RolDTO> findAllPaged(PageRequest pageRequest) {
-		Page<Rol> list = repository.findAll(pageRequest);
+	public Page<RolDTO> findAllPaged(Pageable pageable) {
+		Page<Rol> list = repository.findAll(pageable);
 		return list.map(x -> new RolDTO(x));
 	}
 
