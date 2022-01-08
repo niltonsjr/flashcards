@@ -10,7 +10,7 @@ import com.dam.flashcards.services.TarjetaService;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -31,13 +31,9 @@ public class TarjetaResource {
 	private TarjetaService service;
 
 	@GetMapping
-	public ResponseEntity<Page<TarjetaBasicaDTO>> findAll(
-			@RequestParam(value = "pagina", defaultValue = "0") Integer pagina,
-			@RequestParam(value = "categoriaId", defaultValue = "0") Long categoriaId,
-			@RequestParam(value = "lineasPorPagina", defaultValue = "12") Integer lineasPorPagina) {
-		PageRequest pageRequest = PageRequest.of(pagina, lineasPorPagina);
-
-		Page<TarjetaBasicaDTO> list = service.findAllPaged(categoriaId, pageRequest);
+	public ResponseEntity<Page<TarjetaBasicaDTO>> findAll(Pageable pageable,
+			@RequestParam(value = "categoriaId", defaultValue = "0") Long categoriaId) {
+		Page<TarjetaBasicaDTO> list = service.findAllPaged(categoriaId, pageable);
 		return ResponseEntity.ok().body(list);
 	}
 
