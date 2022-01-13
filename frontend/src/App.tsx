@@ -1,8 +1,14 @@
-import './assets/styles/custom.scss';
+import "./assets/styles/custom.scss";
 import "./App.css";
+import Navbar from "components/Navbar";
 
-function App() {
-  return <h1>Hello World!</h1>;
-}
+const App = () => {
+  return (
+    <>
+      <Navbar />
+      <h1>Flashcards</h1>
+    </>
+  );
+};
 
 export default App;
