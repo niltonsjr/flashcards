@@ -29,7 +29,7 @@ const LoginCard = () => {
           <button className="login-submit">Aceptar</button>
         </div>
         <div className="signup-container">
-          <Link to="/admin/auth/register" className="login-link-register">
+          <Link to="/register" className="login-link-register">
             Regístrate gratis
           </Link>
         </div>

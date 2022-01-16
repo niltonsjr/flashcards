@@ -6,7 +6,7 @@ const Navbar = () => {
   return (
     <nav className="navbar navbar-expand-md navbar-light main-nav">
       <div className="container-fluid">
-        <a href="link" className="nav-logo-text">
+        <a href="/" className="nav-logo-text">
           <Logo className="nav-logo" />
           <h4>FlashCards</h4>
         </a>
