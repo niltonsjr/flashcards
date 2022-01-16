@@ -1,0 +1,9 @@
+.home-container {
+    /* background-image: url(assets/images/background-large.svg); */
+    display: flex;
+}
+
+.home-left-container {
+    display: none;
+}
+

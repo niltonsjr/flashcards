@@ -1,13 +1,20 @@
 import "./assets/styles/custom.scss";
 import "./App.css";
+import Home from "pages/Home";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Navbar from "components/Navbar";
 
 const App = () => {
   return (
-    <>
+    <BrowserRouter>
       <Navbar />
-      <h1>Flashcards</h1>
-    </>
+      <Routes>
+        <Route path="/" element={<Home />} />
+        {/* <Route path="/form">
+          <Route path=":movieId" element={<Form />} />
+        </Route> */}
+      </Routes>
+    </BrowserRouter>
   );
 };
 
