@@ -5,15 +5,25 @@
   padding: 30px 20px 20px 20px;
 }
 
+.register-header img {
+  display: none;
+}
+
 .register-container h1 {
   font-size: 24px;
   font-weight: 700;
   text-align: center;
-  margin-bottom: 20px;
+  margin-bottom: 15px;
+}
+
+.register-container hr {
+  display: inline-block;
+  width: 70%;
+  align-self: center;
+  border-top: 2px solid #00404c;
 }
 
 .register-form-container {
-  border-top: 1px solid #00404c;
   padding-top: 20px;
 }
 
@@ -26,7 +36,7 @@
 }
 
 .conditions-link-register {
-    text-decoration: underline;
+  text-decoration: underline;
 }
 
 .register-submit {
@@ -38,6 +48,75 @@
   border-radius: 5px;
   border: none;
   color: #f8f9fa;
-  font-size: 24px;
-  font-weight: 700;
+  font-size: 20px;
+  font-weight: 500;
 }
+
+@media (min-width: 576px) {
+  .register-container {
+    padding: 40px 30px 25px 30px;
+  }
+
+  .register-header {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+  }
+
+  .register-header img {
+    display: block;
+    text-align: center;
+    padding-bottom: 15px;
+  }
+
+  .register-container h1 {
+    /* font-size: 21px; */
+    padding: 0 10px 0 10px;
+  }
+
+  .register-container hr {
+    display: none;
+  }
+
+  .register-form-container {
+    padding-top: 30px;
+  }
+}
+
+@media (min-width: 768px) {
+  .register-container {
+    padding: 40px 80px 40px 80px;
+  }
+
+  .register-container h1 {
+    font-size: 25px;
+    padding: 0 10px 0 10px;
+  }
+
+  .register-submit {
+    width: 296px;
+    float: right;
+  }
+}
+
+@media (min-width: 992px) {
+  /* .register-buttom-container {
+    display: flex;
+    flex-direction: row;
+  }
+
+  .register-submit {
+    margin: 5px 0 0 5px;
+  }
+
+  .passwords-container {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+
+  }
+
+  .passwords-container input {
+    width:100%;
+  }*/
+} 
