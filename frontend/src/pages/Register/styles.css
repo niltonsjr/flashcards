@@ -1,8 +1,11 @@
 .register-container {
   min-width: 400px;
+  max-width: 1000px;
   display: flex;
   flex-direction: column;
   padding: 30px 20px 20px 20px;
+  margin: 10px auto;
+  background-color: rgba(255, 255, 255, 0.3);
 }
 
 .register-header img {
@@ -70,7 +73,6 @@
   }
 
   .register-container h1 {
-    /* font-size: 21px; */
     padding: 0 10px 0 10px;
   }
 
@@ -100,23 +102,13 @@
 }
 
 @media (min-width: 992px) {
-  /* .register-buttom-container {
-    display: flex;
-    flex-direction: row;
+  .register-container {    
+    padding: 85px 65px auto 65px;
   }
+}  
 
-  .register-submit {
-    margin: 5px 0 0 5px;
+@media (min-width: 12002px) {
+  .register-container {    
+    padding: 85px 215px auto 215px;
   }
-
-  .passwords-container {
-    display: flex;
-    flex-direction: row;
-    justify-content: space-around;
-
-  }
-
-  .passwords-container input {
-    width:100%;
-  }*/
-} 
+}  
