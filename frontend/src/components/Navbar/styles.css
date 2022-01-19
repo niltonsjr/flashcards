@@ -37,14 +37,15 @@
 }
 
 .main-menu {
-  display: flex;
+  /* display: flex; */
   font-size: 24px;
-  width: 380px;
-  justify-content: space-between;
+  width: 100%;
+  justify-content: space-between;  
 }
 
 .main-menu a {
-  color: #00b8ec;
+  color: #00b8ec; 
+  display: block;
 }
 
 .main-menu a:hover {
@@ -54,4 +55,19 @@
 .main-menu a.active {
   color: #0095bf;
   font-weight: 700;
+}
+
+.main-menu li:first-of-type {
+  padding-right: 50px;
+}
+
+.logout-button {
+  background-color: #FF49BC;  
+  width: 100px;
+  height: 35px;
+  border: none;
+  color: #f8f9fa;
+  font-size: 16px;
+  font-weight: 500;
+  float: right;
 }

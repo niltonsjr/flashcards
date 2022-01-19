@@ -97,10 +97,10 @@ const Register = () => {
                   id="flexCheckDefault"
                 />
                 <label className="form-check-label" htmlFor="flexCheckDefault">
-                  Acepto los
+                  Acepto los{" "}
                   <Link to="/condiciones" className="conditions-link-register">
                     Términos y Condiciones
-                  </Link>
+                  </Link>{" "}
                   y doy mi consentimiento para el uso de datos tal y como se
                   detalla en la Política de Privacidad.
                 </label>

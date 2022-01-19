@@ -22,17 +22,25 @@ const Navbar = () => {
           <span className="navbar-toggler-icon"></span>
         </button>
 
-        <div className="collapse navbar-collapse" id="flashcards-navbar">
-          <ul className="navbar-nav offset-md-2 main-menu">
+        <div
+          className="collapse navbar-collapse main-menu"
+          id="flashcards-navbar"
+        >
+          <ul className="navbar-nav offset-md-2 ">
             <li>
-              <a href="link" className="active">
+              <a href="admin" className="active">
                 Administrar
               </a>
             </li>
             <li>
-              <a href="link">Estudiar</a>
+              <a href="estudiar">Estudiar</a>
             </li>
           </ul>
+          <div>
+            <button typeof="submit" className="logout-button">
+              Salir
+            </button>
+          </div>
         </div>
       </div>
     </nav>
