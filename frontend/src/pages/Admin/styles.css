@@ -1,0 +1,14 @@
+.admin-container {
+    display: flex;
+    flex-direction: column;
+}
+
+.admin-content {
+    flex: 1;
+}
+
+@media (min-width: 768px) {
+    .admin-container {
+        flex-direction: row;
+    }
+}

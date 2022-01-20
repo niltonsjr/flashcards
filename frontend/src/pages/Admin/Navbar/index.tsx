@@ -2,11 +2,28 @@ import "./styles.css";
 
 const Navbar = () => {
   return (
-    <nav>
+    <nav className="admin-nav-container">
       <ul>
-        <li>Mis tarjetas</li>
-        <li>Mis categorias</li>
-        <li>Mis datos</li>
+        <li>
+          <a href="link" className="admin-nav-item active">
+            <p>Mis tarjetas</p>
+          </a>
+        </li>
+        <li>
+          <a href="link" className="admin-nav-item">
+            <p>Mis categorias</p>
+          </a>
+        </li>
+        <li>
+          <a href="link" className="admin-nav-item">
+            <p>Mis datos</p>
+          </a>
+        </li>
+        <li>
+          <a href="link" className="admin-nav-item">
+            <p>Gestión de usuarios</p>
+          </a>
+        </li>
       </ul>
     </nav>
   );
