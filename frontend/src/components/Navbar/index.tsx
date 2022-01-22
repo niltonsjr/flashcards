@@ -1,6 +1,7 @@
 import "./styles.css";
 import "bootstrap/js/src/collapse.js";
 import { ReactComponent as Logo } from "./../../assets/images/logo.svg";
+import { NavLink } from "react-router-dom";
 
 const Navbar = () => {
   return (
@@ -28,12 +29,10 @@ const Navbar = () => {
         >
           <ul className="navbar-nav offset-md-2 ">
             <li>
-              <a href="admin" className="active">
-                Administrar
-              </a>
+              <NavLink to="admin/tarjetas">Administrar</NavLink>
             </li>
             <li>
-              <a href="estudiar">Estudiar</a>
+              <NavLink to="estudiar">Estudiar</NavLink>
             </li>
           </ul>
           <div>

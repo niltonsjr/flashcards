@@ -13,3 +13,7 @@ a, a:hover {
     text-decoration: none;
     color: unset;
 }
+
+ul {
+    padding-left: 0;
+}

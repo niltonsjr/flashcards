@@ -1,3 +1,4 @@
+import { NavLink } from "react-router-dom";
 import "./styles.css";
 
 const Navbar = () => {
@@ -5,24 +6,24 @@ const Navbar = () => {
     <nav className="admin-nav-container">
       <ul>
         <li>
-          <a href="link" className="admin-nav-item active">
+          <NavLink to="/admin/tarjetas" className="admin-nav-item">
             <p>Mis tarjetas</p>
-          </a>
+          </NavLink>
         </li>
         <li>
-          <a href="link" className="admin-nav-item">
+          <NavLink to="/admin/categorias" className="admin-nav-item">
             <p>Mis categorias</p>
-          </a>
+          </NavLink>
         </li>
         <li>
-          <a href="link" className="admin-nav-item">
+          <NavLink to="/admin/misdatos" className="admin-nav-item">
             <p>Mis datos</p>
-          </a>
+          </NavLink>
         </li>
         <li>
-          <a href="link" className="admin-nav-item">
+          <NavLink to="/admin/usuarios" className="admin-nav-item">
             <p>Gestión de usuarios</p>
-          </a>
+          </NavLink>
         </li>
       </ul>
     </nav>

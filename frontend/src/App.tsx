@@ -1,10 +1,11 @@
+import Navbar from "components/Navbar";
+import Admin from "pages/Admin";
+import Home from "pages/Home";
+import Register from "pages/Register";
+import { BrowserRouter, Route, Routes } from "react-router-dom";
 import "./assets/styles/custom.scss";
 import "./App.css";
-import Home from "pages/Home";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
-import Navbar from "components/Navbar";
-import Register from "pages/Register";
-import Admin from "pages/Admin";
+
 
 const App = () => {
   return (
@@ -12,10 +13,11 @@ const App = () => {
       <Navbar />
       <Routes>
         <Route path="/" element={<Home />} />
-        <Route path="/register" element={<Register />} />
-        <Route path="/admin" element={<Admin />} />
+          <Route path="register" element={<Register />} />          
+          <Route path="admin/*" element={<Admin />} />
 
-        {/* <Route path="/form">
+        {/* 
+        <Route path="/form">
           <Route path=":movieId" element={<Form />} />
         </Route> */}
       </Routes>
