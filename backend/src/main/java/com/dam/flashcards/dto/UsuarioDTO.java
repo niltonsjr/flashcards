@@ -19,7 +19,7 @@ public class UsuarioDTO implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	private Long id;
-	@Size(min=5, max=10, message="El nombre de usuario debe tener entre 5 y 10 caracteres.")
+	@Size(min=5, max=20, message="El nombre de usuario debe tener entre 5 y 20 caracteres.")
 	@NotBlank(message = "Campo obligatorio.")
 	private String nombreDeUsuario;
 	@NotBlank(message = "Campo obligatorio.")

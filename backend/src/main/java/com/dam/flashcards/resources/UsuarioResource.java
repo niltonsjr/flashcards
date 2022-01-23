@@ -4,12 +4,6 @@ import java.net.URI;
 
 import javax.validation.Valid;
 
-import com.dam.flashcards.dto.UsuarioBasicoDTO;
-import com.dam.flashcards.dto.UsuarioDTO;
-import com.dam.flashcards.dto.UsuarioInsertDTO;
-import com.dam.flashcards.dto.UsuarioUpdateDTO;
-import com.dam.flashcards.services.UsuarioService;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -23,6 +17,12 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
+
+import com.dam.flashcards.dto.UsuarioBasicoDTO;
+import com.dam.flashcards.dto.UsuarioDTO;
+import com.dam.flashcards.dto.UsuarioInsertDTO;
+import com.dam.flashcards.dto.UsuarioUpdateDTO;
+import com.dam.flashcards.services.UsuarioService;
 
 @RestController
 @RequestMapping(value = "/usuarios")
