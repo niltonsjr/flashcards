@@ -21,5 +21,27 @@ export const requestBackendLogin = (loginData: LoginData) => {
         ...loginData,
         grant_type: "password"
     });
+
     return axios({ method: "POST", baseURL: BASE_URL, url: "/oauth/token", data, headers });
-} 
+}
+
+
+type RegisterData = {
+    nombreDeUsuario: string;
+    nombre: string;
+    apellidos: string;
+    email: string;
+    contrasena: string;
+    confirmaContrasena: string;
+}
+
+export const requestBackendRegister = (registerData: RegisterData) => {
+    const headers = {
+        "Content-Type": "application/json"
+    }
+
+    const data = registerData;
+    
+
+    return axios({ method: "POST", baseURL: BASE_URL, url: "/registro", data, headers })
+}

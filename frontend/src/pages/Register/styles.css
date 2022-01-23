@@ -38,6 +38,11 @@
   font-size: 18px;
 }
 
+.register-form-container p {
+  font-size: 15px;
+  text-align: justify;
+}
+
 .conditions-link-register {
   text-decoration: underline;
 }
@@ -102,13 +107,13 @@
 }
 
 @media (min-width: 992px) {
-  .register-container {    
+  .register-container {
     padding: 85px 65px auto 65px;
   }
-}  
+}
 
 @media (min-width: 12002px) {
-  .register-container {    
+  .register-container {
     padding: 85px 215px auto 215px;
   }
-}  
+}
