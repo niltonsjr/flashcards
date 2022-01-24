@@ -2,6 +2,7 @@ import linea from "assets/images/line-small.svg";
 import { useForm } from "react-hook-form";
 import { Link } from "react-router-dom";
 import { requestBackendRegister } from "util/requests";
+import ReactTooltip from "react-tooltip";
 import "./styles.css";
 
 type FormData = {
@@ -18,6 +19,7 @@ const Register = () => {
     register,
     handleSubmit,
     formState: { errors },
+    getValues,
   } = useForm<FormData>();
 
   const onSubmit = (formData: FormData) => {
@@ -60,21 +62,27 @@ const Register = () => {
                 id="nombreDeUsuario"
                 className="form-control base-input"
                 name="nombreDeUsuario"
+                data-tip
+                data-for="condicionesUsuarioTooltip"
               />
               <div className="invalid-feedback d-block">
                 {errors.nombreDeUsuario?.message}
               </div>
-            </div>
-            <div className="col-12">
-              <p>
-                Condiciones del nombre de usuario: <br />
-                - Tener una longitud de entre 5 y 20 caracteres. <br />- Puede
-                contener letras mayúsculas o minúsculas y números. <br />
-                - Las letras acentuadas y las eñes no están admitidas. <br />-
-                Puede contener los siguientes símbolos: punto (.), guión bajo
-                (_), guión medio (-) siempre que no se encuentren seguidos.{" "}
-                <br />- Debe iniciar y terminal con un caracter alfanumérico.
-              </p>
+              <ReactTooltip
+                id="condicionesUsuarioTooltip"
+                place="bottom"
+                effect="solid"
+              >
+                <p>
+                  Condiciones del nombre de usuario: <br />
+                  - Tener una longitud de entre 5 y 20 caracteres. <br />- Puede
+                  contener letras mayúsculas o minúsculas y números. <br />
+                  - Las letras acentuadas y las eñes no están admitidas. <br />-
+                  Puede contener los siguientes símbolos: punto (.), guión bajo
+                  (_), guión medio (-) siempre que no se encuentren seguidos.{" "}
+                  <br />- Debe iniciar y terminal con un caracter alfanumérico.
+                </p>
+              </ReactTooltip>
             </div>
           </div>
           <div className="row row-cols-lg-2 g-3">
@@ -83,24 +91,64 @@ const Register = () => {
                 Contraseña:
               </label>
               <input
-                {...register("contrasena")}
+                {...register("contrasena", {
+                  required: "Campo obligatorio",
+                  pattern: {
+                    value: new RegExp(
+                      "^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z]).{8,}$"
+                    ),
+                    message: "La contraseña no cumple con las condiciones.",
+                  },
+                })}
                 type="password"
                 id="contrasena"
                 className="form-control base-input"
                 name="contrasena"
+                data-tip
+                data-for="condicionesContrasenaTooltip"
               />
+              <div className="invalid-feedback d-block">
+                {errors.contrasena?.message}
+              </div>
+              <ReactTooltip
+                id="condicionesContrasenaTooltip"
+                place="bottom"
+                effect="solid"
+              >
+                <p>
+                  Condiciones de la contraseña: <br />
+                  - Mínimo 8 caracteres <br />
+                  - Al menos una letra mayúscula, una minúscula y un número
+                  <br />
+                  - Puede contener caracteres especiales.
+                  <br />
+                </p>
+              </ReactTooltip>
             </div>
             <div className="col-12">
               <label htmlFor="confirmaContrasena" className="form-label">
                 Confirmar contraseña:
               </label>
               <input
-                {...register("confirmaContrasena")}
+                {...register("confirmaContrasena", {
+                  required: "Confirme la contraseña.",
+                  validate: {
+                    matchPreviousPassword: (value) => {
+                      const { contrasena } = getValues();
+                      return (
+                        contrasena === value || "Contraseñas deben coincidir."
+                      );
+                    },
+                  },
+                })}
                 type="password"
                 id="confirmaContrasena"
                 className="form-control base-input"
                 name="confirmaContrasena"
               />
+              <div className="invalid-feedback d-block">
+                {errors.confirmaContrasena?.message}
+              </div>
             </div>
           </div>
           <div className="row row-cols-lg-2 g-3">

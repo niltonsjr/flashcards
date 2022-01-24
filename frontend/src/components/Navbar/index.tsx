@@ -1,5 +1,4 @@
 import "./styles.css";
-import "bootstrap/js/src/collapse.js";
 import { ReactComponent as Logo } from "./../../assets/images/logo.svg";
 import { NavLink } from "react-router-dom";
 

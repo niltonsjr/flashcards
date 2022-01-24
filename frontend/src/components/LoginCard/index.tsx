@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { Link } from "react-router-dom";
-import { requestBackendLogin } from "util/requests";
+import { getAuthData, requestBackendLogin, saveAuthData } from "util/requests";
 import "./styles.css";
 
 type FormData = {
@@ -11,7 +11,7 @@ type FormData = {
 
 const LoginCard = () => {
   const [hasError, setHasError] = useState(false);
-  
+
   const {
     register,
     handleSubmit,
@@ -21,8 +21,11 @@ const LoginCard = () => {
   const onSubmit = (formData: FormData) => {
     requestBackendLogin(formData)
       .then((response) => {
+        saveAuthData(response.data);
+        const token = getAuthData().access_token;
+        console.log(token);
         setHasError(false);
-        console.log("Suceso", response);
+        console.log("Suceso", response);        
       })
       .catch((error) => {
         setHasError(true);
@@ -42,17 +45,10 @@ const LoginCard = () => {
         <div className="mb-4">
           <input
             {...register("username", {
-              required: "Campo obligatorio",
-              pattern: {
-                value: new RegExp(
-                  "^[a-zA-Z0-9]([._-](?![._-])|[a-zA-Z0-9]){3,18}[a-zA-Z0-9]$"
-                ),
-                message:
-                  "El nombre de usuario debe tener entre 5 y 20 caracteres alfanuméricos." ,
-              },
+              required: "Campo obligatorio"              
             })}
             type="text"
-            className="form-control base-input"
+            className={`form-control base-input ${ errors.username ? "is-invalid" : "" }`}
             placeholder="Nombre de Usuario"
             name="username"
           />
@@ -64,7 +60,7 @@ const LoginCard = () => {
           <input
             {...register("password", { required: "Campo obligatorio" })}
             type="password"
-            className="form-control base-input "
+            className={`form-control base-input ${ errors.password ? "is-invalid" : "" }`}
             placeholder="Contraseña"
             name="password"
           />

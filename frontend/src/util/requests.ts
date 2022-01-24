@@ -25,7 +25,6 @@ export const requestBackendLogin = (loginData: LoginData) => {
     return axios({ method: "POST", baseURL: BASE_URL, url: "/oauth/token", data, headers });
 }
 
-
 type RegisterData = {
     nombreDeUsuario: string;
     nombre: string;
@@ -41,7 +40,28 @@ export const requestBackendRegister = (registerData: RegisterData) => {
     }
 
     const data = registerData;
-    
 
     return axios({ method: "POST", baseURL: BASE_URL, url: "/registro", data, headers })
+}
+
+type LoginResponse = {
+    access_token: string;
+    token_type: string;
+    refresh_token: string;
+    expires_in: number;
+    scope: string
+    apellidos: string;
+    nombre: string;
+    usuarioId: number
+}
+
+const tokenKey = "authData";
+
+export const saveAuthData = (obj: LoginResponse) => {
+    localStorage.setItem(tokenKey, JSON.stringify(obj));
+}
+
+export const getAuthData = () => {
+    const str = localStorage.getItem(tokenKey) ?? "{}";
+    return JSON.parse(str) as LoginResponse;
 }
