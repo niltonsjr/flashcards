@@ -8,5 +8,4 @@ export type Tarjeta = {
     totalNoConocidas: number;
     categoriaId: number;
     usuarioId: number;
-
 }

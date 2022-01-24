@@ -1,4 +1,4 @@
-import axios from "axios";
+import axios, { AxiosRequestConfig } from "axios";
 import qs from "qs";
 
 export const BASE_URL = process.env.REACT_APP_BACKEND_URL ?? 'http://localhost:8080';
@@ -42,6 +42,15 @@ export const requestBackendRegister = (registerData: RegisterData) => {
     const data = registerData;
 
     return axios({ method: "POST", baseURL: BASE_URL, url: "/registro", data, headers })
+}
+
+export const requestBackend = (config: AxiosRequestConfig) => {
+    const headers = config.withCredentials
+        ? {
+            ...config.headers,
+            Authorization: "Bearer " + getAuthData().access_token
+        } : { ...config.headers }
+    return axios({ ...config, baseURL: BASE_URL, headers });
 }
 
 type LoginResponse = {
