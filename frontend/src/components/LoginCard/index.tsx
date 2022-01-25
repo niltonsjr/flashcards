@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useForm } from "react-hook-form";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { getAuthData, requestBackendLogin, saveAuthData } from "util/requests";
 import "./styles.css";
 
@@ -11,6 +11,7 @@ type FormData = {
 
 const LoginCard = () => {
   const [hasError, setHasError] = useState(false);
+  const navigate = useNavigate();
 
   const {
     register,
@@ -23,9 +24,9 @@ const LoginCard = () => {
       .then((response) => {
         saveAuthData(response.data);
         const token = getAuthData().access_token;
+        navigate("/admin/tarjetas")
         console.log(token);
         setHasError(false);
-        console.log("Suceso", response);        
       })
       .catch((error) => {
         setHasError(true);

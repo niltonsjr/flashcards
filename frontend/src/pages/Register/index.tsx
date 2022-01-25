@@ -70,17 +70,17 @@ const Register = () => {
               </div>
               <ReactTooltip
                 id="condicionesUsuarioTooltip"
-                place="bottom"
+                place="top"
                 effect="solid"
               >
                 <p>
                   Condiciones del nombre de usuario: <br />
-                  - Tener una longitud de entre 5 y 20 caracteres. <br />- Puede
-                  contener letras mayúsculas o minúsculas y números. <br />
-                  - Las letras acentuadas y las eñes no están admitidas. <br />-
-                  Puede contener los siguientes símbolos: punto (.), guión bajo
-                  (_), guión medio (-) siempre que no se encuentren seguidos.{" "}
-                  <br />- Debe iniciar y terminal con un caracter alfanumérico.
+                  - Tener una longitud de entre 5 y 20 caracteres. <br />
+                  - Puede contener letras mayúsculas o minúsculas y números. <br />
+                  - Las letras acentuadas y las eñes no están admitidas. <br />
+                  - Puede contener los siguientes símbolos: <br /> 
+                  punto (.), guión bajo (_), guión medio (-) siempre que no se encuentren seguidos.<br />
+                  - Debe iniciar y terminal con un caracter alfanumérico.
                 </p>
               </ReactTooltip>
             </div>
@@ -117,8 +117,8 @@ const Register = () => {
               >
                 <p>
                   Condiciones de la contraseña: <br />
-                  - Mínimo 8 caracteres <br />
-                  - Al menos una letra mayúscula, una minúscula y un número
+                  - Mínimo 8 caracteres. <br />
+                  - Al menos una letra mayúscula, una minúscula y un número.
                   <br />
                   - Puede contener caracteres especiales.
                   <br />
