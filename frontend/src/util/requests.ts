@@ -1,6 +1,8 @@
 import axios, { AxiosRequestConfig } from "axios";
 import qs from "qs";
 import history from "./history";
+import jwtDecode from "jwt-decode";
+import { Token } from "typescript";
 
 export const BASE_URL = process.env.REACT_APP_BACKEND_URL ?? 'http://localhost:8080';
 
@@ -96,3 +98,24 @@ axios.interceptors.response.use(function (response) {
     }
     return Promise.reject(error);
 });
+
+type Role = "ROLE_ADMINISTRADOR" | "ROLE_USUARIO";
+
+type TokenData = {
+    exp: number;
+    user_name: string;
+    authorities: Role[];
+}
+
+export const getTokenData = (): TokenData | undefined => {
+    try {
+        return jwtDecode(getAuthData().access_token) as TokenData;
+    } catch (error) {
+        return undefined;
+    }
+}
+
+export const isAuthenticated = () : boolean => {
+    const tokenData = getTokenData();
+    return (tokenData && tokenData.exp * 1000 > Date.now()) ? true : false;
+}
