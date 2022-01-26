@@ -1,3 +1,4 @@
+import PrivateRoute from "components/PrivateRoute";
 import { Route, Routes } from "react-router-dom";
 import Navbar from "./Navbar";
 import "./styles.css";
@@ -8,11 +9,11 @@ const Admin = () => {
       <Navbar />
       <div className="admin-content">
         <Routes>
-          <Route index element={<h1>Mis Tarjetas</h1>} />      
-          <Route path="tarjetas" element={<h1>Mis Tarjetas</h1>} />      
-          <Route path="categorias" element={<h1>Mis categorias</h1>} />  
-          <Route path="misdatos" element={<h1>Mis Datos</h1>} />  
-          <Route path="usuarios" element={<h1>Gestión de Usuarios</h1>} />        
+          <Route index element={<PrivateRoute><h1>Mis tarjetas</h1></PrivateRoute>} />      
+          <Route path='/tarjetas' element={<PrivateRoute><h1>Mis tarjetas</h1></PrivateRoute>} />  
+          <Route path="categorias" element={<PrivateRoute><h1>Mis categorías</h1></PrivateRoute>} />  
+          <Route path="misdatos" element={<PrivateRoute><h1>Mis datos</h1></PrivateRoute>} />  
+          <Route path="usuarios" element={<PrivateRoute><h1>Usuarios</h1></PrivateRoute>} />        
         </Routes>
       </div>
     </div>

@@ -101,7 +101,7 @@ axios.interceptors.response.use(function (response) {
 
 type Role = "ROLE_ADMINISTRADOR" | "ROLE_USUARIO";
 
-type TokenData = {
+export type TokenData = {
     exp: number;
     user_name: string;
     authorities: Role[];

@@ -1,8 +1,30 @@
 import { ReactComponent as Logo } from "./../../assets/images/logo.svg";
 import { NavLink } from "react-router-dom";
+import { getTokenData, isAuthenticated, TokenData } from "util/requests";
+import { useEffect, useState } from "react";
 import "./styles.css";
 
+type AuthData = {
+  authenticated: boolean;
+  tokenData?: TokenData;
+};
+
 const Navbar = () => {
+  const [authData, setAuthData] = useState<AuthData>({ authenticated: false });
+
+  useEffect(() => {
+    if (isAuthenticated()) {
+      setAuthData({
+        authenticated: true,
+        tokenData: getTokenData(),
+      });
+    } else {
+      setAuthData({
+        authenticated: false,
+      });
+    }
+  }, []);
+
   return (
     <nav className="navbar navbar-expand-md navbar-light main-nav">
       <div className="container-fluid">
