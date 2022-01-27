@@ -1,8 +1,7 @@
 import axios, { AxiosRequestConfig } from "axios";
+import jwtDecode from "jwt-decode";
 import qs from "qs";
 import history from "./history";
-import jwtDecode from "jwt-decode";
-import { Token } from "typescript";
 
 export const BASE_URL = process.env.REACT_APP_BACKEND_URL ?? 'http://localhost:8080';
 
@@ -76,6 +75,10 @@ export const saveAuthData = (obj: LoginResponse) => {
 export const getAuthData = () => {
     const str = localStorage.getItem(tokenKey) ?? "{}";
     return JSON.parse(str) as LoginResponse;
+}
+
+export const removeAuthData = () => {
+    localStorage.removeItem(tokenKey);
 }
 
 // Add a request interceptor
