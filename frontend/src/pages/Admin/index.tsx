@@ -13,7 +13,7 @@ const Admin = () => {
           <Route path='/tarjetas' element={<PrivateRoute><h1>Mis tarjetas</h1></PrivateRoute>} />  
           <Route path="categorias" element={<PrivateRoute><h1>Mis categorías</h1></PrivateRoute>} />  
           <Route path="misdatos" element={<PrivateRoute><h1>Mis datos</h1></PrivateRoute>} />  
-          <Route path="usuarios" element={<PrivateRoute><h1>Usuarios</h1></PrivateRoute>} />        
+          <Route path="usuarios" element={<PrivateRoute roles={["ROLE_ADMINISTRADOR"]}><h1>Usuarios</h1></PrivateRoute>} />        
         </Routes>
       </div>
     </div>

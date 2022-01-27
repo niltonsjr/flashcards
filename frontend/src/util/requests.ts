@@ -96,13 +96,13 @@ axios.interceptors.response.use(function (response) {
     // Do something with response data
     return response;
 }, function (error) {
-    if (error.response.status === 401 || error.response.status === 403) {
+    if (error.response.status === 401) {
         history.push("/");
     }
     return Promise.reject(error);
 });
 
-type Role = "ROLE_ADMINISTRADOR" | "ROLE_USUARIO";
+export type Role = "ROLE_ADMINISTRADOR" | "ROLE_USUARIO";
 
 export type TokenData = {
     exp: number;
@@ -132,7 +132,7 @@ export const hasAnyRoles = (roles: Role[]): boolean => {
     if (tokenData !== undefined) {
         return roles.some(role => tokenData.authorities.includes(role));
     }
-    
+
     return false;
 
 } 

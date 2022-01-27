@@ -1,13 +1,18 @@
 import React from "react";
 import { Navigate, useLocation } from "react-router-dom";
-import { isAuthenticated } from "util/requests";
+import { hasAnyRoles, isAuthenticated, Role } from "util/requests";
 
-const PrivateRoute: React.FC<{ children: JSX.Element }> = ({ children }) => {
+const PrivateRoute: React.FC<{ children: JSX.Element; roles?: Role[] }> = ({
+  children,
+  roles = [],
+}) => {
   const location = useLocation();
-  return isAuthenticated() ? (
-    children
-  ) : (
+  return !isAuthenticated() ? (
     <Navigate to={"/"} state={{ from: location }} replace />
+  ) : !hasAnyRoles(roles) ? (
+    <Navigate to={"/admin/tarjetas"} state={{ from: location }} replace />
+  ) : (
+    children
   );
 };
 
