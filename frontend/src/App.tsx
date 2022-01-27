@@ -7,22 +7,30 @@ import { Route, Routes } from "react-router-dom";
 import history from "util/history";
 import "./assets/styles/custom.scss";
 import "./App.css";
+import { useState } from "react";
+import { AuthContext, AuthContextData } from "AuthContext";
 
 const App = () => {
-  return (
-    <CustomRouter history={history}>
-      <Navbar />
-      <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="register" element={<Register />} />
-        <Route path="admin/*" element={<Admin />} />
+  const [authContextData, setAuthContextData] = useState<AuthContextData>({
+    authenticated: false,
+  });
 
-        {/* 
+  return (
+    <AuthContext.Provider value={{ authContextData, setAuthContextData }}>
+      <CustomRouter history={history}>
+        <Navbar />
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="register" element={<Register />} />
+          <Route path="admin/*" element={<Admin />} />
+
+          {/* 
         <Route path="/form">
           <Route path=":movieId" element={<Form />} />
         </Route> */}
-      </Routes>
-    </CustomRouter>
+        </Routes>
+      </CustomRouter>
+    </AuthContext.Provider>
   );
 };
 
