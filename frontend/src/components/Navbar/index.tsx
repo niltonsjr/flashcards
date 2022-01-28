@@ -2,7 +2,8 @@ import { AuthContext } from "AuthContext";
 import "bootstrap/js/src/collapse.js";
 import { useContext, useEffect } from "react";
 import { NavLink, useNavigate } from "react-router-dom";
-import { getTokenData, isAuthenticated, removeAuthData } from "util/requests";
+import { getTokenData, isAuthenticated } from "util/auth";
+import { removeAuthData } from "util/storage";
 import { ReactComponent as Logo } from "./../../assets/images/logo.svg";
 import "./styles.css";
 
