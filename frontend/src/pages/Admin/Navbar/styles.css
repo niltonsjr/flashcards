@@ -4,11 +4,12 @@ ul {
   list-style-type: none;
   margin: 0;
   padding: 0;
-  min-width: 400px;
+  min-width: 400px;  
 }
 
 .admin-nav-container {
   background-color: #f8f9fa;
+  height: 80px;
 }
 
 .admin-nav-container li {
