@@ -40,11 +40,11 @@
   /* display: flex; */
   font-size: 24px;
   width: 100%;
-  justify-content: space-between;  
+  justify-content: space-between;
 }
 
 .main-menu a {
-  color: #00b8ec; 
+  color: #00b8ec;
   display: block;
 }
 
@@ -62,7 +62,7 @@
 }
 
 .logout-button {
-  background-color: #FF49BC;  
+  background-color: #ff49bc;
   width: 100px;
   height: 35px;
   border: none;
@@ -70,4 +70,10 @@
   font-size: 16px;
   font-weight: 500;
   float: right;
+}
+
+@media (min-width: 768px) {
+  .main-nav {
+    padding: 20px 10px;
+  }
 }

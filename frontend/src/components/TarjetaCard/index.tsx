@@ -7,7 +7,7 @@ type Props = {
 
 const TarjetaCard = ({ tarjeta }: Props) => {
   return (
-    <div className="tarjeta-card-container">
+    <div className="tarjeta-card-container base-card">
       <div className="tarjeta-frontal-container">
         <label htmlFor="cardFrontalTextArea" className="tarjeta-label">
           Frontal
@@ -16,7 +16,6 @@ const TarjetaCard = ({ tarjeta }: Props) => {
           className="form-control mb-2 bg-white fs-6"
           id="cardFrontalTextArea"
           rows={5}
-          // readOnly
         >
           {tarjeta.frontal}
         </textarea>
@@ -29,7 +28,6 @@ const TarjetaCard = ({ tarjeta }: Props) => {
           className="form-control mb-2 bg-white fs-6"
           id="cardTraseraTextArea"
           rows={5}
-          // readOnly
         >
           {tarjeta.trasera}
         </textarea>

@@ -1,11 +1,10 @@
 .tarjeta-card-container {
   display: flex;
   flex-direction: column;
+  min-width: 380px;
   width: 100%;
   padding: 6px 25px 10px 25px;
-  background: #f8f9fa;
-  box-shadow: 0px 4px 20px rgba(0, 0, 0, 0.25);
-  border-radius: 10px;
+  margin: 10px auto;
 }
 
 .tarjeta-label {
@@ -32,7 +31,9 @@
 @media (min-width: 576px) {
   .tarjeta-card-container {
     flex-direction: row;
-    padding: 5px 10px;
+    margin: 18px auto;
+    padding: 5px 15px;
+    width: 100%;
     justify-content: space-between;
   }
 
@@ -52,14 +53,34 @@
 
   .tarjeta-butons-container {
     flex-direction: column;
-    justify-content: space-evenly;
+    justify-content: center;
   }
 
   .boton-tarjeta-card {
     height: 50px;
+    width: 120px;
   }
 
   .boton-tarjeta-card:first-child {
     margin-right: 0;
+    margin-bottom: 15px;
+  }
+}
+
+@media (min-width: 992px) {
+  .tarjeta-card-container {
+    padding: 10px 20px;
+  }
+
+  .tarjeta-frontal-container {
+    margin-right: 15px;
+  }
+
+  .tarjeta-trasera-container {
+    margin-right: 15px;
+  }
+
+  .boton-tarjeta-card {
+    width: 180px;
   }
 }
