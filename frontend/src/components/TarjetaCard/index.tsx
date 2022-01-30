@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import { Tarjeta } from "types/tarjeta";
 import "./styles.css";
 
@@ -31,11 +32,10 @@ const TarjetaCard = ({ tarjeta }: Props) => {
               <textarea
                 className="form-control mb-2 bg-white fs-6"
                 id="cardFrontalTextArea"
+                defaultValue={tarjeta.frontal}
                 rows={5}
                 readOnly
-              >
-                {tarjeta.frontal}
-              </textarea>
+              />
             </div>
             <div className="tarjeta-trasera-container">
               <label htmlFor="cardTraseraTextArea" className="tarjeta-label">
@@ -44,42 +44,28 @@ const TarjetaCard = ({ tarjeta }: Props) => {
               <textarea
                 className="form-control mb-2 bg-white fs-6 h-auto"
                 id="cardTraseraTextArea"
+                defaultValue={tarjeta.trasera}
                 rows={5}
                 readOnly
-              >
-                {tarjeta.trasera}
-              </textarea>
+              />
             </div>
           </div>
           <div className="tarjeta-butons-container">
-            <button
-              type="button"
-              className="btn btn-outline-success boton-tarjeta-card fw-bold"
-            >
-              Editar
-            </button>
+            <Link to={`/admin/tarjetas/${tarjeta.id}`}>
+              <button
+                type="button"
+                className="btn btn-outline-success boton-tarjeta-card fw-bold"
+              >
+                Editar
+              </button>
+            </Link>
+
             <button
               type="button"
               className="btn btn-outline-danger boton-tarjeta-card fw-bold"
             >
               Borrar
             </button>
-
-            {/* 
-         
-            <button
-              type="button"
-              className="btn btn-outline-success boton-tarjeta-card fw-bold"
-            >
-              Guardar
-            </button>
-            <button
-              type="button"
-              className="btn btn-outline-danger boton-tarjeta-card fw-bold"
-            >
-              Cancelar
-            </button>
-          */}
           </div>
         </div>
       </form>

@@ -7,7 +7,7 @@ import { requestBackendLogin } from "util/requests";
 import { saveAuthData } from "util/storage";
 import "./styles.css";
 
-type FormData = {
+type CredentialsDTO = {
   username: string;
   password: string;
 };
@@ -21,9 +21,9 @@ const LoginCard = () => {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm<FormData>();
+  } = useForm<CredentialsDTO>();
 
-  const onSubmit = (formData: FormData) => {
+  const onSubmit = (formData: CredentialsDTO) => {
     requestBackendLogin(formData)
       .then((response) => {
         saveAuthData(response.data);

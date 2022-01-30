@@ -5,7 +5,7 @@ import { requestBackendRegister } from "util/requests";
 import ReactTooltip from "react-tooltip";
 import "./styles.css";
 
-type FormData = {
+type RegisterData = {
   nombreDeUsuario: string;
   contrasena: string;
   confirmaContrasena: string;
@@ -20,10 +20,10 @@ const Register = () => {
     handleSubmit,
     formState: { errors },
     getValues,
-  } = useForm<FormData>();
+  } = useForm<RegisterData>();
 
-  const onSubmit = (formData: FormData) => {
-    requestBackendRegister(formData)
+  const onSubmit = (registerData: RegisterData) => {
+    requestBackendRegister(registerData)
       .then((response) => {
         console.log("Suceso", response);
       })
@@ -211,7 +211,7 @@ const Register = () => {
               </div>
             </div>
             <div className="col-12">
-              <button typeof="submit" className="register-submit col-12">
+              <button type="submit" className="register-submit col-12">
                 Aceptar
               </button>
             </div>

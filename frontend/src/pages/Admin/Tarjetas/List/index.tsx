@@ -16,9 +16,10 @@ const List = () => {
       withCredentials: true,   
       params: {
         page: 0,
-        size: 12,
+        size: 100,
       },
     };
+
     requestBackend(config).then((response) => {
       setPage(response.data);
     });
