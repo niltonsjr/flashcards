@@ -10,20 +10,24 @@ import "./styles.css";
 const List = () => {
   const [page, setPage] = useState<SpringPage<Tarjeta>>();
   useEffect(() => {
+    getTarjetas();
+  }, []);
+
+  const getTarjetas = () => {
     const config: AxiosRequestConfig = {
       method: "GET",
-      url: "/tarjetas",   
-      withCredentials: true,   
+      url: "/tarjetas",
+      withCredentials: true,
       params: {
         page: 0,
-        size: 100,
+        size: 500,
       },
     };
 
     requestBackend(config).then((response) => {
       setPage(response.data);
     });
-  }, []);
+  };
 
   return (
     <>
@@ -49,7 +53,7 @@ const List = () => {
       <div className="tarjetas-list-container">
         {page?.content.map((tarjeta) => (
           <div key={tarjeta.id}>
-            <TarjetaCard tarjeta={tarjeta} />
+            <TarjetaCard tarjeta={tarjeta} onDelete={() => getTarjetas()} />
           </div>
         ))}
       </div>

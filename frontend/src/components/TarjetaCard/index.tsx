@@ -1,12 +1,31 @@
+import { AxiosRequestConfig } from "axios";
 import { Link } from "react-router-dom";
 import { Tarjeta } from "types/tarjeta";
+import { requestBackend } from "util/requests";
 import "./styles.css";
 
 type Props = {
   tarjeta: Tarjeta;
+  onDelete: Function;
 };
 
-const TarjetaCard = ({ tarjeta }: Props) => {
+const TarjetaCard = ({ tarjeta, onDelete }: Props) => {
+  const handleDelete = (tarjetaId: number) => {
+    if (!window.confirm("¿Está seguro que desea borrar la tarjeta?")) {
+      return;
+    }
+
+    const config: AxiosRequestConfig = {
+      method: "DELETE",
+      url: `/tarjetas/${tarjetaId}`,
+      withCredentials: true,
+    };
+
+    requestBackend(config).then(() => {
+      onDelete();
+    });
+  };
+
   return (
     <>
       <form className="tarjeta-card-container base-card">
@@ -62,6 +81,7 @@ const TarjetaCard = ({ tarjeta }: Props) => {
 
             <button
               type="button"
+              onClick={() => handleDelete(tarjeta.id)}
               className="btn btn-outline-danger boton-tarjeta-card fw-bold"
             >
               Borrar
