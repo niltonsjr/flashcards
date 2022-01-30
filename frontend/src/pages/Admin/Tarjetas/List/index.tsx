@@ -1,19 +1,28 @@
+import { AxiosRequestConfig } from "axios";
 import TarjetaCard from "components/TarjetaCard";
+import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
+import { SpringPage } from "types/spring";
+import { Tarjeta } from "types/tarjeta";
+import { requestBackend } from "util/requests";
 import "./styles.css";
 
 const List = () => {
-  const tarjeta = {
-    id: 3,
-    frontal: "Capital de la provincia de Sevilla.",
-    trasera: "Sevilla.",
-    conocida: true,
-    fechaUltimaRespuesta: "2020-07-13T20:50:07Z",
-    totalConocidas: 3,
-    totalNoConocidas: 1,
-    categoriaId: 1,
-    usuarioId: 1,
-  };
+  const [page, setPage] = useState<SpringPage<Tarjeta>>();
+  useEffect(() => {
+    const config: AxiosRequestConfig = {
+      method: "GET",
+      url: "/tarjetas",   
+      withCredentials: true,   
+      params: {
+        page: 0,
+        size: 12,
+      },
+    };
+    requestBackend(config).then((response) => {
+      setPage(response.data);
+    });
+  }, []);
 
   return (
     <>
@@ -21,8 +30,9 @@ const List = () => {
         <select
           className="form-select tarjeta-filter-crud-select bg-white"
           aria-label="Default select example"
+          defaultValue={"categoria"}
         >
-          <option selected>Categoría</option>
+          <option value="categoria">Categoría</option>
           <option value="1">One</option>
           <option value="2">Two</option>
           <option value="3">Three</option>
@@ -36,9 +46,11 @@ const List = () => {
       </div>
 
       <div className="tarjetas-list-container">
-        <TarjetaCard tarjeta={tarjeta} />
-        <TarjetaCard tarjeta={tarjeta} />
-        <TarjetaCard tarjeta={tarjeta} />
+        {page?.content.map((tarjeta) => (
+          <div key={tarjeta.id}>
+            <TarjetaCard tarjeta={tarjeta} />
+          </div>
+        ))}
       </div>
     </>
   );
