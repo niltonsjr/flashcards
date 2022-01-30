@@ -39,7 +39,7 @@ const List = () => {
           <option value="3">Three</option>
         </select>
 
-        <Link to="/admin/tarjetas/create">
+        <Link to="/admin/tarjetas/nueva">
           <button className="btn btn-primary text-white fw-bold btn-tarjeta-crud-nueva">
             Nueva tarjeta
           </button>

@@ -1,32 +1,61 @@
 import { AxiosRequestConfig } from "axios";
+import { useEffect } from "react";
 import { useForm } from "react-hook-form";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { Tarjeta } from "types/tarjeta";
 import { requestBackend } from "util/requests";
 import "./styles.css";
+
+type UrlParams = {
+  tarjetaId: string;
+};
 
 const Form = () => {
   const {
     register,
     handleSubmit,
     formState: { errors },
+    setValue,
   } = useForm<Tarjeta>();
-
+  const { tarjetaId } = useParams<UrlParams>();
   const navigate = useNavigate();
+  const isEditing = tarjetaId !== "nueva";
+
+  useEffect(() => {
+    if (isEditing) {
+      const config: AxiosRequestConfig = {
+        method: "GET",
+        url: `/tarjetas/${tarjetaId}`,
+        withCredentials: true,
+      };
+      requestBackend(config).then((response) => {
+        const tarjeta = response.data as Tarjeta;
+        setValue("frontal", tarjeta.frontal);
+        setValue("trasera", tarjeta.trasera);
+        setValue("categoriaId", tarjeta.categoriaId);
+        setValue("conocida", tarjeta.conocida);
+        setValue("fechaUltimaRespuesta", tarjeta.fechaUltimaRespuesta);
+        setValue("totalConocidas", tarjeta.totalConocidas);
+        setValue("totalNoConocidas", tarjeta.totalNoConocidas);
+        setValue("usuarioId", tarjeta.usuarioId);
+      });
+    }
+  }, [isEditing, setValue, tarjetaId]);
 
   const onSubmit = (formData: Tarjeta) => {
     const data = {
       ...formData,
-      categoriaId: 2,
-      usuarioId: 2,
-      conocida: false,
-      fechaUltimaRespuesta: null,
-      totalConocidas: 0,
-      totalNoConocidas: 0,
+      categoriaId: isEditing ? formData.categoriaId : 2,
+      usuarioId: isEditing ? formData.usuarioId : 2,
+      conocida: isEditing ? formData.conocida : false,
+      fechaUltimaRespuesta: isEditing ? formData.fechaUltimaRespuesta : null,
+      totalConocidas: isEditing ? formData.totalConocidas : 0,
+      totalNoConocidas: isEditing ? formData.totalNoConocidas : 0,
     };
+
     const config: AxiosRequestConfig = {
-      method: "POST",
-      url: "/tarjetas",
+      method: isEditing ? "PUT" : "POST",
+      url: isEditing ? `/tarjetas/${tarjetaId}` : "/tarjetas",
       data,
       withCredentials: true,
     };
