@@ -1,5 +1,7 @@
 import { AxiosRequestConfig } from "axios";
+import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
+import { Categoria } from "types/categoria";
 import { Tarjeta } from "types/tarjeta";
 import { requestBackend } from "util/requests";
 import "./styles.css";
@@ -26,6 +28,21 @@ const TarjetaCard = ({ tarjeta, onDelete }: Props) => {
     });
   };
 
+  const [selectCategoria, setSelectCategoria] = useState<Categoria>();
+
+  useEffect(() => {
+    const config: AxiosRequestConfig = {
+      method: "GET",
+      url: `/categorias/${tarjeta.categoriaId}`,
+      withCredentials: true,
+    };
+    console.log(config.url);
+    requestBackend(config).then((response) => {
+      setSelectCategoria(response.data);
+    });
+  }, [tarjeta.categoriaId]);
+
+
   return (
     <>
       <form className="tarjeta-card-container base-card">
@@ -33,13 +50,12 @@ const TarjetaCard = ({ tarjeta, onDelete }: Props) => {
           <select
             className="form-select tarjeta-filter-crud-select bg-white"
             aria-label="Default select example"
-            defaultValue={"categoria"}
+            defaultValue={selectCategoria?.id}
             disabled
           >
-            <option value="categoria">Categoría</option>
-            <option value="1">One</option>
-            <option value="2">Two</option>
-            <option value="3">Three</option>
+            <option value={selectCategoria?.id}>
+              {selectCategoria?.nombre}
+            </option>
           </select>
         </div>
         <div className="tarjeta-text-buttons-container">
