@@ -56,7 +56,6 @@ const Form = () => {
         setValue("totalConocidas", tarjeta.totalConocidas);
         setValue("totalNoConocidas", tarjeta.totalNoConocidas);
         setValue("usuarioId", tarjeta.usuarioId);
-        console.log(response.data);
       });
     }
   }, [isEditing, setValue, tarjetaId]);
@@ -72,7 +71,6 @@ const Form = () => {
       totalNoConocidas: isEditing ? formData.totalNoConocidas : 0,
     };
 
-    console.log(data);
     const config: AxiosRequestConfig = {
       method: isEditing ? "PUT" : "POST",
       url: isEditing ? `/tarjetas/${tarjetaId}` : "/tarjetas",

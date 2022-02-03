@@ -11,17 +11,17 @@ import "./styles.css";
 const List = () => {
   const [page, setPage] = useState<SpringPage<Tarjeta>>();
   useEffect(() => {
-    getTarjetas();
+    getTarjetas(0);
   }, []);
 
-  const getTarjetas = () => {
+  const getTarjetas = (pageNumber: number) => {
     const config: AxiosRequestConfig = {
       method: "GET",
       url: "/tarjetas",
       withCredentials: true,
       params: {
-        page: 0,
-        size: 500,
+        page: pageNumber,
+        size: 5,
       },
     };
 
@@ -54,11 +54,18 @@ const List = () => {
       <div className="tarjetas-list-container">
         {page?.content.map((tarjeta) => (
           <div key={tarjeta.id}>
-            <TarjetaCard tarjeta={tarjeta} onDelete={() => getTarjetas()} />
+            <TarjetaCard
+              tarjeta={tarjeta}
+              onDelete={() => getTarjetas(page.number)}
+            />
           </div>
         ))}
       </div>
-      <Pagination />
+      <Pagination
+        pageCount={page ? page?.totalPages : 0}
+        range={3}
+        onChange={getTarjetas}
+      />
     </>
   );
 };

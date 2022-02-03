@@ -36,12 +36,12 @@ const TarjetaCard = ({ tarjeta, onDelete }: Props) => {
       url: `/categorias/${tarjeta.categoriaId}`,
       withCredentials: true,
     };
-    console.log(config.url);
+
     requestBackend(config).then((response) => {
       setSelectCategoria(response.data);
     });
+    
   }, [tarjeta.categoriaId]);
-
 
   return (
     <>

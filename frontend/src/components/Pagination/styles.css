@@ -2,7 +2,6 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    color: #fff;
   }
   
   .pagination-item {
@@ -13,6 +12,7 @@
     font-size: 18px;
     font-weight: bold;
     letter-spacing: -0.015em;
+    color: #fff;
     display: flex;
     justify-content: center;
     align-items: center;
