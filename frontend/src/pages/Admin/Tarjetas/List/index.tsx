@@ -1,4 +1,5 @@
 import { AxiosRequestConfig } from "axios";
+import Pagination from "components/Pagination";
 import TarjetaCard from "components/TarjetaCard";
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
@@ -57,6 +58,7 @@ const List = () => {
           </div>
         ))}
       </div>
+      <Pagination />
     </>
   );
 };
