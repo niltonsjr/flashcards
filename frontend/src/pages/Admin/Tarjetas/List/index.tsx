@@ -1,6 +1,7 @@
 import { AxiosRequestConfig } from "axios";
 import Pagination from "components/Pagination";
 import TarjetaCard from "components/TarjetaCard";
+import TarjetaFilter from "components/TarjetaFiltrer";
 import { useCallback, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { SpringPage } from "types/spring";
@@ -45,25 +46,7 @@ const List = () => {
 
   return (
     <>
-      <div className="tarjeta-filter-crud base-card">
-        <select
-          className="form-select tarjeta-filter-crud-select bg-white"
-          aria-label="Default select example"
-          defaultValue={"categoria"}
-        >
-          <option value="categoria">Categoría</option>
-          <option value="1">One</option>
-          <option value="2">Two</option>
-          <option value="3">Three</option>
-        </select>
-
-        <Link to="/admin/tarjetas/nueva">
-          <button className="btn btn-primary text-white fw-bold btn-tarjeta-crud-nueva">
-            Nueva tarjeta
-          </button>
-        </Link>
-      </div>
-
+      <TarjetaFilter />
       <div className="tarjetas-list-container">
         {page?.content.map((tarjeta) => (
           <div key={tarjeta.id}>
