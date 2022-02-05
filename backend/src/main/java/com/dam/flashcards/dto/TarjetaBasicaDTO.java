@@ -11,17 +11,17 @@ public class TarjetaBasicaDTO implements Serializable {
 	private Long id;
 	private String frontal;
 	private String trasera;
-	private Long categoriaId;
+	private CategoriaBasicaDTO categoria = new CategoriaBasicaDTO();
 	private Long usuarioId;
 
 	public TarjetaBasicaDTO() {
 	}
 
-	public TarjetaBasicaDTO(Long id, String frontal, String trasera, Long categoriaId, Long usuarioId) {
+	public TarjetaBasicaDTO(Long id, String frontal, String trasera, CategoriaBasicaDTO categoria, Long usuarioId) {
 		this.id = id;
 		this.frontal = frontal;
 		this.trasera = trasera;
-		this.categoriaId = categoriaId;
+		this.categoria = categoria;
 		this.usuarioId = usuarioId;
 	}
 
@@ -29,7 +29,9 @@ public class TarjetaBasicaDTO implements Serializable {
 		id = entity.getId();
 		frontal = entity.getFrontal();
 		trasera = entity.getTrasera();
-		categoriaId = entity.getCategoria().getId();
+		categoria.setId(entity.getCategoria().getId());
+		categoria.setNombre(entity.getCategoria().getNombre());
+		categoria.setUsuarioId(entity.getCategoria().getUsuario().getId());
 		usuarioId = entity.getUsuario().getId();
 	}
 
@@ -57,12 +59,12 @@ public class TarjetaBasicaDTO implements Serializable {
 		this.trasera = trasera;
 	}
 
-	public Long getCategoriaId() {
-		return categoriaId;
+	public CategoriaBasicaDTO getCategoria() {
+		return categoria;
 	}
 
-	public void setCategoriaId(Long categoriaId) {
-		this.categoriaId = categoriaId;
+	public void setCategoria(CategoriaBasicaDTO categoria) {
+		this.categoria = categoria;
 	}
 
 	public Long getUsuarioId() {

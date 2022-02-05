@@ -113,7 +113,7 @@ public class TarjetaDTO implements Serializable {
 		return categoria;
 	}
 
-	public void setCategoriaId(CategoriaBasicaDTO categoria) {
+	public void setCategoria(CategoriaBasicaDTO categoria) {
 		this.categoria = categoria;
 	}
 
