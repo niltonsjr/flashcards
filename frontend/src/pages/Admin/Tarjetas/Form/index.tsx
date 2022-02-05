@@ -50,7 +50,7 @@ const Form = () => {
         const tarjeta = response.data as Tarjeta;
         setValue("frontal", tarjeta.frontal);
         setValue("trasera", tarjeta.trasera);
-        setValue("categoriaId", tarjeta.categoriaId);
+        setValue("categoria", tarjeta.categoria);
         setValue("conocida", tarjeta.conocida);
         setValue("fechaUltimaRespuesta", tarjeta.fechaUltimaRespuesta);
         setValue("totalConocidas", tarjeta.totalConocidas);
@@ -63,7 +63,7 @@ const Form = () => {
   const onSubmit = (formData: Tarjeta) => {
     const data = {
       ...formData,
-      categoriaId: formData.categoriaId,
+      categoriaId: formData.categoria,
       usuarioId: isEditing ? formData.usuarioId : loggedUser.usuarioId,
       conocida: isEditing ? formData.conocida : false,
       fechaUltimaRespuesta: isEditing ? formData.fechaUltimaRespuesta : null,
@@ -95,7 +95,23 @@ const Form = () => {
       >
         <div className="tarjeta-select-container">
           <Controller
-            name="categoriaId"
+            name="categoria"
+            control={control}
+            render={({ field }) => (
+              <Select
+                {...field}
+                classNamePrefix="tarjeta-filter-select"
+                options={selectCategorias}
+                getOptionLabel={(cat: Categoria) => cat.nombre}
+                getOptionValue={(cat: Categoria) => String(cat.id)}
+                placeholder="Categoría"
+                isClearable
+              />
+            )}
+          />
+
+          {/* <Controller
+            name="categoria"
             rules={{ required: true }}
             control={control}
             render={({ field: { onChange, value } }) => {
@@ -118,8 +134,8 @@ const Form = () => {
                 />
               );
             }}
-          />
-          {errors.categoriaId && (
+          /> */}
+          {errors.categoria && (
             <div className="invalid-feedback d-block">Campo obligatorio.</div>
           )}
         </div>

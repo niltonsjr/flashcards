@@ -28,20 +28,22 @@ const TarjetaCard = ({ tarjeta, onDelete }: Props) => {
     });
   };
 
-  const [selectCategoria, setSelectCategoria] = useState<Categoria>();
+  console.log(tarjeta);
 
-  useEffect(() => {
-    const config: AxiosRequestConfig = {
-      method: "GET",
-      url: `/categorias/${tarjeta.categoriaId}`,
-      withCredentials: true,
-    };
+  // const [selectCategoria, setSelectCategoria] = useState<Categoria>();
 
-    requestBackend(config).then((response) => {
-      setSelectCategoria(response.data);
-    });
+  // useEffect(() => {
+  //   const config: AxiosRequestConfig = {
+  //     method: "GET",
+  //     url: `/categorias/${tarjeta.categoria}`,
+  //     withCredentials: true,
+  //   };
+
+  //   requestBackend(config).then((response) => {
+  //     setSelectCategoria(response.data);
+  //   });
     
-  }, [tarjeta.categoriaId]);
+  // }, [tarjeta.categoria]);
 
   return (
     <>
@@ -50,11 +52,11 @@ const TarjetaCard = ({ tarjeta, onDelete }: Props) => {
           <select
             className="form-select tarjeta-filter-crud-select bg-white"
             aria-label="Default select example"
-            defaultValue={selectCategoria?.id}
+            defaultValue={tarjeta.categoria.id}
             disabled
           >
-            <option value={selectCategoria?.id}>
-              {selectCategoria?.nombre}
+            <option value={tarjeta.categoria.id}>
+              {tarjeta.categoria.nombre}
             </option>
           </select>
         </div>

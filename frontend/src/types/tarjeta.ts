@@ -1,3 +1,5 @@
+import { Categoria } from "./categoria";
+
 export type Tarjeta = {
     id: number;
     frontal: string;
@@ -6,6 +8,6 @@ export type Tarjeta = {
     fechaUltimaRespuesta: string;
     totalConocidas: number;
     totalNoConocidas: number;
-    categoriaId: number;
+    categoria: Categoria;
     usuarioId: number;
 }
