@@ -20,14 +20,14 @@ public class TarjetaDTO implements Serializable {
 	private Instant fechaUltimaRespuesta;
 	private Integer totalConocidas;
 	private Integer totalNoConocidas;
-	private Long categoriaId;
+	private CategoriaBasicaDTO categoria = new CategoriaBasicaDTO();
 	private Long usuarioId;
 
 	public TarjetaDTO() {
 	}
 
 	public TarjetaDTO(Long id, String frontal, String trasera, Boolean conocida, Instant fechaUltimaRespuesta,
-			Integer totalConocidas, Integer totalNoConocidas, Long categoriaId, Long usuarioId) {
+			Integer totalConocidas, Integer totalNoConocidas, CategoriaBasicaDTO categoria, Long usuarioId) {
 		this.id = id;
 		this.frontal = frontal;
 		this.trasera = trasera;
@@ -35,7 +35,7 @@ public class TarjetaDTO implements Serializable {
 		this.fechaUltimaRespuesta = fechaUltimaRespuesta;
 		this.totalConocidas = totalConocidas;
 		this.totalNoConocidas = totalNoConocidas;
-		this.categoriaId = categoriaId;
+		this.categoria = categoria;
 		this.usuarioId = usuarioId;
 	}
 
@@ -47,7 +47,9 @@ public class TarjetaDTO implements Serializable {
 		fechaUltimaRespuesta = entity.getFechaUltimaRespuesta();
 		totalConocidas = entity.getTotalConocidas();
 		totalNoConocidas = entity.getTotalNoConocidas();
-		categoriaId = entity.getCategoria().getId();
+		categoria.setId(entity.getCategoria().getId());
+		categoria.setNombre(entity.getCategoria().getNombre());
+		categoria.setUsuarioId(entity.getCategoria().getUsuario().getId());
 		usuarioId = entity.getUsuario().getId();
 	}
 
@@ -107,12 +109,12 @@ public class TarjetaDTO implements Serializable {
 		this.totalNoConocidas = totalNoConocidas;
 	}
 
-	public Long getCategoriaId() {
-		return categoriaId;
+	public CategoriaBasicaDTO getCategoria() {
+		return categoria;
 	}
 
-	public void setCategoriaId(Long categoriaId) {
-		this.categoriaId = categoriaId;
+	public void setCategoriaId(CategoriaBasicaDTO categoria) {
+		this.categoria = categoria;
 	}
 
 	public Long getUsuarioId() {

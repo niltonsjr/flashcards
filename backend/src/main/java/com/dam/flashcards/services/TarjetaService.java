@@ -49,7 +49,7 @@ public class TarjetaService {
 	@Transactional(readOnly = true)
 	public TarjetaDTO findById(Long id) {
 		Optional<Tarjeta> obj = repository.findById(id);
-		Tarjeta entity = obj.orElseThrow(() -> new ResourceNotFoundException("La categoria no existe en el sistema."));
+		Tarjeta entity = obj.orElseThrow(() -> new ResourceNotFoundException("La tarjeta no existe en el sistema."));
 		return new TarjetaDTO(entity);
 	}
 
@@ -92,7 +92,7 @@ public class TarjetaService {
 		entity.setConocida(dto.getConocida());
 		entity.setTotalConocidas(dto.getTotalConocidas());
 		entity.setTotalNoConocidas(dto.getTotalNoConocidas());
-		entity.setCategoria(categoriaRepository.getById(dto.getCategoriaId()));
+		entity.setCategoria(categoriaRepository.getById(dto.getCategoria().getId()));
 		entity.setUsuario(usuarioRepository.getById(dto.getUsuarioId()));
 	}
 

@@ -72,7 +72,7 @@ public class UsuarioService implements UserDetailsService {
 	public UsuarioDTO findById(Long id) {
 		authService.ValidarUsuarioLogadoOAdministrador(id);
 		Optional<Usuario> obj = repository.findById(id);
-		Usuario entity = obj.orElseThrow(() -> new ResourceNotFoundException("La categoria no existe en el sistema."));
+		Usuario entity = obj.orElseThrow(() -> new ResourceNotFoundException("El usuario no existe en el sistema."));
 		return new UsuarioDTO(entity, entity.getCategorias(), entity.getTarjetas());
 	}
 
@@ -80,7 +80,7 @@ public class UsuarioService implements UserDetailsService {
 	public UsuarioBasicoDTO findBasicoById(Long id) {
 		authService.ValidarUsuarioLogadoOAdministrador(id);
 		Optional<Usuario> obj = repository.findById(id);
-		Usuario entity = obj.orElseThrow(() -> new ResourceNotFoundException("La categoria no existe en el sistema."));
+		Usuario entity = obj.orElseThrow(() -> new ResourceNotFoundException("El usuario no existe en el sistema."));
 		return new UsuarioBasicoDTO(entity);
 	}
 
