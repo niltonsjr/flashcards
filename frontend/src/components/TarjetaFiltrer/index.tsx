@@ -73,7 +73,7 @@ const TarjetaFilter = () => {
       </form>
       <Link to="/admin/tarjetas/nueva">
         <button className="btn btn-primary text-white fw-bold btn-tarjeta-crud-nueva">
-          Nueva tarjeta
+          Nueva Tarjeta
         </button>
       </Link>
     </div>

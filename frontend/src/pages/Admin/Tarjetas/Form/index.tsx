@@ -110,31 +110,6 @@ const Form = () => {
             )}
           />
 
-          {/* <Controller
-            name="categoria"
-            rules={{ required: true }}
-            control={control}
-            render={({ field: { onChange, value } }) => {
-              const currentSelection = selectCategorias.find(
-                (c) => c.id === value
-              );
-              const handleSelectChange = (selectedOption: Categoria | null) => {
-                onChange(selectedOption?.id);
-              };
-
-              return (
-                <Select
-                  className="tarjeta-filter-crud-select"
-                  classNamePrefix="tarjeta-filter-crud-select"
-                  options={selectCategorias}
-                  value={currentSelection}
-                  getOptionLabel={(cat: Categoria) => cat.nombre}
-                  getOptionValue={(cat: Categoria) => String(cat.id)}
-                  onChange={handleSelectChange}
-                />
-              );
-            }}
-          /> */}
           {errors.categoria && (
             <div className="invalid-feedback d-block">Campo obligatorio.</div>
           )}

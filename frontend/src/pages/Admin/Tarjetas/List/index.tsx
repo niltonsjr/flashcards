@@ -3,7 +3,6 @@ import Pagination from "components/Pagination";
 import TarjetaCard from "components/TarjetaCard";
 import TarjetaFilter from "components/TarjetaFiltrer";
 import { useCallback, useEffect, useState } from "react";
-import { Link } from "react-router-dom";
 import { SpringPage } from "types/spring";
 import { Tarjeta } from "types/tarjeta";
 import { requestBackend } from "util/requests";

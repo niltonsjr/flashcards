@@ -1,7 +1,5 @@
 import { AxiosRequestConfig } from "axios";
-import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import { Categoria } from "types/categoria";
 import { Tarjeta } from "types/tarjeta";
 import { requestBackend } from "util/requests";
 import "./styles.css";
@@ -29,21 +27,6 @@ const TarjetaCard = ({ tarjeta, onDelete }: Props) => {
   };
 
   console.log(tarjeta);
-
-  // const [selectCategoria, setSelectCategoria] = useState<Categoria>();
-
-  // useEffect(() => {
-  //   const config: AxiosRequestConfig = {
-  //     method: "GET",
-  //     url: `/categorias/${tarjeta.categoria}`,
-  //     withCredentials: true,
-  //   };
-
-  //   requestBackend(config).then((response) => {
-  //     setSelectCategoria(response.data);
-  //   });
-    
-  // }, [tarjeta.categoria]);
 
   return (
     <>
