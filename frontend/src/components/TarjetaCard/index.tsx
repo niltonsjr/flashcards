@@ -31,8 +31,13 @@ const TarjetaCard = ({ tarjeta, onDelete }: Props) => {
   return (
     <>
       <form className="tarjeta-card-container base-card">
-        <div className="tarjeta-select-container">
-          <p>Categoría: <span className="badge bg-secondary">{tarjeta.categoria.nombre}</span></p>          
+        <div>
+          <p>
+            Categoría:{" "}
+            <span className="badge bg-secondary">
+              {tarjeta.categoria.nombre}
+            </span>
+          </p>
         </div>
         <div className="tarjeta-text-buttons-container">
           <div className="tarjeta-textarea-container">
@@ -62,13 +67,16 @@ const TarjetaCard = ({ tarjeta, onDelete }: Props) => {
             </div>
           </div>
           <div className="tarjeta-butons-container">
-            <Link to={`/admin/tarjetas/${tarjeta.id}`}>
-              <button
+            <Link
+              to={`/admin/tarjetas/${tarjeta.id}`}
+              className="btn btn-outline-success boton-tarjeta-card fw-bold"
+            >
+              {/* <button
                 type="button"
                 className="btn btn-outline-success boton-tarjeta-card fw-bold"
-              >
-                Editar
-              </button>
+              > */}
+              Editar
+              {/* </button> */}
             </Link>
 
             <button
