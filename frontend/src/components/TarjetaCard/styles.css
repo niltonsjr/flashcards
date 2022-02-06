@@ -4,7 +4,7 @@
   min-width: 380px;
   width: 100%;
   padding: 10px;
-  margin: 10px auto;
+  margin: 0 auto 15px;
 }
 
 .tarjeta-label {
@@ -32,7 +32,7 @@
 @media (min-width: 576px) {
   .tarjeta-card-container {
     flex-direction: column;
-    margin: 18px auto;
+    /* margin: 0 auto; */
     padding: 10px 15px;
     width: 100%;
     justify-content: space-between;

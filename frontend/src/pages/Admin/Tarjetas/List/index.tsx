@@ -1,7 +1,7 @@
 import { AxiosRequestConfig } from "axios";
 import Pagination from "components/Pagination";
 import TarjetaCard from "components/TarjetaCard";
-import TarjetaFilter from "components/TarjetaFiltrer";
+import TarjetaFilter, { TarjetaFilterData } from "components/TarjetaFiltrer";
 import { useCallback, useEffect, useState } from "react";
 import { SpringPage } from "types/spring";
 import { Tarjeta } from "types/tarjeta";
@@ -10,6 +10,7 @@ import "./styles.css";
 
 type ControlComponentsData = {
   activePage: number;
+  filterData: TarjetaFilterData;
 };
 
 const List = () => {
@@ -17,6 +18,7 @@ const List = () => {
   const [controlComponentsData, setControlComponentsData] =
     useState<ControlComponentsData>({
       activePage: 0,
+      filterData: { texto: "", categoria: null },
     });
 
   const getTarjetas = useCallback(() => {
@@ -27,6 +29,8 @@ const List = () => {
       params: {
         page: controlComponentsData.activePage,
         size: 3,
+        categoriaId: controlComponentsData.filterData.categoria?.id,
+        texto: controlComponentsData.filterData.texto,
       },
     };
 
@@ -40,12 +44,22 @@ const List = () => {
   }, [getTarjetas]);
 
   const handlePageChange = (pageNumber: number) => {
-    setControlComponentsData({ activePage: pageNumber });
+    setControlComponentsData({
+      activePage: pageNumber,
+      filterData: controlComponentsData.filterData,
+    });
+  };
+
+  const handleSubmitFilter = (data: TarjetaFilterData) => {
+    setControlComponentsData({
+      activePage: 0,
+      filterData: data,
+    });
   };
 
   return (
     <>
-      <TarjetaFilter />
+      <TarjetaFilter onSubmitFilter={handleSubmitFilter} />
       <div className="tarjetas-list-container">
         {page?.content.map((tarjeta) => (
           <div key={tarjeta.id}>

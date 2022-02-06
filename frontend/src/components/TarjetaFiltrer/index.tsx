@@ -8,13 +8,38 @@ import { Categoria } from "types/categoria";
 import { requestBackend } from "util/requests";
 import "./styles.css";
 
-type TarjetaFilterData = {
+export type TarjetaFilterData = {
   texto: string;
-  categoria: Categoria;
+  categoria: Categoria | null;
 };
 
-const TarjetaFilter = () => {
+type Props = {
+  onSubmitFilter: (data: TarjetaFilterData) => void;
+};
+
+const TarjetaFilter = ({ onSubmitFilter }: Props) => {
   const [selectCategorias, setSelectCategorias] = useState<Categoria[]>([]);
+
+  const { register, handleSubmit, setValue, getValues, control } =
+    useForm<TarjetaFilterData>();
+
+  const onSubmit = (formData: TarjetaFilterData) => {
+    onSubmitFilter(formData);
+  };
+
+  const handleChangeCategoria = (value: Categoria) => {
+    setValue("categoria", value);
+    const obj: TarjetaFilterData = {
+      texto: getValues("texto"),
+      categoria: getValues("categoria"),
+    };
+    onSubmitFilter(obj);
+  };
+
+  const handleFormClear = () => {
+    setValue("texto", "");
+    setValue("categoria", null);
+  };
 
   useEffect(() => {
     const config: AxiosRequestConfig = {
@@ -26,12 +51,6 @@ const TarjetaFilter = () => {
       setSelectCategorias(response.data.content);
     });
   }, []);
-
-  const { register, handleSubmit, control } = useForm<TarjetaFilterData>();
-
-  const onSubmit = (formData: TarjetaFilterData) => {
-    console.log("enviou", formData);
-  };
 
   return (
     <div className="tarjeta-filter-crud-container base-card">
@@ -62,11 +81,17 @@ const TarjetaFilter = () => {
                   getOptionValue={(cat: Categoria) => String(cat.id)}
                   placeholder="Categoría"
                   isClearable
+                  onChange={(value) =>
+                    handleChangeCategoria(value as Categoria)
+                  }
                 />
               )}
             />
           </div>
-          <button className="btn btn-outline-secondary">
+          <button
+            className="btn btn-outline-secondary"
+            onClick={handleFormClear}
+          >
             Limpiar <span className="btn-tarjeta-filter-word">filtro</span>
           </button>
         </div>
