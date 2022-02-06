@@ -32,8 +32,9 @@ public class TarjetaResource {
 
 	@GetMapping
 	public ResponseEntity<Page<TarjetaBasicaDTO>> findAll(Pageable pageable,
-			@RequestParam(value = "categoriaId", defaultValue = "0") Long categoriaId) {
-		Page<TarjetaBasicaDTO> list = service.findAllPaged(categoriaId, pageable);
+			@RequestParam(value = "categoriaId", defaultValue = "0") Long categoriaId,
+			@RequestParam(value = "texto", defaultValue = "") String texto) {
+		Page<TarjetaBasicaDTO> list = service.findAllPaged(categoriaId, texto, pageable);
 		return ResponseEntity.ok().body(list);
 	}
 

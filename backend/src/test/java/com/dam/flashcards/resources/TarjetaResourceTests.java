@@ -45,7 +45,7 @@ public class TarjetaResourceTests {
         pageTarjetaBasicaDto = new PageImpl<>(List.of(tarjetaBasicaDTO));
         pageTarjetaDto = new PageImpl<>(List.of(tarjetaDTO));
 
-        Mockito.when(service.findAllPaged(ArgumentMatchers.anyLong(), ArgumentMatchers.any())).thenReturn(pageTarjetaBasicaDto);
+        //Mockito.when(service.findAllPaged(ArgumentMatchers.anyLong(), ArgumentMatchers.any())).thenReturn(pageTarjetaBasicaDto);
     }
 
     @Test

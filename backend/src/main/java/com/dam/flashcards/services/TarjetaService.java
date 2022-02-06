@@ -39,10 +39,10 @@ public class TarjetaService {
 	private UsuarioRepository usuarioRepository;
 
 	@Transactional(readOnly = true)
-	public Page<TarjetaBasicaDTO> findAllPaged(Long categoriaId, Pageable pageable) {
+	public Page<TarjetaBasicaDTO> findAllPaged(Long categoriaId, String texto, Pageable pageable) {
 		Usuario usuario = authService.autenticado();
 		Categoria categoria = (categoriaId == 0) ? null : categoriaRepository.getById(categoriaId);
-		Page<Tarjeta> list = repository.findByUsuarioAndCategoria(usuario, categoria, pageable);
+		Page<Tarjeta> list = repository.findByUsuarioAndCategoria(usuario, categoria, texto, pageable);
 		return list.map(x -> new TarjetaBasicaDTO(x));
 	}
 

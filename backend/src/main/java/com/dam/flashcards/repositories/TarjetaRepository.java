@@ -16,7 +16,9 @@ public interface TarjetaRepository extends JpaRepository<Tarjeta, Long> {
 	@Query("SELECT tar FROM Tarjeta tar WHERE " +
 			"(:categoria IS NULL OR :categoria = tar.categoria) " +
 			"AND :usuario = tar.usuario " +
+			"AND ((LOWER(tar.frontal) LIKE LOWER(CONCAT('%',:texto,'%'))) " +
+			"OR (LOWER(tar.trasera) LIKE LOWER(CONCAT('%',:texto,'%')))) " +
 			"ORDER BY tar.conocida, tar.fechaUltimaRespuesta ASC NULLS FIRST")
-	Page<Tarjeta> findByUsuarioAndCategoria(Usuario usuario, Categoria categoria, Pageable pageable);
+	Page<Tarjeta> findByUsuarioAndCategoria(Usuario usuario, Categoria categoria, String texto, Pageable pageable);
 
 }
