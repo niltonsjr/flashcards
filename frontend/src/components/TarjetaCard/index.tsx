@@ -32,16 +32,7 @@ const TarjetaCard = ({ tarjeta, onDelete }: Props) => {
     <>
       <form className="tarjeta-card-container base-card">
         <div className="tarjeta-select-container">
-          <select
-            className="form-select tarjeta-filter-crud-select bg-white"
-            aria-label="Default select example"
-            defaultValue={tarjeta.categoria.id}
-            disabled
-          >
-            <option value={tarjeta.categoria.id}>
-              {tarjeta.categoria.nombre}
-            </option>
-          </select>
+          <p>Categoría: <span className="badge bg-secondary">{tarjeta.categoria.nombre}</span></p>          
         </div>
         <div className="tarjeta-text-buttons-container">
           <div className="tarjeta-textarea-container">
