@@ -56,13 +56,17 @@
   }
 
   .admin-nav-container {
-    height: calc(100vh - 100px);
+    background-color: #efefef;
   }
 
   .admin-nav-container li:not(:last-child) {
-    border-right: unset;
+    border-right: unset;    
+  }
+
+  .admin-nav-container li {
     border-bottom: 1px solid #fff;
   }
+
 
   .admin-nav-item {
     justify-content: start;
