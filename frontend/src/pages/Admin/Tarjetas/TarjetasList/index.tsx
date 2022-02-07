@@ -13,7 +13,7 @@ type ControlComponentsData = {
   filterData: TarjetaFilterData;
 };
 
-const List = () => {
+const TarjetasList = () => {
   const [page, setPage] = useState<SpringPage<Tarjeta>>();
   const [controlComponentsData, setControlComponentsData] =
     useState<ControlComponentsData>({
@@ -60,7 +60,7 @@ const List = () => {
   return (
     <>
       <TarjetaFilter onSubmitFilter={handleSubmitFilter} />
-      <div className="tarjetas-list-container">
+      <div>
         {page?.content.map((tarjeta) => (
           <div key={tarjeta.id}>
             <TarjetaCard tarjeta={tarjeta} onDelete={getTarjetas} />
@@ -76,4 +76,4 @@ const List = () => {
   );
 };
 
-export default List;
+export default TarjetasList;

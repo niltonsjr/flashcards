@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import { Controller, useForm } from "react-hook-form";
 import { useNavigate, useParams } from "react-router-dom";
 import Select from "react-select";
+import { toast } from "react-toastify";
 import { Categoria } from "types/categoria";
 import { Tarjeta } from "types/tarjeta";
 import { requestBackend } from "util/requests";
@@ -13,7 +14,7 @@ type UrlParams = {
   tarjetaId: string;
 };
 
-const Form = () => {
+const TarjetasForm = () => {
   const {
     register,
     handleSubmit,
@@ -78,9 +79,14 @@ const Form = () => {
       withCredentials: true,
     };
 
-    requestBackend(config).then(() => {
+    requestBackend(config)
+    .then(() => {
+      toast.info("Tarjeta creada de forma correcta.")
       navigate("/admin/tarjetas");
-    });
+    })
+    .catch(() => {
+      toast.error("Ocurrió un error al crear la tarjeta.")
+    })
   };
 
   const handleCancelar = () => {
@@ -176,4 +182,4 @@ const Form = () => {
   );
 };
 
-export default Form;
+export default TarjetasForm;
