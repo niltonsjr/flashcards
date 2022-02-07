@@ -26,8 +26,6 @@ const TarjetaCard = ({ tarjeta, onDelete }: Props) => {
     });
   };
 
-  console.log(tarjeta);
-
   return (
     <>
       <form className="tarjeta-card-container base-card">
@@ -70,15 +68,9 @@ const TarjetaCard = ({ tarjeta, onDelete }: Props) => {
             <Link
               to={`/admin/tarjetas/${tarjeta.id}`}
               className="btn btn-outline-success boton-tarjeta-card fw-bold"
-            >
-              {/* <button
-                type="button"
-                className="btn btn-outline-success boton-tarjeta-card fw-bold"
-              > */}
+            > 
               Editar
-              {/* </button> */}
             </Link>
-
             <button
               type="button"
               onClick={() => handleDelete(tarjeta.id)}
