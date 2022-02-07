@@ -5,10 +5,12 @@ import Home from "pages/Home";
 import Register from "pages/Register";
 import { Route, Routes } from "react-router-dom";
 import history from "util/history";
-import "./assets/styles/custom.scss";
-import "./App.css";
 import { useState } from "react";
 import { AuthContext, AuthContextData } from "AuthContext";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import "./assets/styles/custom.scss";
+import "./App.css";
 
 const App = () => {
   const [authContextData, setAuthContextData] = useState<AuthContextData>({
@@ -18,6 +20,7 @@ const App = () => {
   return (
     <AuthContext.Provider value={{ authContextData, setAuthContextData }}>
       <CustomRouter history={history}>
+        <ToastContainer />
         <Navbar />
         <Routes>
           <Route path="/" element={<Home />} />
