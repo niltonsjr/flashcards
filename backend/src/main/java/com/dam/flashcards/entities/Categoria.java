@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -24,7 +25,7 @@ public class Categoria implements Serializable {
 	private Long id;
 	private String nombre;
 
-	@OneToMany(mappedBy = "categoria")
+	@OneToMany(mappedBy = "categoria", cascade = CascadeType.REMOVE)
 	private Set<Tarjeta> tarjetas = new HashSet<>();
 
 	@ManyToOne
