@@ -1,4 +1,5 @@
 import { AxiosRequestConfig } from "axios";
+import { useNavigate } from "react-router-dom";
 import { Categoria } from "types/categoria";
 import { requestBackend } from "util/requests";
 import "./styles.css";
@@ -9,34 +10,44 @@ type Props = {
 };
 
 const CategoriaCard = ({ categoria, onDelete }: Props) => {
+  const navigate = useNavigate();
+
   const handleDelete = (categoriaId: number) => {
-    if (!window.confirm("¿Está seguro que desea borrar la categoría?")) {
+    if (
+      !window.confirm(
+        "Al borrar una categoría, se borrarán todas las tarjetas asociadas a esta categoría. \n¿Está seguro que desea borrar la categoría?"
+      )
+    ) {
       return;
     }
 
     const config: AxiosRequestConfig = {
       method: "DELETE",
-      url: `/tarjetas/${categoriaId}`,
+      url: `/categorias/${categoriaId}`,
       withCredentials: true,
     };
 
-    requestBackend(config).then(() => {
-      onDelete();
-    });
+    requestBackend(config)
+      .then(() => {
+        onDelete();
+      })
+      .catch((error) => {
+        console.log(error.response.data.status);
+      });
+  };
+
+  const handleEdit = (id: number) => {
+    navigate(`/admin/categorias/${id}`);
   };
 
   return (
     <form className="base-card categoria-card-container">
-      <input
-        type="text"
-        className="form-control base-inpu"
-        placeholder={categoria.nombre}
-        name="username"
-      />
+      <span className="fw-normal">{categoria.nombre}</span>
+
       <div className="categoria-card-button-container">
         <button
           type="button"
-          onClick={() => {}}
+          onClick={() => handleEdit(categoria.id)}
           className="btn btn-outline-success boton-categoria-card fw-bold"
         >
           Editar

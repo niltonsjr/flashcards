@@ -5,11 +5,12 @@
 
 .categoria-card-container input {
   border: none;
-  background: #f8f9fa;
+  background: #f8f9fa !important;
   font-weight: 500;
   font-size: 18px;
   line-height: 21px;
   color: #263238;
+  padding-left: 0;
 }
 
 .categoria-card-button-container {
