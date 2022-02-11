@@ -13,7 +13,12 @@ type UrlParams = {
 };
 
 const CategoriasForm = () => {
-  const { register, handleSubmit, setValue } = useForm<Categoria>();
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+    setValue,
+  } = useForm<Categoria>();
   const { categoriaId } = useParams<UrlParams>();
   const navigate = useNavigate();
   const isEditing = categoriaId !== "nueva";
@@ -52,11 +57,11 @@ const CategoriasForm = () => {
 
     requestBackend(config)
       .then(() => {
-        toast.info("Tarjeta creada de forma correcta.");
+        toast.info(`Categoría ${isEditing ? "actualizada" : "creada"} de forma correcta.`);
         navigate("/admin/categorias");
       })
       .catch(() => {
-        toast.error("Ocurrió un error al crear la tarjeta.");
+        toast.error(`Ocurrió un error al ${isEditing ? "actualizar" : "crear"} la categoría.`);
       });
   };
 
@@ -70,12 +75,15 @@ const CategoriasForm = () => {
       onSubmit={handleSubmit(onSubmit)}
     >
       <input
-        {...register("nombre")}
+        {...register("nombre", {
+          required: "Campo obligatorio",
+        })}
         type="text"
         name="nombre"
-        className="form-control base-input bg-white"
-        placeholder=""
+        className="form-control base-input"
+        placeholder="Nombre de la categoría"
       />
+      <div className="invalid-feedback d-block">{errors.nombre?.message}</div>
 
       <div className="categoria-card-button-container">
         <button

@@ -81,11 +81,11 @@ const TarjetasForm = () => {
 
     requestBackend(config)
     .then(() => {
-      toast.info("Tarjeta creada de forma correcta.")
+      toast.info(`Tarjeta ${isEditing ? "actualizada" : "creada"} de forma correcta.`)
       navigate("/admin/tarjetas");
     })
     .catch(() => {
-      toast.error("Ocurrió un error al crear la tarjeta.")
+      toast.error(`Ocurrió un error al ${isEditing ? "actualizar" : "crear"} la tarjeta.`)
     })
   };
 

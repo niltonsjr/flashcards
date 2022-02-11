@@ -2,6 +2,7 @@ import { AxiosRequestConfig } from "axios";
 import CategoriaCard from "components/CategoriaCard";
 import Pagination from "components/Pagination";
 import { useCallback, useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 import { Categoria } from "types/categoria";
 import { SpringPage } from "types/spring";
 import { requestBackend } from "util/requests";
@@ -25,7 +26,7 @@ const CategoriasList = () => {
       withCredentials: true,
       params: {
         page: controlComponentsData.activePage,
-        size: 10,
+        size: 9,
       },
     };
 
@@ -46,7 +47,13 @@ const CategoriasList = () => {
 
   return (
     <>
-      <div>Filtro</div>
+      <div className="tarjeta-filter-crud-container base-card">
+        <Link to="/admin/categorias/nueva">
+          <button className="btn btn-primary text-white fw-bold float-end">
+            Nueva Categoría
+          </button>
+        </Link>
+      </div>
       <div className="tarjetas-list-container">
         {page?.content.map((categoria) => (
           <div key={categoria.id}>
