@@ -1,5 +1,6 @@
 import { AxiosRequestConfig } from "axios";
 import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 import { Categoria } from "types/categoria";
 import { requestBackend } from "util/requests";
 import "./styles.css";
@@ -20,7 +21,6 @@ const CategoriaCard = ({ categoria, onDelete }: Props) => {
     ) {
       return;
     }
-
     const config: AxiosRequestConfig = {
       method: "DELETE",
       url: `/categorias/${categoriaId}`,
@@ -30,6 +30,7 @@ const CategoriaCard = ({ categoria, onDelete }: Props) => {
     requestBackend(config)
       .then(() => {
         onDelete();
+        toast.info("Categoría eliminada.");
       })
       .catch((error) => {
         console.log(error.response.data.status);

@@ -1,5 +1,6 @@
 import { AxiosRequestConfig } from "axios";
 import { Link } from "react-router-dom";
+import { toast } from "react-toastify";
 import { Tarjeta } from "types/tarjeta";
 import { requestBackend } from "util/requests";
 import "./styles.css";
@@ -23,6 +24,7 @@ const TarjetaCard = ({ tarjeta, onDelete }: Props) => {
 
     requestBackend(config).then(() => {
       onDelete();
+      toast.info("Tarjeta eliminada.");
     });
   };
 
