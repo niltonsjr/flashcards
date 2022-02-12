@@ -6,7 +6,6 @@ import { toast } from "react-toastify";
 import { Categoria } from "types/categoria";
 import { requestBackend } from "util/requests";
 import { getAuthData } from "util/storage";
-import "./styles.css";
 
 type UrlParams = {
   categoriaId: string;

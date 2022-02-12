@@ -28,10 +28,7 @@ const App = () => {
           <Route path="register" element={<Register />} />
           <Route path="admin/*" element={<Admin />} />
 
-          {/* 
-        <Route path="/form">
-          <Route path=":movieId" element={<Form />} />
-        </Route> */}
+
         </Routes>
       </CustomRouter>
     </AuthContext.Provider>

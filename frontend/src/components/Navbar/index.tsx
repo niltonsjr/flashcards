@@ -1,7 +1,7 @@
 import { AuthContext } from "AuthContext";
 import "bootstrap/js/src/collapse.js";
 import { useContext, useEffect } from "react";
-import { NavLink, useNavigate } from "react-router-dom";
+import { Link, NavLink, useNavigate } from "react-router-dom";
 import { getTokenData, isAuthenticated } from "util/auth";
 import { removeAuthData } from "util/storage";
 import { ReactComponent as Logo } from "./../../assets/images/logo.svg";
@@ -36,10 +36,10 @@ const Navbar = () => {
   return (
     <nav className="navbar navbar-expand-md navbar-light main-nav">
       <div className="container-fluid">
-        <a href="/" className="nav-logo-text">
+        <Link to={authContextData.authenticated ? "/admin/tarjetas" : "/"} className="nav-logo-text">
           <Logo className="nav-logo" />
           <h4>FlashCards</h4>
-        </a>
+        </Link>
         <>
           {authContextData.authenticated ? (
             <>
