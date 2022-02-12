@@ -30,7 +30,7 @@ const CategoriaCard = ({ categoria, onDelete }: Props) => {
     requestBackend(config)
       .then(() => {
         onDelete();
-        toast.info("Categoría eliminada.");
+        toast.success("Categoría eliminada.");
       })
       .catch((error) => {
         console.log(error.response.data.status);

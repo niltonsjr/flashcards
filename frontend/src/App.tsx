@@ -20,7 +20,8 @@ const App = () => {
   return (
     <AuthContext.Provider value={{ authContextData, setAuthContextData }}>
       <CustomRouter history={history}>
-        <ToastContainer />
+        <ToastContainer 
+        autoClose={1500}/>
         <Navbar />
         <Routes>
           <Route path="/" element={<Home />} />

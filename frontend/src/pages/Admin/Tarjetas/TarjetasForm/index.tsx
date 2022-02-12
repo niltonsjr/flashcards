@@ -81,7 +81,7 @@ const TarjetasForm = () => {
 
     requestBackend(config)
     .then(() => {
-      toast.info(`Tarjeta ${isEditing ? "actualizada" : "creada"} de forma correcta.`)
+      toast.success(`Tarjeta ${isEditing ? "actualizada" : "creada"} de forma correcta.`)
       navigate("/admin/tarjetas");
     })
     .catch(() => {
@@ -103,6 +103,7 @@ const TarjetasForm = () => {
           <Controller
             name="categoria"
             control={control}
+            rules={{ required: true }}
             render={({ field }) => (
               <Select
                 {...field}
@@ -115,7 +116,6 @@ const TarjetasForm = () => {
               />
             )}
           />
-
           {errors.categoria && (
             <div className="invalid-feedback d-block">Campo obligatorio.</div>
           )}

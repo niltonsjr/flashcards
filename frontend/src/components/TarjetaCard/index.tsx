@@ -24,7 +24,7 @@ const TarjetaCard = ({ tarjeta, onDelete }: Props) => {
 
     requestBackend(config).then(() => {
       onDelete();
-      toast.info("Tarjeta eliminada.");
+      toast.success("Tarjeta eliminada.");
     });
   };
 

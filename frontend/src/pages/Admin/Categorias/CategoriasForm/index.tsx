@@ -57,7 +57,7 @@ const CategoriasForm = () => {
 
     requestBackend(config)
       .then(() => {
-        toast.info(`Categoría ${isEditing ? "actualizada" : "creada"} de forma correcta.`);
+        toast.success(`Categoría ${isEditing ? "actualizada" : "creada"} de forma correcta.`);
         navigate("/admin/categorias");
       })
       .catch(() => {
