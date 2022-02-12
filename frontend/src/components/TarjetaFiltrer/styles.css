@@ -72,14 +72,9 @@
 }
 
 @media (min-width: 962px) {
-  .tarjeta-filter-crud-container {
-    flex-direction: row;    
-  }
-
   .tarjeta-filter-form {
     display: flex;
     flex: 1;
-    margin-bottom: 0;
   }
 
   .tarjeta-filter-text-container {
@@ -91,6 +86,7 @@
   .tarjeta-filter-bottom-container {
     flex: 1;
   }
+
   .btn-tarjeta-crud-nueva {
     margin-left: 10px;
     height: 42px;
