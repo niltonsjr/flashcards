@@ -1,7 +1,7 @@
 import { AxiosRequestConfig } from "axios";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
-import ReactTooltip from "react-tooltip";
+import { Link } from "react-router-dom";
 import { Usuario } from "types/usuario";
 import { requestBackend, requestBackendRegister } from "util/requests";
 import { getAuthData } from "util/storage";
@@ -22,8 +22,9 @@ const MisDatos = () => {
     handleSubmit,
     formState: { errors },
     setValue,
-    getValues
+    getValues,
   } = useForm<RegisterData>();
+  const [isEditing, setIsEditing] = useState<boolean>(false);
 
   const loggedUser = getAuthData();
 
@@ -35,7 +36,7 @@ const MisDatos = () => {
     };
 
     requestBackend(config).then((response) => {
-      const usuario = response.data as Usuario;      
+      const usuario = response.data as Usuario;
       setValue("nombreDeUsuario", usuario.nombreDeUsuario);
       setValue("nombre", usuario.nombre);
       setValue("apellidos", usuario.apellidos);
@@ -53,11 +54,15 @@ const MisDatos = () => {
       });
   };
 
+  const handleEdit = () => {
+    setIsEditing(!isEditing);
+  };
+
   return (
     <div className="mis-datos-container">
       <div className="mis-datos-form-container">
-        <form onSubmit={handleSubmit(onSubmit)} className="row">
-          <div className="row row-cols-lg-2 g-3">
+        <form onSubmit={handleSubmit(onSubmit)}>
+          <div className="row row-cols-lg-2 g-3 mb-3">
             <div className="col-12">
               <label htmlFor="nombreDeUsuario" className="form-label">
                 Nombre de usuario:
@@ -72,7 +77,7 @@ const MisDatos = () => {
               />
             </div>
           </div>
-          <div className="row row-cols-lg-2 g-3">
+          <div className="row row-cols-lg-2 g-3 mb-3">
             <div className="col-12">
               <label htmlFor="nombre" className="form-label">
                 Nombre:
@@ -83,7 +88,7 @@ const MisDatos = () => {
                 id="nombre"
                 className="form-control base-input"
                 name="nombre"
-                disabled
+                disabled={!isEditing}
               />
             </div>
             <div className="col-12">
@@ -96,11 +101,11 @@ const MisDatos = () => {
                 id="apellidos"
                 className="form-control base-input"
                 name="apellidos"
-                disabled
+                disabled={!isEditing}
               />
             </div>
           </div>
-          <div className="row row-cols-lg-1 g-3">
+          <div className="row row-cols-lg-1 g-3 mb-3">
             <div className="col-12">
               <label htmlFor="email" className="form-label">
                 Correo electrónico:
@@ -111,89 +116,51 @@ const MisDatos = () => {
                 id="email"
                 className="form-control base-input"
                 name="email"
-                disabled
+                disabled={!isEditing}
               />
             </div>
           </div>
-          {/* <div className="row row-cols-lg-2 g-3">
-            <div className="col-12">
-              <label htmlFor="contrasena" className="form-label">
-                Contraseña:
-              </label>
-              <input
-                {...register("contrasena", {
-                  required: "Campo obligatorio",
-                  pattern: {
-                    value: new RegExp(
-                      "^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z]).{8,}$"
-                    ),
-                    message: "La contraseña no cumple con las condiciones.",
-                  },
-                })}
-                type="password"
-                id="contrasena"
-                className="form-control base-input"
-                name="contrasena"
-                data-tip
-                data-for="condicionesContrasenaTooltip"
-                disabled
-              />
-              <div className="invalid-feedback d-block">
-                {errors.contrasena?.message}
-              </div>
-              <ReactTooltip
-                id="condicionesContrasenaTooltip"
-                place="bottom"
-                effect="solid"
-              >
-                <p>
-                  Condiciones de la contraseña: <br />
-                  - Mínimo 8 caracteres. <br />
-                  - Al menos una letra mayúscula, una minúscula y un número.
-                  <br />
-                  - Puede contener caracteres especiales.
-                  <br />
-                </p>
-              </ReactTooltip>
+          {!isEditing && (
+            <div className="row row-cols-lg-1 g-3 mb-3 mis-datos-cambiar-contrasena-link">
+              <Link to="cambiar_contraseña">Cambiar contraseña</Link>
             </div>
-            <div className="col-12">
-              <label htmlFor="confirmaContrasena" className="form-label">
-                Confirmar contraseña:
-              </label>
-              <input
-                {...register("confirmaContrasena", {
-                  required: "Confirme la contraseña.",
-                  validate: {
-                    matchPreviousPassword: (value) => {
-                      const { contrasena } = getValues();
-                      return (
-                        contrasena === value || "Contraseñas deben coincidir."
-                      );
-                    },
-                  },
-                })}
-                type="password"
-                id="confirmaContrasena"
-                className="form-control base-input"
-                name="confirmaContrasena"
-                disabled
-              />
-              <div className="invalid-feedback d-block">
-                {errors.confirmaContrasena?.message}
-              </div>
-            </div>
-          </div> */}
-          <div className="row row-cols-lg-2 g-3">
-            <div className="col-12">
-              {/* <button type="submit" className="mis-datos-editar-buttom col-12 ">
-                Editar
-              </button> */}
-            </div>
-            <div className="col-12">
-              <button type="submit" className="mis-datos-editar-buttom col-12">
-                Editar
-              </button>
-            </div>
+          )}
+
+          <div className="row row-cols-lg-2 row-cols-sm-2 g-3">
+            {isEditing ? (
+              <>
+                <div className="col-12">
+                  <button
+                    type="button"
+                    className="mis-datos-buttom mis-datos-cancelar-buttom col-12 "
+                  >
+                    Cancelar
+                  </button>
+                </div>
+                <div className="col-12">
+                  <button
+                    type="button"
+                    className="mis-datos-buttom mis-datos-editar-buttom col-12"
+                    onClick={handleEdit}
+                  >
+                    Aceptar
+                  </button>
+                </div>
+              </>
+            ) : (
+              <>
+                <div className="col-12"></div>
+                <div className="col-12">
+                  <button
+                    type="button"
+                    className="mis-datos-buttom mis-datos-editar-buttom col-12"
+                    onClick={handleEdit}
+                  >
+                    Editar
+                  </button>
+                </div>
+              </>
+            )}
           </div>
         </form>
       </div>

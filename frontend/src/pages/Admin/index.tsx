@@ -15,7 +15,7 @@ const Admin = () => {
           <Route index element={<PrivateRoute><Tarjetas /></PrivateRoute>} />      
           <Route path='/tarjetas/*' element={<PrivateRoute><Tarjetas /></PrivateRoute>} />  
           <Route path="/categorias/*" element={<PrivateRoute><Categorias /></PrivateRoute>} />  
-          <Route path="misdatos" element={<PrivateRoute><MisDatos /></PrivateRoute>} />  
+          <Route path="/misdatos" element={<PrivateRoute><MisDatos /></PrivateRoute>} />  
           <Route path="usuarios" element={<PrivateRoute roles={["ROLE_ADMINISTRADOR"]}><h1>Usuarios</h1></PrivateRoute>} />        
         </Routes>
       </div>
