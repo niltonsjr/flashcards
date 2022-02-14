@@ -3,18 +3,9 @@ import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { Link } from "react-router-dom";
 import { Usuario } from "types/usuario";
-import { requestBackend, requestBackendRegister } from "util/requests";
+import { requestBackend } from "util/requests";
 import { getAuthData } from "util/storage";
 import "./styles.css";
-
-type RegisterData = {
-  nombreDeUsuario: string;
-  contrasena: string;
-  confirmaContrasena: string;
-  nombre: string;
-  apellidos: string;
-  email: string;
-};
 
 const MisDatos = () => {
   const {
@@ -23,10 +14,11 @@ const MisDatos = () => {
     formState: { errors },
     setValue,
     getValues,
-  } = useForm<RegisterData>();
+  } = useForm<Usuario>();
   const [isEditing, setIsEditing] = useState<boolean>(false);
-
+  
   const loggedUser = getAuthData();
+
 
   useEffect(() => {
     const config: AxiosRequestConfig = {
@@ -44,18 +36,40 @@ const MisDatos = () => {
     });
   }, [loggedUser.usuarioId, setValue]);
 
-  const onSubmit = (registerData: RegisterData) => {
-    requestBackendRegister(registerData)
+  const onSubmit = (formData: Usuario) => {
+    const data = {
+      ...formData,
+      usuarioId: loggedUser.usuarioId,
+      nombre: formData.nombre,
+      apellidos: formData.apellidos,
+      email: formData.email,
+    };
+
+    const config: AxiosRequestConfig = {
+      method: "PUT",
+      url: `/usuarios/${loggedUser.usuarioId}`,
+      data,
+      withCredentials: true,
+    };
+
+    requestBackend(config)
       .then((response) => {
         console.log("Suceso", response);
+        setIsEditing(false);
       })
       .catch((error) => {
         console.log("Erro:", error);
       });
   };
 
-  const handleEdit = () => {
-    setIsEditing(!isEditing);
+  const handleEdit = (event: React.MouseEvent) => {
+    event.preventDefault();
+    setIsEditing(true);
+  };
+
+  const handleCancel = (event: React.MouseEvent) => {
+    event.preventDefault();
+    setIsEditing(false);
   };
 
   return (
@@ -76,6 +90,7 @@ const MisDatos = () => {
                 disabled
               />
             </div>
+            
           </div>
           <div className="row row-cols-lg-2 g-3 mb-3">
             <div className="col-12">
@@ -83,13 +98,18 @@ const MisDatos = () => {
                 Nombre:
               </label>
               <input
-                {...register("nombre")}
+                {...register("nombre", {
+                  required: "Campo obligatorio",                  
+                })}
                 type="text"
                 id="nombre"
                 className="form-control base-input"
                 name="nombre"
                 disabled={!isEditing}
               />
+              <div className="invalid-feedback d-block">
+                {errors.nombre?.message}
+              </div>
             </div>
             <div className="col-12">
               <label htmlFor="apellidos" className="form-label">
@@ -132,16 +152,16 @@ const MisDatos = () => {
                 <div className="col-12">
                   <button
                     type="button"
-                    className="mis-datos-buttom mis-datos-cancelar-buttom col-12 "
+                    className="mis-datos-buttom mis-datos-cancelar-buttom col-12"
+                    onClick={handleCancel}
                   >
                     Cancelar
                   </button>
                 </div>
                 <div className="col-12">
                   <button
-                    type="button"
+                    type="submit"
                     className="mis-datos-buttom mis-datos-editar-buttom col-12"
-                    onClick={handleEdit}
                   >
                     Aceptar
                   </button>
