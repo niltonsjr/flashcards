@@ -1,5 +1,6 @@
+import { AuthContext } from "AuthContext";
 import { AxiosRequestConfig } from "axios";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { Link } from "react-router-dom";
 import { Usuario } from "types/usuario";
@@ -11,6 +12,7 @@ const MisDatos = () => {
   const {
     register,
     handleSubmit,
+    reset,
     formState: { errors },
     setValue,
     getValues,
@@ -18,7 +20,18 @@ const MisDatos = () => {
   const [isEditing, setIsEditing] = useState<boolean>(false);
   
   const loggedUser = getAuthData();
+  const {authContextData} = useContext(AuthContext);
 
+  const [usuario, setUsuario] = useState<Usuario>(
+    {
+      nombreDeUsuario: "",
+      nombre: loggedUser.nombre,
+      apellidos: loggedUser.apellidos,
+      email: "",
+      id: loggedUser.usuarioId,
+      roles: authContextData.tokenData?.authorities || ["ROLE_USUARIO"]
+    }
+  );
 
   useEffect(() => {
     const config: AxiosRequestConfig = {
@@ -28,13 +41,13 @@ const MisDatos = () => {
     };
 
     requestBackend(config).then((response) => {
-      const usuario = response.data as Usuario;
+      setUsuario(response.data as Usuario);
       setValue("nombreDeUsuario", usuario.nombreDeUsuario);
       setValue("nombre", usuario.nombre);
       setValue("apellidos", usuario.apellidos);
       setValue("email", usuario.email);
     });
-  }, [loggedUser.usuarioId, setValue]);
+  }, [loggedUser.usuarioId, setValue, usuario.apellidos, usuario.email, usuario.nombre, usuario.nombreDeUsuario]);
 
   const onSubmit = (formData: Usuario) => {
     const data = {
@@ -70,6 +83,7 @@ const MisDatos = () => {
   const handleCancel = (event: React.MouseEvent) => {
     event.preventDefault();
     setIsEditing(false);
+    reset(usuario);
   };
 
   return (
