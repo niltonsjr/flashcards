@@ -1,6 +1,8 @@
 package com.dam.flashcards.dto;
 
 import java.io.Serializable;
+import java.util.HashSet;
+import java.util.Set;
 
 import com.dam.flashcards.entities.Usuario;
 
@@ -13,6 +15,7 @@ public class UsuarioBasicoDTO implements Serializable {
 	private String nombre;
 	private String apellidos;
 	private String email;
+	private Set<RolDTO> roles = new HashSet<>();
 
 	public UsuarioBasicoDTO() {
 	}
@@ -31,6 +34,7 @@ public class UsuarioBasicoDTO implements Serializable {
 		nombre = entity.getNombre();
 		apellidos = entity.getApellidos();
 		email = entity.getEmail();
+		entity.getRoles().forEach(rol -> this.roles.add(new RolDTO(rol)));
 	}
 
 	public Long getId() {
@@ -71,6 +75,14 @@ public class UsuarioBasicoDTO implements Serializable {
 
 	public void setEmail(String email) {
 		this.email = email;
+	}
+	
+	public Set<RolDTO> getRoles() {
+		return roles;
+	}
+
+	public void setRoles(Set<RolDTO> roles) {
+		this.roles = roles;
 	}
 
 }

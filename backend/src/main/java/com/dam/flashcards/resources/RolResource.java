@@ -2,9 +2,6 @@ package com.dam.flashcards.resources;
 
 import java.net.URI;
 
-import com.dam.flashcards.dto.RolDTO;
-import com.dam.flashcards.services.RolService;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -18,6 +15,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
+
+import com.dam.flashcards.dto.RolDTO;
+import com.dam.flashcards.services.RolService;
 
 @RestController
 @RequestMapping(value = "/roles")

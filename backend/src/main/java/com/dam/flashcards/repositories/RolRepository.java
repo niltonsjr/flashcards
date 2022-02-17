@@ -7,4 +7,5 @@ import com.dam.flashcards.entities.Rol;
 
 @Repository
 public interface RolRepository extends JpaRepository<Rol, Long>{
+	
 }
