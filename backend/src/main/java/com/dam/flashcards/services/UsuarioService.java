@@ -110,6 +110,7 @@ public class UsuarioService implements UserDetailsService {
 
 	@Transactional
 	public UsuarioDTO update(Long id, UsuarioUpdateDTO dto) {
+		authService.ValidarUsuarioLogadoOAdministrador(id);
 		Usuario entity;
 		try {
 			entity = repository.getById(id);
@@ -137,7 +138,7 @@ public class UsuarioService implements UserDetailsService {
 		entity.setNombre(dto.getNombre());
 		entity.setApellidos(dto.getApellidos());
 		entity.setEmail(dto.getEmail());
-
+/*
 		entity.getCategorias().clear();
 		for (CategoriaDTO catDto : dto.getCategorias()) {
 			Categoria categoria = categoriaRepository.getById(catDto.getId());
@@ -155,6 +156,7 @@ public class UsuarioService implements UserDetailsService {
 			Rol rol = rolRepository.getById(rolDto.getId());
 			entity.getRoles().add(rol);
 		}
+		*/
 	}
 
 	@Override

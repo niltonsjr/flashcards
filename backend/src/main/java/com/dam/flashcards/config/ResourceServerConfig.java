@@ -51,8 +51,8 @@ public class ResourceServerConfig extends ResourceServerConfigurerAdapter {
 
 		http.authorizeRequests().antMatchers(PUBLIC).permitAll()
 				.antMatchers(USUARIO_O_ADMINISTRADOR).hasAnyRole("USUARIO", "ADMINISTRADOR")
-				.antMatchers(HttpMethod.GET, USUARIOS).hasAnyRole("USUARIO")
-				.antMatchers(USUARIOS).hasAnyRole("ADMINISTRADOR")
+				//.antMatchers(HttpMethod.GET, USUARIOS).hasAnyRole("USUARIO")
+				//.antMatchers(USUARIOS).hasAnyRole("ADMINISTRADOR")
 				.antMatchers(ADMINISTRADOR).hasRole("ADMINISTRADOR")
 				.anyRequest().authenticated();
 
