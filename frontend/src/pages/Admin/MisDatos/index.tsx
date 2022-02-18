@@ -1,9 +1,9 @@
-import { AuthContext } from "AuthContext";
 import { AxiosRequestConfig } from "axios";
-import { useContext, useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { Link } from "react-router-dom";
 import { Usuario } from "types/usuario";
+import { getTokenData, TokenData } from "util/auth";
 import { requestBackend } from "util/requests";
 import { getAuthData } from "util/storage";
 import "./styles.css";
@@ -15,25 +15,22 @@ const MisDatos = () => {
     reset,
     formState: { errors },
     setValue,
-    getValues,
   } = useForm<Usuario>();
+
   const [isEditing, setIsEditing] = useState<boolean>(false);
-  
   const loggedUser = getAuthData();
-  const {authContextData} = useContext(AuthContext);
+  const tokenData = getTokenData() as TokenData;
 
-  const [usuario, setUsuario] = useState<Usuario>(
-    {
-      nombreDeUsuario: "",
-      nombre: loggedUser.nombre,
-      apellidos: loggedUser.apellidos,
-      email: "",
-      id: loggedUser.usuarioId,
-      roles: authContextData.tokenData?.authorities || ["ROLE_USUARIO"]
-    }
-  );
+  const [usuario, setUsuario] = useState<Usuario>({
+    id: loggedUser.usuarioId,
+    nombreDeUsuario: tokenData.user_name,
+    nombre: loggedUser.nombre,
+    apellidos: loggedUser.apellidos,
+    email: "",
+    roles: [],
+  });
 
-  useEffect(() => {
+  const getUsuario = useCallback(() => {
     const config: AxiosRequestConfig = {
       method: "GET",
       url: `/usuarios/basico/${loggedUser.usuarioId}`,
@@ -42,12 +39,23 @@ const MisDatos = () => {
 
     requestBackend(config).then((response) => {
       setUsuario(response.data as Usuario);
-      setValue("nombreDeUsuario", usuario.nombreDeUsuario);
-      setValue("nombre", usuario.nombre);
-      setValue("apellidos", usuario.apellidos);
-      setValue("email", usuario.email);
     });
-  }, [loggedUser.usuarioId, setValue, usuario.apellidos, usuario.email, usuario.nombre, usuario.nombreDeUsuario]);
+  }, [loggedUser.usuarioId]);
+
+  useEffect(() => {
+    getUsuario();
+    setValue("nombreDeUsuario", usuario?.nombreDeUsuario);
+    setValue("nombre", usuario.nombre);
+    setValue("apellidos", usuario.apellidos);
+    setValue("email", usuario.email);
+  }, [
+    getUsuario,
+    setValue,
+    usuario.apellidos,
+    usuario.email,
+    usuario.nombre,
+    usuario?.nombreDeUsuario,
+  ]);
 
   const onSubmit = (formData: Usuario) => {
     const data = {
@@ -57,6 +65,8 @@ const MisDatos = () => {
       apellidos: formData.apellidos,
       email: formData.email,
     };
+
+    setUsuario(data);
 
     const config: AxiosRequestConfig = {
       method: "PUT",
@@ -104,7 +114,6 @@ const MisDatos = () => {
                 disabled
               />
             </div>
-            
           </div>
           <div className="row row-cols-lg-2 g-3 mb-3">
             <div className="col-12">
@@ -113,7 +122,7 @@ const MisDatos = () => {
               </label>
               <input
                 {...register("nombre", {
-                  required: "Campo obligatorio",                  
+                  required: "Campo obligatorio",
                 })}
                 type="text"
                 id="nombre"

@@ -1,4 +1,4 @@
-import { Role } from "util/auth";
+import { Rol } from "./rol";
 
 export type Usuario = {
     id: number;
@@ -6,5 +6,5 @@ export type Usuario = {
     nombre: string;
     apellidos: string;
     email: string;
-    roles: Role[]; 
+    roles: Rol[]; 
 }

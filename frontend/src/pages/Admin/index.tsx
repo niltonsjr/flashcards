@@ -7,6 +7,7 @@ import "./styles.css";
 import Tarjetas from "./Tarjetas";
 
 const Admin = () => {
+  
   return (
     <div className="admin-container">
       <Navbar />
