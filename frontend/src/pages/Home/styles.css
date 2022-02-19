@@ -4,13 +4,22 @@
   align-items: center;
   min-width: 400px;
   height: 88vh;
-  background-color: #ffe749;
+  background-color: #00B8EC;
 }
 
-.home-left-container {
-  display: none;
+.home-left-container h1 {
+  font-size: 30px;
+  color: #f8f9fa;
+  font-weight: 400;
+  margin: 20px;
 }
 
+.home-left-container svg {
+  width: 100%;
+}
+
+
+/* 
 @media (min-width: 576px) {
   .home-container {
     background: linear-gradient(
@@ -50,4 +59,4 @@
     color: #f8f9fa;
     font-weight: 400;
   }
-}
+} */

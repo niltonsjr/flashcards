@@ -3,8 +3,9 @@ import { Route, Routes } from "react-router-dom";
 import Categorias from "./Categorias";
 import MisDatos from "./MisDatos";
 import Navbar from "./Navbar";
-import "./styles.css";
 import Tarjetas from "./Tarjetas";
+import "./styles.css";
+
 
 const Admin = () => {
   
@@ -13,7 +14,7 @@ const Admin = () => {
       <Navbar />
       <div className="admin-content">
         <Routes>
-          <Route index element={<PrivateRoute><Tarjetas /></PrivateRoute>} />      
+          <Route index element={<PrivateRoute><Tarjetas /></PrivateRoute>} />               
           <Route path='/tarjetas/*' element={<PrivateRoute><Tarjetas /></PrivateRoute>} />  
           <Route path="/categorias/*" element={<PrivateRoute><Categorias /></PrivateRoute>} />  
           <Route path="/misdatos" element={<PrivateRoute><MisDatos /></PrivateRoute>} />  
