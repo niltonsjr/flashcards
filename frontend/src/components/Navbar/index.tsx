@@ -36,7 +36,10 @@ const Navbar = () => {
   return (
     <nav className="navbar navbar-expand-md navbar-light main-nav">
       <div className="container-fluid">
-        <Link to={authContextData.authenticated ? "/admin/tarjetas" : "/"} className="nav-logo-text">
+        <Link
+          to={authContextData.authenticated ? "/admin/tarjetas" : "/"}
+          className="nav-logo-text"
+        >
           <Logo className="nav-logo" />
           <h4>FlashCards</h4>
         </Link>
@@ -70,7 +73,7 @@ const Navbar = () => {
                 <div>
                   <button
                     typeof="submit"
-                    className="logout-button"
+                    className="logout-button navbar-button"
                     onClick={handleClick}
                   >
                     Salir
@@ -79,7 +82,41 @@ const Navbar = () => {
               </div>
             </>
           ) : (
-            <></>
+            <>
+              <button
+                className="navbar-toggler custom-toggler"
+                type="button"
+                data-bs-toggle="collapse"
+                data-bs-target="#flashcards-navbar"
+                aria-controls="flashcards-navbar"
+                aria-expanded="false"
+                aria-label="Toggle navigation"
+              >
+                <span className="navbar-toggler-icon"></span>
+              </button>
+
+              <div
+                className="collapse navbar-collapse main-menu"
+                id="flashcards-navbar"
+              >
+                <div className="navbar-buttons-container">
+                  <button
+                    typeof="submit"
+                    className="register-button navbar-button"
+                    onClick={handleClick}
+                  >
+                    Registrarse
+                  </button>
+                  <button
+                    typeof="submit"
+                    className="login-button navbar-button"
+                    onClick={handleClick}
+                  >
+                    Iniciar Sesión
+                  </button>
+                </div>
+              </div>
+            </>
           )}
         </>
       </div>
