@@ -66,7 +66,7 @@ const MisDatos = () => {
       email: formData.email,
     };
 
-    setUsuario(data);
+    
 
     const config: AxiosRequestConfig = {
       method: "PUT",
@@ -79,6 +79,8 @@ const MisDatos = () => {
       .then((response) => {
         console.log("Suceso", response);
         setIsEditing(false);
+        setUsuario(data);
+        reset(usuario);
       })
       .catch((error) => {
         console.log("Erro:", error);
