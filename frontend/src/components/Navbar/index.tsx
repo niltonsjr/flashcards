@@ -24,7 +24,7 @@ const Navbar = () => {
     }
   }, [setAuthContextData]);
 
-  const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
+  const handleLogoutClick = (event: React.MouseEvent<HTMLButtonElement>) => {
     event.preventDefault();
     removeAuthData();
     setAuthContextData({
@@ -32,7 +32,16 @@ const Navbar = () => {
     });
     navigate("/");
   };
+  
+  const handleRegisterClick = (event : React.MouseEvent<HTMLButtonElement>) => {
+    event.preventDefault();
+    navigate("/auth/register");
+  }
 
+  const handleLoginClick = (event: React.MouseEvent<HTMLButtonElement>) => {
+    event.preventDefault();
+    navigate("/auth/login");
+  }
   return (
     <nav className="navbar navbar-expand-md navbar-light main-nav">
       <div className="container-fluid">
@@ -72,9 +81,9 @@ const Navbar = () => {
                 </ul>
                 <div>
                   <button
-                    typeof="submit"
+                    typeof="button"
                     className="logout-button navbar-button"
-                    onClick={handleClick}
+                    onClick={handleLogoutClick}
                   >
                     Salir
                   </button>
@@ -101,16 +110,16 @@ const Navbar = () => {
               >
                 <div className="navbar-buttons-container">
                   <button
-                    typeof="submit"
+                    typeof="button"
                     className="register-button navbar-button"
-                    onClick={handleClick}
+                    onClick={handleRegisterClick}
                   >
                     Registrarse
                   </button>
                   <button
-                    typeof="submit"
+                    typeof="button"
                     className="login-button navbar-button"
-                    onClick={handleClick}
+                    onClick={handleLoginClick}
                   >
                     Iniciar Sesión
                   </button>

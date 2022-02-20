@@ -87,7 +87,7 @@ const LoginCard = () => {
           </button>
         </div>
         <div className="signup-container">
-          <Link to="/register" className="login-link-register">
+          <Link to="/auth/register" className="login-link-register">
             Regístrate gratis
           </Link>
         </div>
