@@ -1,9 +1,10 @@
 import linea from "assets/images/line-small.svg";
 import { useForm } from "react-hook-form";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { requestBackendRegister } from "util/requests";
 import ReactTooltip from "react-tooltip";
 import "./styles.css";
+import { toast } from "react-toastify";
 
 type RegisterData = {
   nombreDeUsuario: string;
@@ -21,14 +22,18 @@ const Register = () => {
     formState: { errors },
     getValues,
   } = useForm<RegisterData>();
+  const navigate = useNavigate();
 
   const onSubmit = (registerData: RegisterData) => {
     requestBackendRegister(registerData)
       .then((response) => {
         console.log("Suceso", response);
+        toast.success("Usuario creado correctamente.");
+        navigate("/auth/login")
       })
       .catch((error) => {
         console.log("Erro:", error);
+        toast.error(`Error al crear el usuario: ${error.message}`);
       });
   };
 

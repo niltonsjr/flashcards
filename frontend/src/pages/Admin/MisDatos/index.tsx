@@ -64,9 +64,7 @@ const MisDatos = () => {
       nombre: formData.nombre,
       apellidos: formData.apellidos,
       email: formData.email,
-    };
-
-    
+    };   
 
     const config: AxiosRequestConfig = {
       method: "PUT",
