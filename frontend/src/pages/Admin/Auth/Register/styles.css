@@ -4,7 +4,7 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 90vh;
+  height: 120vh;
 }
 
 .register-container {
@@ -98,6 +98,10 @@
 }
 
 @media (min-width: 768px) {
+  .register-page-container { 
+    height: 115vh;
+  }
+
   .register-container {
     padding: 40px 80px 40px 80px;
   }
@@ -114,6 +118,10 @@
 }
 
 @media (min-width: 992px) {
+  .register-page-container { 
+    height: 88vh;
+  }
+
   .register-container {
     padding: 85px 65px auto 65px;
   }
