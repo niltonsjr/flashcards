@@ -165,7 +165,7 @@ const MisDatos = () => {
           </div>
           {!isEditing && (
             <div className="row row-cols-lg-1 g-3 mb-3 mis-datos-cambiar-contrasena-link">
-              <Link to="cambiar_contraseña">Cambiar contraseña</Link>
+              <Link to="/admin/cambiar-contrasena">Cambiar contraseña</Link>
             </div>
           )}
 
