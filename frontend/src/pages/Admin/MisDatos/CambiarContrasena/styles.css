@@ -1,5 +1,42 @@
+.cambiar-contrasena-container {
+  max-width: 800px;
+}
+
+.cambiar-contrasena-container input {
+  width: 100%;
+}
+
+.contrasena-actual-container {
+  margin-bottom: 20px;
+}
+
+.validar-contrasena-actual-buttom-container {
+  display: flex;
+  justify-content: end;
+}
 
 .validar-contrasena-actual-buttom {
-    background-color: #4EAB62;
-    justify-content: right;
+  background-color: #4eab62;
+  width: 48%;
+}
+
+.contrasena-nueva-input {
+  margin-bottom: 10px;
+}
+
+.cambiar-contrasena-buttons-container {
+  display: flex;
+  justify-content: space-between;
+  max-width: 400px;
+  margin-left: auto;
+}
+
+.cambiar-contrasena-buttons-container button {
+  width: 48%;
+}
+
+@media (min-width: 576px) {
+  .validar-contrasena-actual-buttom {
+    width: 51%;
+  }
 }

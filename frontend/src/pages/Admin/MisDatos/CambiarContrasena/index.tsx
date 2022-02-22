@@ -3,10 +3,10 @@ import "./styles.css";
 
 const CambiarContrasena = () => {
   return (
-    <div className="cambiar-contrasena-container mt-3 container-fluid">
+    <div className="cambiar-contrasena-container container-fluid">
       <form onSubmit={() => {}}>
-        <div className="contrasena-actual-container  row ">
-          <div className="col-12">
+        <div className="contrasena-actual-container row">
+          <div className="">
             <label htmlFor="contrasena-actual" className="form-label">
               Contraseña actual
             </label>
@@ -16,30 +16,30 @@ const CambiarContrasena = () => {
               className="form-control base-input bg-white"
               name="contrasena-actual"
             />
-          </div>          
-          <div className="col-6">
+          </div>
+          <div className="validar-contrasena-actual-buttom-container">
             <button
               type="button"
-              className="mis-datos-buttom validar-contrasena-actual-buttom col-12"
+              className="mis-datos-buttom validar-contrasena-actual-buttom"
               onClick={() => {}}
             >
               Validar
             </button>
           </div>
         </div>
-        <div className="contrasena-nueva-container  row  mt-3">
-          <div className="col-12">
+        <div className="contrasena-nueva-container">
+          <div>
             <label htmlFor="nueva-contrasena" className="form-label">
               Nueva contraseña
             </label>
             <input
               type="text"
               id="nueva-contrasena"
-              className="form-control base-input bg-white"
+              className="form-control base-input bg-white  contrasena-nueva-input"
               name="nueva-contrasena"
             />
           </div>
-          <div className="col-12">
+          <div>
             <label htmlFor="confirm-nueva-contrasena" className="form-label">
               Confirmar nueva contraseña
             </label>
@@ -50,20 +50,20 @@ const CambiarContrasena = () => {
               name="confirm-nueva-contrasena"
             />
           </div>
-          <div className="col-12">
+          <div className="cambiar-contrasena-buttons-container">
+            <button
+              type="button"
+              className="mis-datos-buttom mis-datos-cancelar-buttom col-6"
+              onClick={() => {}}
+            >
+              Cancelar
+            </button>
             <button
               type="button"
               className="mis-datos-buttom mis-datos-editar-buttom col-6"
               onClick={() => {}}
             >
               Aceptar
-            </button>          
-            <button
-              type="button"
-              className="mis-datos-buttom mis-datos-editar-buttom col-6"
-              onClick={() => {}}
-            >
-              Cancelar
             </button>
           </div>
         </div>
