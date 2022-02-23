@@ -12,7 +12,7 @@
 
 .validar-contrasena-actual-buttom-container {
   display: flex;
-  justify-content: end;
+  justify-content: flex-end;
 }
 
 .validar-contrasena-actual-buttom {
@@ -33,6 +33,10 @@
 
 .cambiar-contrasena-buttons-container button {
   width: 48%;
+}
+
+.cambiar-contrasena-buttons-container button:disabled {
+  background-color: #C3C3C3;
 }
 
 @media (min-width: 576px) {
