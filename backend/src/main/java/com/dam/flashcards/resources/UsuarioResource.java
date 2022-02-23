@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import com.dam.flashcards.dto.NuevaContrasenaDTO;
 import com.dam.flashcards.dto.UsuarioBasicoDTO;
 import com.dam.flashcards.dto.UsuarioDTO;
 import com.dam.flashcards.dto.UsuarioInsertDTO;
@@ -59,7 +60,13 @@ public class UsuarioResource {
 	@PutMapping(value = "/{id}")
 	public ResponseEntity<UsuarioDTO> update(@Valid @PathVariable Long id, @Valid @RequestBody UsuarioUpdateDTO dto) {
 		UsuarioDTO newDto = service.update(id, dto);
-		return ResponseEntity.ok().body(newDto);
+		return ResponseEntity.ok().body(newDto);		
+	}
+	
+	@PutMapping(value = "/nuevacontrasena/{id}")
+	public ResponseEntity<Void> updateContrasena(@PathVariable Long id, @RequestBody NuevaContrasenaDTO dto) {
+		service.updatePassword(id, dto);
+		return ResponseEntity.ok().build();
 	}
 
 	@DeleteMapping(value = "/{id}")
