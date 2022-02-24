@@ -56,11 +56,6 @@
 }
 
 @media (min-width: 576px) {
-  .tarjeta-filter-crud {
-    flex-direction: row;
-    padding: 8px 15px;
-  }
-
   .btn-tarjeta-crud-nueva {
     width: 170px;
     float: right;
@@ -94,5 +89,12 @@
 
   .tarjeta-filter-select__control {
     height: 42px;
+  }
+}
+
+@media (min-width: 1200px) {
+  .tarjeta-filter-crud-container {
+    flex-direction: row;
+    padding: 8px 15px;
   }
 }

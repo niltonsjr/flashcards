@@ -1,0 +1,52 @@
+.usuario-filter-crud-container {
+  min-width: 380px;
+  display: flex;
+  flex-direction: column;
+  padding: 5px 10px;
+  margin-bottom: 15px;
+}
+
+.usuario-filter-form {
+  margin-bottom: 5px;
+}
+
+.btn-usuario-crud-nueva {
+  width: 100%;
+  height: 38px;
+}
+
+.usuario-filter-select__indicator-separator {
+  display: none;
+}
+
+@media (min-width: 576px) {
+  .usuario-filter-crud-container {
+    flex-direction: row;
+    justify-content: space-between;
+    padding: 8px 15px;
+  }
+
+  .usuario-filter-select__control {
+    width: 300px;
+  }
+
+  .btn-usuario-crud-nueva {
+    width: 170px;
+  }
+}
+
+@media (min-width: 962px) {
+  .usuario-filter-select__control {
+    width: 400px;
+  }
+
+  .btn-usuario-crud-nueva {
+    width: 200px;
+  }
+}
+
+@media (min-width: 1200px) {
+  .usuario-filter-select__control {
+    width: 500px;
+  }
+}
