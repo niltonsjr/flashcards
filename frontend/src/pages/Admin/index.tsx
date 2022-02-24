@@ -6,6 +6,7 @@ import Navbar from "./Navbar";
 import Tarjetas from "./Tarjetas";
 import "./styles.css";
 import CambiarContrasena from "./MisDatos/CambiarContrasena";
+import GestionUsuarios from "./GestionUsuarios";
 
 
 const Admin = () => {
@@ -20,7 +21,7 @@ const Admin = () => {
           <Route path="/categorias/*" element={<PrivateRoute><Categorias /></PrivateRoute>} />  
           <Route path="/misdatos" element={<PrivateRoute><MisDatos /></PrivateRoute>} />  
           <Route path="/cambiar-contrasena" element={<PrivateRoute><CambiarContrasena /></PrivateRoute>} />  
-          <Route path="usuarios" element={<PrivateRoute roles={["ROLE_ADMINISTRADOR"]}><h1>Usuarios</h1></PrivateRoute>} />        
+          <Route path="usuarios/*" element={<PrivateRoute roles={["ROLE_ADMINISTRADOR"]}><GestionUsuarios /></PrivateRoute>} />        
         </Routes>
       </div>
     </div>

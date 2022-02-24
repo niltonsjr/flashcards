@@ -34,6 +34,7 @@ const CambiarContrasena = () => {
     handleSubmit: handleSubmit2,
     setValue: setValue2,
     getValues,
+    clearErrors,
     formState: { errors: errors2 },
   } = useForm<NewPasswordData>();
 
@@ -76,6 +77,8 @@ const CambiarContrasena = () => {
     setValue("password", "");
     setValue2("nuevaContrasena", "");
     setValue2("confirmaNuevaContrasena", "");
+    clearErrors("confirmaNuevaContrasena");
+    clearErrors("nuevaContrasena");
     setValidActualPassword(false);
   };
 
