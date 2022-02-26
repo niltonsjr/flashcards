@@ -26,7 +26,9 @@ import com.dam.flashcards.dto.UsuarioDTO;
 import com.dam.flashcards.dto.UsuarioInsertDTO;
 import com.dam.flashcards.dto.UsuarioRegistroDTO;
 import com.dam.flashcards.dto.UsuarioUpdateDTO;
+import com.dam.flashcards.entities.Rol;
 import com.dam.flashcards.entities.Usuario;
+import com.dam.flashcards.repositories.RolRepository;
 import com.dam.flashcards.repositories.UsuarioRepository;
 import com.dam.flashcards.services.exceptions.DatabaseException;
 import com.dam.flashcards.services.exceptions.ResourceNotFoundException;
@@ -38,6 +40,9 @@ public class UsuarioService implements UserDetailsService {
 
 	@Autowired
 	private UsuarioRepository repository;
+	
+	@Autowired
+	private RolRepository rolRepository;
 
 	@Autowired
 	private AuthService authService;
@@ -47,8 +52,9 @@ public class UsuarioService implements UserDetailsService {
 
 	@PreAuthorize("hasRole('ADMINISTRADOR')")
 	@Transactional(readOnly = true)
-	public Page<UsuarioDTO> findAllPaged(Pageable pageable) {
-		Page<Usuario> list = repository.findAll(pageable);
+	public Page<UsuarioDTO> findAllPaged(Long rolId, Pageable pageable) {
+		Rol rol = (rolId == 0) ? null : rolRepository.getById(rolId);
+		Page<Usuario> list = repository.findByRoles(rol, pageable);
 		return list.map(x -> new UsuarioDTO(x));
 	}
 
