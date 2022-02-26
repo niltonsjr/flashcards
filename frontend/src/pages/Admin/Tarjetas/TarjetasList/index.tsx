@@ -1,7 +1,7 @@
 import { AxiosRequestConfig } from "axios";
 import Pagination from "components/Pagination";
 import TarjetaCard from "components/TarjetaCard";
-import TarjetaFilter, { TarjetaFilterData } from "components/TarjetaFiltrer";
+import TarjetaFilter, { TarjetaFilterData } from "components/TarjetaFilter";
 import { useCallback, useEffect, useState } from "react";
 import { SpringPage } from "types/spring";
 import { Tarjeta } from "types/tarjeta";

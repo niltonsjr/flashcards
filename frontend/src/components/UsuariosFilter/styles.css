@@ -26,6 +26,10 @@
     padding: 8px 15px;
   }
 
+  .usuario-filter-form {
+    margin-bottom: 0;
+  }
+
   .usuario-filter-select__control {
     width: 300px;
   }

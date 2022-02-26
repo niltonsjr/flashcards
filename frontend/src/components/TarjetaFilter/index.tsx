@@ -77,7 +77,7 @@ const TarjetaFilter = ({ onSubmitFilter }: Props) => {
                   {...field}
                   classNamePrefix="tarjeta-filter-select"
                   options={selectCategorias}
-                  getOptionLabel={(cat: Categoria) => cat.nombre.split("_")[0]}
+                  getOptionLabel={(cat: Categoria) => cat.nombre}
                   getOptionValue={(cat: Categoria) => String(cat.id)}
                   placeholder="Categoría"
                   isClearable
