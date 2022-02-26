@@ -35,7 +35,7 @@ public class UsuarioResource {
 
 	@GetMapping
 	public ResponseEntity<Page<UsuarioDTO>> findAll(Pageable pageable, 
-			@RequestParam(value = "rolId", defaultValue = "0") Long rolId) {
+			@RequestParam(value = "rolId", defaultValue = "1") Long rolId) {
 		Page<UsuarioDTO> list = service.findAllPaged(rolId, pageable);
 		return ResponseEntity.ok().body(list);
 	}
