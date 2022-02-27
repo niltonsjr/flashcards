@@ -28,8 +28,39 @@ const UsuarioCard = ({ usuario, onDelete }: Props) => {
   };
 
   return (
-    <div>
-      <h1>{usuario.nombre}</h1>
+    <div className="usuario-card-container base-card">
+      <div className="usuario-card-datos">
+        <div>
+          <h4>
+            {usuario.nombre} {usuario.apellidos} - {usuario.nombreDeUsuario}
+          </h4>
+        </div>
+        <div>
+          {usuario.roles.map((rol) => (
+            <span key={rol.id} className="badge bg-secondary">
+              {rol.nombre.split("_")[1]}
+            </span>
+          ))}
+        </div>
+      </div>
+      <div className="usuario-card-buttons-container">
+        <button
+          type="button"
+          onClick={() => handleDelete(usuario.id)}
+          // to={`/admin/tarjetas/${usuario.id}`}
+          className="btn btn-outline-success boton-usuario-card fw-bold"
+        >
+          Editar
+        </button>
+
+        <button
+          type="button"
+          onClick={() => handleDelete(usuario.id)}
+          className="btn btn-outline-danger boton-usuario-card fw-bold"
+        >
+          Borrar
+        </button>
+      </div>
     </div>
   );
 };

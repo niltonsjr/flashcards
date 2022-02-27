@@ -1,0 +1,50 @@
+.usuario-card-container {
+  display: flex;
+  flex-direction: column;
+  min-width: 380px;
+  padding: 10px;
+  margin: 0 auto 15px;
+}
+
+.usuario-card-datos h4 {
+  font-style: normal;
+  font-weight: 600;
+  font-size: 18px;
+  line-height: 21px;
+}
+
+.usuario-card-datos span {
+  margin: 0 5px 10px 0;
+  font-weight: 500;
+}
+
+.usuario-card-buttons-container {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+.boton-usuario-card {
+  width: 100%;
+}
+
+.boton-usuario-card:first-child {
+  margin-right: 10px;
+}
+
+@media (min-width: 576px) {
+  .usuario-card-container {
+    flex-direction: row;
+    justify-content: space-between;
+    padding: 10px 15px;
+  }
+
+  .usuario-card-datos span {
+    margin: 0 5px 0 0;
+  }
+
+  .boton-usuario-card {
+    width: 100px;
+    height: 50px;
+  }
+}
