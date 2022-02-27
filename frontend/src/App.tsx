@@ -21,7 +21,7 @@ const App = () => {
     <AuthContext.Provider value={{ authContextData, setAuthContextData }}>
       <CustomRouter history={history}>
         <ToastContainer
-          autoClose={2000}
+          autoClose={5000}
           pauseOnFocusLoss
           draggable
           pauseOnHover

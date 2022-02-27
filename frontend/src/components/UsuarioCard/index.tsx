@@ -11,7 +11,7 @@ type Props = {
 
 const UsuarioCard = ({ usuario, onDelete }: Props) => {
   const handleDelete = (usuarioId: number) => {
-    if (!window.confirm("¿Está seguro que desea borrar la tarjeta?")) {
+    if (!window.confirm("Al borrar el usuario, se borrarán todas las tarjetas y categorias asociadas a este usuario. \n¿Está seguro que desea borrar el usuario?")) {
       return;
     }
 
@@ -23,7 +23,9 @@ const UsuarioCard = ({ usuario, onDelete }: Props) => {
 
     requestBackend(config).then(() => {
       onDelete();
-      toast.success("Usuario eliminada.");
+      toast.success("Usuario eliminado.");
+    }).catch((error) => {
+      toast.error(`Error al eliminar el usuario: ${error.response.data.message}`);
     });
   };
 
