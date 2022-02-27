@@ -49,7 +49,7 @@ const CategoriasList = () => {
     <>
       <div className="tarjeta-filter-crud-container base-card">
         <Link to="/admin/categorias/nueva">
-          <button className="btn btn-primary text-white fw-bold float-end">
+          <button className="btn btn-primary text-white fw-bold">
             Nueva Categoría
           </button>
         </Link>

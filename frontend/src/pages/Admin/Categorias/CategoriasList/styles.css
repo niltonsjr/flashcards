@@ -1,0 +1,8 @@
+.tarjeta-filter-crud-container {
+    display: flex;
+}
+
+.tarjeta-filter-crud-container a{
+    margin-left: auto;
+    margin-right: 0;
+} 
