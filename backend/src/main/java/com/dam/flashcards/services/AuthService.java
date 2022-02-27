@@ -26,7 +26,8 @@ public class AuthService {
 		}
 	}
 	
-	public void ValidarUsuarioLogadoOAdministrador(Long usuarioId) {
+	@Transactional
+	public void validarUsuarioLogadoOAdministrador(Long usuarioId) {
 		Usuario usuario = autenticado();		
 		if (!usuario.getId().equals(usuarioId) && !usuario.tieneRol("ROLE_ADMINISTRADOR")) {
 			throw new ForbiddenException("Acceso denegado.");

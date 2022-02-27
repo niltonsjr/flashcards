@@ -40,7 +40,7 @@ public class UsuarioService implements UserDetailsService {
 
 	@Autowired
 	private UsuarioRepository repository;
-	
+
 	@Autowired
 	private RolRepository rolRepository;
 
@@ -60,7 +60,7 @@ public class UsuarioService implements UserDetailsService {
 
 	@Transactional(readOnly = true)
 	public UsuarioDTO findById(Long id) {
-		authService.ValidarUsuarioLogadoOAdministrador(id);
+		authService.validarUsuarioLogadoOAdministrador(id);
 		Optional<Usuario> obj = repository.findById(id);
 		Usuario entity = obj.orElseThrow(() -> new ResourceNotFoundException("El usuario no existe en el sistema."));
 		return new UsuarioDTO(entity, entity.getCategorias(), entity.getTarjetas());
@@ -68,7 +68,7 @@ public class UsuarioService implements UserDetailsService {
 
 	@Transactional(readOnly = true)
 	public UsuarioBasicoDTO findBasicoById(Long id) {
-		authService.ValidarUsuarioLogadoOAdministrador(id);
+		authService.validarUsuarioLogadoOAdministrador(id);
 		Optional<Usuario> obj = repository.findById(id);
 		Usuario entity = obj.orElseThrow(() -> new ResourceNotFoundException("El usuario no existe en el sistema."));
 		return new UsuarioBasicoDTO(entity);
@@ -100,7 +100,7 @@ public class UsuarioService implements UserDetailsService {
 
 	@Transactional
 	public UsuarioDTO update(Long id, UsuarioUpdateDTO dto) {
-		authService.ValidarUsuarioLogadoOAdministrador(id);
+		authService.validarUsuarioLogadoOAdministrador(id);
 		Usuario entity;
 		try {
 			entity = repository.getById(id);
@@ -114,12 +114,12 @@ public class UsuarioService implements UserDetailsService {
 
 	@Transactional
 	public void updatePassword(Long id, NuevaContrasenaDTO dto) {
-		authService.ValidarUsuarioLogadoOAdministrador(id);
+		authService.validarUsuarioLogadoOAdministrador(id);
 		Usuario entity;
 		try {
 			entity = repository.getById(id);
 			entity.setContrasena(passwordEncoder.encode(dto.getNuevaContrasena()));
-			entity = repository.save(entity);
+			repository.save(entity);
 		} catch (EntityNotFoundException e) {
 			throw new ResourceNotFoundException("Usuario no encontrada: " + id);
 		}
@@ -127,13 +127,19 @@ public class UsuarioService implements UserDetailsService {
 	}
 
 	public void delete(Long id) {
-		try {
-			repository.deleteById(id);
-		} catch (EmptyResultDataAccessException e) {
-			throw new ResourceNotFoundException("Usuario no encontrada: " + id);
-		} catch (DataIntegrityViolationException e) {
-			throw new DatabaseException("Violación de integridad.");
+		Usuario usuario = authService.autenticado();
+		if (!usuario.getId().equals(id)) {
+			try {
+				repository.deleteById(id);
+			} catch (EmptyResultDataAccessException e) {
+				throw new ResourceNotFoundException("Usuario no encontrada: " + id);
+			} catch (DataIntegrityViolationException e) {
+				throw new DatabaseException("Violación de integridad.");
+			}
+		} else {
+			throw new DatabaseException("No es posible borrar el usuario desde el que se está accediendo.");
 		}
+
 	}
 
 	private void copyDtoToEntity(UsuarioDTO dto, Usuario entity) {
