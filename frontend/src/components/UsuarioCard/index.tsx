@@ -1,4 +1,5 @@
 import { AxiosRequestConfig } from "axios";
+import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import { Usuario } from "types/usuario";
 import { requestBackend } from "util/requests";
@@ -10,6 +11,8 @@ type Props = {
 };
 
 const UsuarioCard = ({ usuario, onDelete }: Props) => {
+  const navigate = useNavigate();
+
   const handleDelete = (usuarioId: number) => {
     if (!window.confirm("Al borrar el usuario, se borrarán todas las tarjetas y categorias asociadas a este usuario. \n¿Está seguro que desea borrar el usuario?")) {
       return;
@@ -28,6 +31,10 @@ const UsuarioCard = ({ usuario, onDelete }: Props) => {
       toast.error(`Error al eliminar el usuario: ${error.response.data.message}`);
     });
   };
+
+  const handleEdit = () => {
+    navigate(`/admin/usuarios/${usuario.id}`);
+  }
 
   return (
     <div className="usuario-card-container base-card">
@@ -48,8 +55,7 @@ const UsuarioCard = ({ usuario, onDelete }: Props) => {
       <div className="usuario-card-buttons-container">
         <button
           type="button"
-          onClick={() => handleDelete(usuario.id)}
-          // to={`/admin/tarjetas/${usuario.id}`}
+          onClick={handleEdit}
           className="btn btn-outline-success boton-usuario-card fw-bold"
         >
           Editar

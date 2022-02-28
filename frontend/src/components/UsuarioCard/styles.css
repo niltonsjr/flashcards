@@ -6,6 +6,12 @@
   margin: 0 auto 15px;
 }
 
+.usuario-card-datos {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
 .usuario-card-datos h4 {
   font-style: normal;
   font-weight: 500;
