@@ -1,10 +1,12 @@
-import { useState } from "react";
+import { AxiosRequestConfig } from "axios";
+import { useEffect, useState } from "react";
 import { Controller, useForm } from "react-hook-form";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import Select from "react-select";
+import { toast } from "react-toastify";
 import { Rol } from "types/rol";
 import { Usuario } from "types/usuario";
-import { getAuthData } from "util/storage";
+import { requestBackend } from "util/requests";
 import "./styles.css";
 
 type UrlParams = {
@@ -23,11 +25,75 @@ const UsuariosForm = () => {
   const navigate = useNavigate();
   const isEditing = usuarioId !== "nueva";
   const [selectRoles, setSelectRoles] = useState<Rol[]>([]);
-  const loggedUser = getAuthData();
+
+  useEffect(() => {
+    const config: AxiosRequestConfig = {
+      method: "GET",
+      url: "/roles",
+      withCredentials: true,
+    };
+
+    requestBackend(config).then((response) => {
+      setSelectRoles(response.data.content);
+    });
+  }, []);
+
+  useEffect(() => {
+    if (isEditing) {
+      const config: AxiosRequestConfig = {
+        method: "GET",
+        url: `/usuarios/basico/${usuarioId}`,
+        withCredentials: true,
+      };
+
+      requestBackend(config).then((response) => {
+        const usuario = response.data as Usuario;
+        setValue("nombreDeUsuario", usuario.nombreDeUsuario);
+        setValue("nombre", usuario.nombre);
+        setValue("apellidos", usuario.apellidos);
+        setValue("email", usuario.email);
+        setValue("roles", usuario.roles);
+        console.log(usuario);
+      });
+    }
+  }, [isEditing, setValue, usuarioId]);
+
+  const onSubmit = (formData: Usuario) => {
+    const data = {
+      ...formData,
+      nombreDeUsuario: formData.nombreDeUsuario,
+      nombre: formData.nombre,
+      apellidos: formData.apellidos,
+      email: formData.email,
+      roles: formData.roles,      
+    };
+
+    const config: AxiosRequestConfig = {
+      method: isEditing ? "PUT" : "POST",
+      url: isEditing ? `/usuarios/${usuarioId}` : `/usuarios`,
+      data,
+      withCredentials: true,
+    };
+
+    requestBackend(config)
+      .then(() => {
+        toast.success(
+          `Usuario ${isEditing ? "actualizado" : "creado"} de forma correcta.`
+        );
+        //navigate("/admin/tarjetas");
+      })
+      .catch(() => {
+        toast.error(
+          `Ocurrió un error al ${
+            isEditing ? "actualizar" : "crear"
+          } el usuario.`
+        );
+      });
+  };
 
   return (
     <div className="usuario-datos-container base-card">
-      <form onSubmit={() => {}}>
+      <form onSubmit={handleSubmit(onSubmit)}>
         <div className="row row-cols-lg-2 g-3 mb-3">
           <div className="col-12">
             <label htmlFor="nombreDeUsuario" className="form-label">
@@ -52,10 +118,11 @@ const UsuariosForm = () => {
                 {...field}
                 classNamePrefix="tarjeta-filter-select"
                 options={selectRoles}
-                getOptionLabel={(rol: Rol) => rol.nombre}
+                getOptionLabel={(rol: Rol) => rol.nombre.split("_")[1]}
                 getOptionValue={(rol: Rol) => String(rol.id)}
                 placeholder="Roles"
                 isClearable
+                isMulti
               />
             )}
           />
