@@ -97,7 +97,7 @@ const MisDatos = () => {
   };
 
   return (
-    <div className="mis-datos-container">
+    <div className="mis-datos-container base-card">
       <div className="mis-datos-form-container">
         <form onSubmit={handleSubmit(onSubmit)}>
           <div className="row row-cols-lg-2 g-3 mb-3">
