@@ -80,7 +80,7 @@ const UsuariosForm = () => {
         toast.success(
           `Usuario ${isEditing ? "actualizado" : "creado"} de forma correcta.`
         );
-        //navigate("/admin/tarjetas");
+        navigate("/admin/usuarios");
       })
       .catch(() => {
         toast.error(
@@ -90,6 +90,10 @@ const UsuariosForm = () => {
         );
       });
   };
+
+  const handleCancel = () => {
+    navigate("/admin/usuarios");
+  }
 
   return (
     <div className="usuario-datos-container base-card">
@@ -187,7 +191,7 @@ const UsuariosForm = () => {
                 <button
                   type="button"
                   className="mis-datos-buttom mis-datos-cancelar-buttom col-12"
-                  onClick={() => {}}
+                  onClick={handleCancel}
                 >
                   Cancelar
                 </button>
