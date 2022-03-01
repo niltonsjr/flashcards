@@ -19,16 +19,22 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.dam.flashcards.dto.CategoriaDTO;
 import com.dam.flashcards.dto.NuevaContrasenaDTO;
 import com.dam.flashcards.dto.RolDTO;
+import com.dam.flashcards.dto.TarjetaDTO;
 import com.dam.flashcards.dto.UsuarioBasicoDTO;
 import com.dam.flashcards.dto.UsuarioDTO;
 import com.dam.flashcards.dto.UsuarioInsertDTO;
 import com.dam.flashcards.dto.UsuarioRegistroDTO;
 import com.dam.flashcards.dto.UsuarioUpdateDTO;
+import com.dam.flashcards.entities.Categoria;
 import com.dam.flashcards.entities.Rol;
+import com.dam.flashcards.entities.Tarjeta;
 import com.dam.flashcards.entities.Usuario;
+import com.dam.flashcards.repositories.CategoriaRepository;
 import com.dam.flashcards.repositories.RolRepository;
+import com.dam.flashcards.repositories.TarjetaRepository;
 import com.dam.flashcards.repositories.UsuarioRepository;
 import com.dam.flashcards.services.exceptions.DatabaseException;
 import com.dam.flashcards.services.exceptions.ResourceNotFoundException;
@@ -43,6 +49,12 @@ public class UsuarioService implements UserDetailsService {
 
 	@Autowired
 	private RolRepository rolRepository;
+
+	@Autowired
+	private CategoriaRepository categoriaRepository;
+
+	@Autowired
+	private TarjetaRepository tarjetaRepository;
 
 	@Autowired
 	private AuthService authService;
@@ -147,19 +159,30 @@ public class UsuarioService implements UserDetailsService {
 		entity.setNombre(dto.getNombre());
 		entity.setApellidos(dto.getApellidos());
 		entity.setEmail(dto.getEmail());
-		/*
-		 * entity.getCategorias().clear(); for (CategoriaDTO catDto :
-		 * dto.getCategorias()) { Categoria categoria =
-		 * categoriaRepository.getById(catDto.getId());
-		 * entity.getCategorias().add(categoria); }
-		 * 
-		 * entity.getTarjetas().clear(); for (TarjetaDTO tarDto : dto.getTarjetas()) {
-		 * Tarjeta tarjeta = tarjetaRepository.getById(tarDto.getId());
-		 * entity.getTarjetas().add(tarjeta); }
-		 * 
-		 * entity.getRoles().clear(); for (RolDTO rolDto : dto.getRoles()) { Rol rol =
-		 * rolRepository.getById(rolDto.getId()); entity.getRoles().add(rol); }
-		 */
+
+		if (!dto.getCategorias().isEmpty()) {
+			entity.getCategorias().clear();
+			for (CategoriaDTO catDto : dto.getCategorias()) {
+				Categoria categoria = categoriaRepository.getById(catDto.getId());
+				entity.getCategorias().add(categoria);
+			}
+		}
+
+		if (!dto.getTarjetas().isEmpty()) {
+			entity.getTarjetas().clear();
+			for (TarjetaDTO tarDto : dto.getTarjetas()) {
+				Tarjeta tarjeta = tarjetaRepository.getById(tarDto.getId());
+				entity.getTarjetas().add(tarjeta);
+			}
+		}
+
+		if (!dto.getRoles().isEmpty()) {
+			entity.getRoles().clear();
+			for (RolDTO rolDto : dto.getRoles()) {
+				Rol rol = rolRepository.getById(rolDto.getId());
+				entity.getRoles().add(rol);
+			}
+		}
 	}
 
 	@Override
