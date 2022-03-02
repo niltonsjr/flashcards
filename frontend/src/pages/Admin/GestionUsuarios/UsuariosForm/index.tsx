@@ -23,7 +23,7 @@ const UsuariosForm = () => {
   } = useForm<Usuario>();
   const { usuarioId } = useParams<UrlParams>();
   const navigate = useNavigate();
-  const isEditing = usuarioId !== "nueva";
+  const isEditing = usuarioId !== "nuevo";
   const [selectRoles, setSelectRoles] = useState<Rol[]>([]);
 
   useEffect(() => {
@@ -65,7 +65,8 @@ const UsuariosForm = () => {
       nombre: formData.nombre,
       apellidos: formData.apellidos,
       email: formData.email,
-      roles: formData.roles,      
+      roles: formData.roles,
+      contrasena: 123456
     };
 
     const config: AxiosRequestConfig = {
@@ -93,7 +94,7 @@ const UsuariosForm = () => {
 
   const handleCancel = () => {
     navigate("/admin/usuarios");
-  }
+  };
 
   return (
     <div className="usuario-datos-container base-card">
@@ -185,40 +186,23 @@ const UsuariosForm = () => {
           </div>
         )}
         <div className="row row-cols-lg-2 row-cols-sm-2 g-3">
-          {isEditing ? (
-            <>
-              <div className="col-12">
-                <button
-                  type="button"
-                  className="mis-datos-buttom mis-datos-cancelar-buttom col-12"
-                  onClick={handleCancel}
-                >
-                  Cancelar
-                </button>
-              </div>
-              <div className="col-12">
-                <button
-                  type="submit"
-                  className="mis-datos-buttom mis-datos-editar-buttom col-12"
-                >
-                  Aceptar
-                </button>
-              </div>
-            </>
-          ) : (
-            <>
-              <div className="col-12"></div>
-              <div className="col-12">
-                <button
-                  type="button"
-                  className="mis-datos-buttom mis-datos-editar-buttom col-12"
-                  onClick={() => {}}
-                >
-                  Editar
-                </button>
-              </div>
-            </>
-          )}
+          <div className="col-12">
+            <button
+              type="button"
+              className="mis-datos-buttom mis-datos-cancelar-buttom col-12"
+              onClick={handleCancel}
+            >
+              Cancelar
+            </button>
+          </div>
+          <div className="col-12">
+            <button
+              type="submit"
+              className="mis-datos-buttom mis-datos-editar-buttom col-12"
+            >
+              Aceptar
+            </button>
+          </div>
         </div>
       </form>
     </div>
