@@ -42,7 +42,7 @@ public class CategoriaService {
 	public Page<CategoriaDTO> findAllPaged(Pageable pageable) {
 		Usuario usuario = authService.autenticado();
 		Page<Categoria> list = repository.findByUsuario(usuario, pageable);
-		return list.map(x -> new CategoriaDTO(x));
+		return list.map(CategoriaDTO::new);
 	}
 
 	@Transactional(readOnly = true)

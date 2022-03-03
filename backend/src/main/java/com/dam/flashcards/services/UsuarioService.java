@@ -67,7 +67,7 @@ public class UsuarioService implements UserDetailsService {
 	public Page<UsuarioDTO> findAllPaged(Long rolId, Pageable pageable) {
 		Rol rol = (rolId == 0) ? null : rolRepository.getById(rolId);
 		Page<Usuario> list = repository.findByRoles(rol, pageable);
-		return list.map(x -> new UsuarioDTO(x));
+		return list.map(UsuarioDTO::new);
 	}
 
 	@Transactional(readOnly = true)

@@ -27,7 +27,7 @@ public class RolService {
 	@Transactional(readOnly = true)
 	public Page<RolDTO> findAllPaged(Pageable pageable) {
 		Page<Rol> list = repository.findAll(pageable);
-		return list.map(x -> new RolDTO(x));
+		return list.map(RolDTO::new);
 	}
 
 	@Transactional(readOnly = true)

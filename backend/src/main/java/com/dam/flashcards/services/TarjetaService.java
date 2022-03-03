@@ -43,7 +43,7 @@ public class TarjetaService {
 		Usuario usuario = authService.autenticado();
 		Categoria categoria = (categoriaId == 0) ? null : categoriaRepository.getById(categoriaId);
 		Page<Tarjeta> list = repository.findByUsuarioAndCategoria(usuario, categoria, texto, pageable);
-		return list.map(x -> new TarjetaBasicaDTO(x));
+		return list.map(TarjetaBasicaDTO::new);
 	}
 
 	@Transactional(readOnly = true)
