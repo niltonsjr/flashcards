@@ -34,7 +34,7 @@ const UsuariosList = () => {
       withCredentials: true,
       params: {
         page: controlComponentsData.activePage,
-        size: 3,
+        size: 10,
         rolId: controlComponentsData.filterData.rol?.id,
       },
     };

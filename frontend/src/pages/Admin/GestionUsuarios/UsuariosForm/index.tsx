@@ -25,6 +25,7 @@ const UsuariosForm = () => {
   const navigate = useNavigate();
   const isEditing = usuarioId !== "nuevo";
   const [selectRoles, setSelectRoles] = useState<Rol[]>([]);
+  const contrasenaPorDefecto = 123456;
 
   useEffect(() => {
     const config: AxiosRequestConfig = {
@@ -66,7 +67,7 @@ const UsuariosForm = () => {
       apellidos: formData.apellidos,
       email: formData.email,
       roles: formData.roles,
-      contrasena: isEditing ? null : 123456
+      contrasena: isEditing ? null : contrasenaPorDefecto,
     };
 
     const config: AxiosRequestConfig = {
@@ -89,6 +90,27 @@ const UsuariosForm = () => {
             isEditing ? "actualizar" : "crear"
           } el usuario.`
         );
+      });
+  };
+
+  const handleContranaPorDefecto = () => {
+    const data = {
+      nuevaContrasena: contrasenaPorDefecto,
+    };
+
+    const config: AxiosRequestConfig = {
+      method: "PUT",
+      url: `/usuarios/nuevacontrasena/${usuarioId}`,
+      data,
+      withCredentials: true,
+    };
+
+    requestBackend(config)
+      .then((response) => {
+        toast.success("Contraseña actualizada correctamente.");
+      })
+      .catch((error) => {
+        toast.error(`Error al actualizar la contraseña: ${error.message}`);
       });
   };
 
@@ -181,9 +203,18 @@ const UsuariosForm = () => {
           </div>
         </div>
         {isEditing && (
-          <div className="row row-cols-lg-1 g-3 mb-3 mis-datos-cambiar-contrasena-link">
-            <Link to="/admin/cambiar-contrasena">Resetear contraseña</Link>
+          <div className="col-12">
+            <button
+              type="button"
+              className="btn btn-outline-danger col-12 fw-bold"
+              onClick={handleContranaPorDefecto}
+            >
+              Asignar contraseña por defecto
+            </button>
           </div>
+          // <div className="row row-cols-lg-1 g-3 mb-3 mis-datos-cambiar-contrasena-link">
+          //   <Link to="/admin/cambiar-contrasena">Resetear contraseña</Link>
+          // </div>
         )}
         <div className="row row-cols-lg-2 row-cols-sm-2 g-3">
           <div className="col-12">
