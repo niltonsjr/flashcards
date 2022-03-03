@@ -66,7 +66,7 @@ const UsuariosForm = () => {
       apellidos: formData.apellidos,
       email: formData.email,
       roles: formData.roles,
-      contrasena: 123456
+      contrasena: isEditing ? null : 123456
     };
 
     const config: AxiosRequestConfig = {
