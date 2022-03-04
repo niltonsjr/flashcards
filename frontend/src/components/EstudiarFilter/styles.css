@@ -1,0 +1,32 @@
+.estudiar-filter-crud-container {
+  min-width: 380px;
+  display: flex;
+  flex-direction: column;
+  padding: 10px;
+  margin-bottom: 15px;
+}
+
+.estudiar-filter-categoria-contaier {
+  flex: 1;
+}
+
+.estudiar-filter-select__indicator-separator {
+  display: none;
+}
+
+@media (min-width: 962px) {
+  .estudiar-filter-form {
+    display: flex;
+    flex: 1;
+  }
+
+  .estudiar-filter-select__control {
+    height: 42px;
+  }
+}
+
+@media (min-width: 1200px) {
+  .estudiar-filter-crud-container {
+    padding: 8px 15px;
+  }
+}

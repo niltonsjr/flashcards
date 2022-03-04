@@ -1,20 +1,20 @@
-import TarjetaFilter, { TarjetaFilterData } from "components/TarjetaFilter";
+import EstudiarFilter, { EstudiarFilterData } from "components/EstudiarFilter";
 import { useState } from "react";
 import "./styles.css";
 
 type ControlComponentsData = {
   activePage: number;
-  filterData: TarjetaFilterData;
+  filterData: EstudiarFilterData;
 };
 
 const Estudiar = () => {
   const [controlComponentsData, setControlComponentsData] =
     useState<ControlComponentsData>({
       activePage: 0,
-      filterData: { texto: "", categoria: null },
+      filterData: { categoria: null },
     });
 
-  const handleSubmitFilter = (data: TarjetaFilterData) => {
+  const handleSubmitFilter = (data: EstudiarFilterData) => {
     setControlComponentsData({
       activePage: 0,
       filterData: data,
@@ -24,7 +24,7 @@ const Estudiar = () => {
   return (
     <div className="estudiar-container">
       <div className="estudiar-filter-container">
-        <TarjetaFilter onSubmitFilter={handleSubmitFilter} />
+        <EstudiarFilter onSubmitFilter={handleSubmitFilter} />
       </div>
       <div className="estudiar-card-container">
         <div className="flip-card">
