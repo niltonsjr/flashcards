@@ -6,7 +6,6 @@ import { useCallback, useEffect, useState } from "react";
 import { SpringPage } from "types/spring";
 import { Tarjeta } from "types/tarjeta";
 import { requestBackend } from "util/requests";
-import "./styles.css";
 
 type ControlComponentsData = {
   activePage: number;

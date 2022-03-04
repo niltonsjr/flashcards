@@ -4,9 +4,9 @@ import Categorias from "./Categorias";
 import MisDatos from "./MisDatos";
 import Navbar from "./Navbar";
 import Tarjetas from "./Tarjetas";
-import "./styles.css";
 import CambiarContrasena from "./MisDatos/CambiarContrasena";
 import GestionUsuarios from "./GestionUsuarios";
+import "./styles.css";
 
 
 const Admin = () => {

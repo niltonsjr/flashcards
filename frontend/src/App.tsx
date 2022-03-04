@@ -7,6 +7,7 @@ import Navbar from "components/Navbar";
 import Admin from "pages/Admin";
 import Auth from "pages/Admin/Auth";
 import Home from "pages/Home";
+import Estudiar from "pages/Estudiar";
 import history from "util/history";
 import "react-toastify/dist/ReactToastify.css";
 import "./assets/styles/custom.scss";
@@ -31,6 +32,7 @@ const App = () => {
           <Route path="/*" element={<Home />} />
           <Route path="/auth/*" element={<Auth />} />
           <Route path="admin/*" element={<Admin />} />
+          <Route path="estudiar/*" element={<Estudiar />} />
         </Routes>
       </CustomRouter>
     </AuthContext.Provider>
