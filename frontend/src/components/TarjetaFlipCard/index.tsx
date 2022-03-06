@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { Tarjeta } from "types/tarjeta";
 import "./styles.css";
 
@@ -6,10 +7,15 @@ type Props = {
 };
 
 const TarjetaFlipCard = ({ tarjeta }: Props) => {
+  const [showBack, setShowBack] = useState(false);
+  const handleClick = () => {
+      setShowBack(!showBack);
+  };
+
   return (
     <>
-      <div className="estudiar-card-container">
-        <div className="flip-card">
+      <div className="estudiar-card-container" onClick={handleClick}>
+        <div className={`flip-card ${showBack ? "showBack" : ""}`}>
           <div className="front estudiar-card">
             <span>{tarjeta.frontal}</span>
           </div>

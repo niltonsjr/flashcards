@@ -13,11 +13,11 @@
   width: 100%;
   background: #f8f9fa;
   transform-style: preserve-3d;
-  transition: all 1s ease-in-out;
+  transition: .5s linear .1s;
   border-radius: 10px;
 }
 
-.estudiar-card-container:active .flip-card {
+.showBack {
   transform: rotateY(-180deg);
 }
 
