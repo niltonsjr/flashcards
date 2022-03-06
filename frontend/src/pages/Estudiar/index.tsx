@@ -1,5 +1,10 @@
+import { AxiosRequestConfig } from "axios";
 import EstudiarFilter, { EstudiarFilterData } from "components/EstudiarFilter";
-import { useState } from "react";
+import TarjetaFlipCard from "components/TarjetaFlipCard";
+import { useCallback, useEffect, useState } from "react";
+import { SpringPage } from "types/spring";
+import { Tarjeta } from "types/tarjeta";
+import { requestBackend } from "util/requests";
 import "./styles.css";
 
 type ControlComponentsData = {
@@ -8,11 +13,33 @@ type ControlComponentsData = {
 };
 
 const Estudiar = () => {
+  const [page, setPage] = useState<SpringPage<Tarjeta>>();
   const [controlComponentsData, setControlComponentsData] =
     useState<ControlComponentsData>({
       activePage: 0,
       filterData: { categoria: null },
     });
+
+  const getTarjetas = useCallback(() => {
+    const config: AxiosRequestConfig = {
+      method: "GET",
+      url: "/tarjetas",
+      withCredentials: true,
+      params: {
+        page: controlComponentsData.activePage,
+        size: 1,
+        categoriaId: controlComponentsData.filterData.categoria?.id,
+      },
+    };
+
+    requestBackend(config).then((response) => {
+      setPage(response.data);
+    });
+  }, [controlComponentsData]);
+
+  useEffect(() => {
+    getTarjetas();
+  }, [getTarjetas]);
 
   const handleSubmitFilter = (data: EstudiarFilterData) => {
     setControlComponentsData({
@@ -26,16 +53,12 @@ const Estudiar = () => {
       <div className="estudiar-filter-container">
         <EstudiarFilter onSubmitFilter={handleSubmitFilter} />
       </div>
-      <div className="estudiar-card-container">
-        <div className="flip-card">
-          <div className="front estudiar-card">
-            <span> front</span>
-          </div>
-          <div className="back estudiar-card">
-            <span> back</span>
-          </div>
+      {page?.content.map((tarjeta) => (
+        <div key={tarjeta.id}>
+          <TarjetaFlipCard tarjeta={tarjeta} />
         </div>
-      </div>
+      ))}
+
       <div className="estudiar-botones-container">
         <button className="btn btn-outline-danger boton-estudiar-card fw-bold">
           No lo sé

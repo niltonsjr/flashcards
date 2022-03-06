@@ -4,47 +4,6 @@
   padding: 10px;
 }
 
-.estudiar-card-container {
-  position: relative;
-  height: 330px;
-  width: 100%;
-  min-width: 380px;
-  perspective: 1000px;
-  margin: 0 auto;
-}
-
-.estudiar-card-container .flip-card {
-  position: relative;
-  height: 100%;
-  width: 100%;
-  background: #f8f9fa;
-  transform-style: preserve-3d;
-  transition: all 1s ease-in-out;
-  border-radius: 10px;
-}
-
-.estudiar-card-container:hover .flip-card {
-  transform: rotateY(-180deg);
-}
-
-.flip-card .estudiar-card {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  height: 100%;
-  width: 100%;
-  background: #f8f9fa;
-  box-shadow: 0px 4px 20px rgba(0, 0, 0, 0.25);
-  border-radius: 10px;
-  backface-visibility: hidden;
-  position: absolute;
-  padding: 20px;
-}
-
-.back.estudiar-card {
-  transform: rotateY(-180deg);
-}
-
 .estudiar-botones-container {
   display: flex;
   justify-content: space-around;
@@ -61,10 +20,6 @@
 }
 
 @media (min-width: 576px) {
-  .estudiar-card-container {
-    padding: 0 10px;
-  }
-
   .estudiar-botones-container {
     padding: 0 10px;
   }
@@ -75,33 +30,18 @@
     padding: 20px;
   }
 
-  .estudiar-card-container {
-    padding: 0 20px;
-    perspective: 1000px;
-  }
-
   .estudiar-botones-container {
     padding: 0 20px;
   }
 }
 
 @media (min-width: 992px) {
-  .estudiar-card-container {
-    padding: 10px 100px 0;
-    perspective: 1500px;
-  }
-
   .estudiar-botones-container {
     padding: 0 100px;
   }
 }
 
 @media (min-width: 1200px) {
-  .estudiar-card-container {
-    padding: 10px 150px 0;
-    perspective: 2000px;
-  }
-
   .estudiar-botones-container {
     padding: 10px 150px 0;
   }
