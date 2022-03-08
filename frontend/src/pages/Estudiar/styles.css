@@ -4,45 +4,8 @@
   padding: 10px;
 }
 
-.estudiar-botones-container {
-  display: flex;
-  justify-content: space-around;
-  margin-top: 20px;
-  min-width: 380px;
-}
-
-.boton-estudiar-card {
-  width: 100%;
-}
-
-.boton-estudiar-card:first-child {
-  margin-right: 10px;
-}
-
-@media (min-width: 576px) {
-  .estudiar-botones-container {
-    padding: 0 10px;
-  }
-}
-
 @media (min-width: 768px) {
   .estudiar-container {
     padding: 20px;
-  }
-
-  .estudiar-botones-container {
-    padding: 0 20px;
-  }
-}
-
-@media (min-width: 992px) {
-  .estudiar-botones-container {
-    padding: 0 100px;
-  }
-}
-
-@media (min-width: 1200px) {
-  .estudiar-botones-container {
-    padding: 10px 150px 0;
   }
 }

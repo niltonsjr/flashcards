@@ -14,6 +14,7 @@ type ControlComponentsData = {
 
 const Estudiar = () => {
   const [page, setPage] = useState<SpringPage<Tarjeta>>();
+
   const [controlComponentsData, setControlComponentsData] =
     useState<ControlComponentsData>({
       activePage: 0,
@@ -23,7 +24,7 @@ const Estudiar = () => {
   const getTarjetas = useCallback(() => {
     const config: AxiosRequestConfig = {
       method: "GET",
-      url: "/tarjetas",
+      url: "/tarjetas/completa",
       withCredentials: true,
       params: {
         page: controlComponentsData.activePage,
@@ -55,18 +56,9 @@ const Estudiar = () => {
       </div>
       {page?.content.map((tarjeta) => (
         <div key={tarjeta.id}>
-          <TarjetaFlipCard tarjeta={tarjeta} />
+          <TarjetaFlipCard tarjeta={tarjeta} onReply={getTarjetas} />
         </div>
       ))}
-
-      <div className="estudiar-botones-container">
-        <button className="btn btn-outline-danger boton-estudiar-card fw-bold">
-          No lo sé
-        </button>
-        <button className="btn btn-outline-success boton-estudiar-card fw-bold">
-          Lo sé
-        </button>
-      </div>
     </div>
   );
 };

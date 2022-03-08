@@ -13,7 +13,7 @@
   width: 100%;
   background: #f8f9fa;
   transform-style: preserve-3d;
-  transition: .5s linear .1s;
+  transition: 0.5s linear 0.1s;
   border-radius: 10px;
 }
 
@@ -39,8 +39,27 @@
   transform: rotateY(-180deg);
 }
 
+.estudiar-botones-container {
+  display: flex;
+  justify-content: space-around;
+  margin-top: 20px;
+  min-width: 380px;
+}
+
+.boton-estudiar-card {
+  width: 100%;
+}
+
+.boton-estudiar-card:first-child {
+  margin-right: 10px;
+}
+
 @media (min-width: 576px) {
   .estudiar-card-container {
+    padding: 0 10px;
+  }
+
+  .estudiar-botones-container {
     padding: 0 10px;
   }
 }
@@ -50,6 +69,10 @@
     padding: 0 20px;
     perspective: 1000px;
   }
+
+  .estudiar-botones-container {
+    padding: 0 20px;
+  }
 }
 
 @media (min-width: 992px) {
@@ -57,11 +80,19 @@
     padding: 10px 100px 0;
     perspective: 1500px;
   }
+
+  .estudiar-botones-container {
+    padding: 0 100px;
+  }
 }
 
 @media (min-width: 1200px) {
   .estudiar-card-container {
     padding: 10px 150px 0;
     perspective: 2000px;
+  }
+
+  .estudiar-botones-container {
+    padding: 10px 150px 0;
   }
 }
