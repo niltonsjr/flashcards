@@ -47,6 +47,14 @@ public class TarjetaService {
 	}
 
 	@Transactional(readOnly = true)
+	public Page<TarjetaDTO> findAllCompletePaged(Long categoriaId, String texto, Pageable pageable) {
+		Usuario usuario = authService.autenticado();
+		Categoria categoria = (categoriaId == 0) ? null : categoriaRepository.getById(categoriaId);
+		Page<Tarjeta> list = repository.findByUsuarioAndCategoria(usuario, categoria, texto, pageable);
+		return list.map(TarjetaDTO::new);
+	}
+
+	@Transactional(readOnly = true)
 	public TarjetaDTO findById(Long id) {
 		Optional<Tarjeta> obj = repository.findById(id);
 		Tarjeta entity = obj.orElseThrow(() -> new ResourceNotFoundException("La tarjeta no existe en el sistema."));

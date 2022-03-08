@@ -38,6 +38,14 @@ public class TarjetaResource {
 		return ResponseEntity.ok().body(list);
 	}
 
+	@GetMapping(value = "/completa")
+	public ResponseEntity<Page<TarjetaDTO>> findAllComplete(Pageable pageable,
+			@RequestParam(value = "categoriaId", defaultValue = "0") Long categoriaId,
+			@RequestParam(value = "texto", defaultValue = "") String texto) {
+		Page<TarjetaDTO> list = service.findAllCompletePaged(categoriaId, texto, pageable);
+		return ResponseEntity.ok().body(list);
+	}
+
 	@GetMapping(value = "/{id}")
 	public ResponseEntity<TarjetaDTO> findById(@PathVariable Long id) {
 		TarjetaDTO dto = service.findById(id);
