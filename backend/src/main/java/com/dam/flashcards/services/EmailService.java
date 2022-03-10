@@ -3,6 +3,7 @@ package com.dam.flashcards.services;
 import java.io.IOException;
 
 import com.dam.flashcards.dto.EmailDTO;
+import com.dam.flashcards.services.exceptions.EmailException;
 import com.sendgrid.Method;
 import com.sendgrid.Request;
 import com.sendgrid.Response;
@@ -38,12 +39,12 @@ public class EmailService {
             Response response = sendGrid.api(request);
             if (response.getStatusCode() >= 400 && response.getStatusCode() <= 500) {
                 LOG.error("Error al enviar email:" + response.getBody());
-            } else {
-                LOG.info("¡Email enviado!: " + response.getStatusCode());
+                throw new EmailException(response.getBody());
             }
+            LOG.info("¡Email enviado!: " + response.getStatusCode());
 
         } catch (IOException e) {
-            e.printStackTrace();
+            throw new EmailException(e.getMessage());
         }
     }
 

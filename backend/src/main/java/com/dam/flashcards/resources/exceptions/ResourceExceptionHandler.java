@@ -4,17 +4,18 @@ import java.time.Instant;
 
 import javax.servlet.http.HttpServletRequest;
 
+import com.dam.flashcards.services.exceptions.DatabaseException;
+import com.dam.flashcards.services.exceptions.EmailException;
+import com.dam.flashcards.services.exceptions.ForbiddenException;
+import com.dam.flashcards.services.exceptions.ResourceNotFoundException;
+import com.dam.flashcards.services.exceptions.UnauthorizedException;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
-
-import com.dam.flashcards.services.exceptions.DatabaseException;
-import com.dam.flashcards.services.exceptions.ForbiddenException;
-import com.dam.flashcards.services.exceptions.ResourceNotFoundException;
-import com.dam.flashcards.services.exceptions.UnauthorizedException;
 
 @ControllerAdvice
 public class ResourceExceptionHandler {
@@ -40,6 +41,19 @@ public class ResourceExceptionHandler {
 		err.setTimestamp(Instant.now());
 		err.setStatus(status.value());
 		err.setError("Database exception.");
+		err.setMessage(e.getMessage());
+		err.setPath(request.getRequestURI());
+		return ResponseEntity.status(status).body(err);
+	}
+
+	@ExceptionHandler(EmailException.class)
+	public ResponseEntity<StandardError> email(EmailException e, HttpServletRequest request) {
+		HttpStatus status = HttpStatus.BAD_REQUEST;
+
+		StandardError err = new StandardError();
+		err.setTimestamp(Instant.now());
+		err.setStatus(status.value());
+		err.setError("Email error.");
 		err.setMessage(e.getMessage());
 		err.setPath(request.getRequestURI());
 		return ResponseEntity.status(status).body(err);
