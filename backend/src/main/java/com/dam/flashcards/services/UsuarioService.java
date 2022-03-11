@@ -92,6 +92,20 @@ public class UsuarioService implements UserDetailsService {
 	}
 
 	@Transactional
+	public void updateResetToken(String token, String email) {
+		Optional<Usuario> obj = repository.findByEmail(email);
+		Usuario usuario = obj.orElseThrow(() -> new ResourceNotFoundException("Correo no existente"));
+		usuario.setResetToken(token);
+		repository.save(usuario);
+	}
+
+	@Transactional(readOnly = true)
+	public Usuario findUsuarioByResetToken(String token) {
+		Optional<Usuario> obj = repository.findByResetToken(token);
+		return obj.orElseThrow(() -> new ResourceNotFoundException("Correo no existente"));
+	}
+
+	@Transactional
 	public UsuarioDTO register(UsuarioRegistroDTO dto) {
 		Usuario entity = new Usuario();
 		dto.getRoles().add(new RolDTO(1L, "ROLE_USUARIO"));
@@ -131,6 +145,7 @@ public class UsuarioService implements UserDetailsService {
 		try {
 			entity = repository.getById(id);
 			entity.setContrasena(passwordEncoder.encode(dto.getNuevaContrasena()));
+			entity.setResetToken(null);
 			repository.save(entity);
 		} catch (EntityNotFoundException e) {
 			throw new ResourceNotFoundException("Usuario no encontrada: " + id);

@@ -29,7 +29,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 public class Usuario implements UserDetails {
 
 	private static final long serialVersionUID = 1L;
-	
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
@@ -50,6 +50,8 @@ public class Usuario implements UserDetails {
 
 	@OneToMany(mappedBy = "usuario", cascade = CascadeType.REMOVE)
 	private Set<Categoria> categorias = new HashSet<>();
+
+	private String resetToken;
 
 	public Usuario() {
 	}
@@ -121,6 +123,14 @@ public class Usuario implements UserDetails {
 
 	public Set<Categoria> getCategorias() {
 		return categorias;
+	}
+
+	public String getResetToken() {
+		return this.resetToken;
+	}
+
+	public void setResetToken(String resetToken) {
+		this.resetToken = resetToken;
 	}
 
 	@Override
