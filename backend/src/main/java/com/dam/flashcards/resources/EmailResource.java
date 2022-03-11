@@ -21,6 +21,5 @@ public class EmailResource {
     public ResponseEntity<Void> send(@RequestBody EmailDTO dto) {
         service.sendEmail(dto);
         return ResponseEntity.noContent().build();
-    }
-    
+    }    
 }
