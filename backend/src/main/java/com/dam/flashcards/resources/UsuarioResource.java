@@ -4,6 +4,13 @@ import java.net.URI;
 
 import javax.validation.Valid;
 
+import com.dam.flashcards.dto.NuevaContrasenaDTO;
+import com.dam.flashcards.dto.UsuarioBasicoDTO;
+import com.dam.flashcards.dto.UsuarioDTO;
+import com.dam.flashcards.dto.UsuarioInsertDTO;
+import com.dam.flashcards.dto.UsuarioUpdateDTO;
+import com.dam.flashcards.services.UsuarioService;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -19,13 +26,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
-import com.dam.flashcards.dto.NuevaContrasenaDTO;
-import com.dam.flashcards.dto.UsuarioBasicoDTO;
-import com.dam.flashcards.dto.UsuarioDTO;
-import com.dam.flashcards.dto.UsuarioInsertDTO;
-import com.dam.flashcards.dto.UsuarioUpdateDTO;
-import com.dam.flashcards.services.UsuarioService;
-
 @RestController
 @RequestMapping(value = "/usuarios")
 public class UsuarioResource {
@@ -34,7 +34,7 @@ public class UsuarioResource {
 	private UsuarioService service;
 
 	@GetMapping
-	public ResponseEntity<Page<UsuarioDTO>> findAll(Pageable pageable, 
+	public ResponseEntity<Page<UsuarioDTO>> findAll(Pageable pageable,
 			@RequestParam(value = "rolId", defaultValue = "1") Long rolId) {
 		Page<UsuarioDTO> list = service.findAllPaged(rolId, pageable);
 		return ResponseEntity.ok().body(list);
@@ -62,9 +62,9 @@ public class UsuarioResource {
 	@PutMapping(value = "/{id}")
 	public ResponseEntity<UsuarioDTO> update(@Valid @PathVariable Long id, @Valid @RequestBody UsuarioUpdateDTO dto) {
 		UsuarioDTO newDto = service.update(id, dto);
-		return ResponseEntity.ok().body(newDto);		
+		return ResponseEntity.ok().body(newDto);
 	}
-	
+
 	@PutMapping(value = "/nuevacontrasena/{id}")
 	public ResponseEntity<Void> updateContrasena(@PathVariable Long id, @RequestBody NuevaContrasenaDTO dto) {
 		service.updatePassword(id, dto);

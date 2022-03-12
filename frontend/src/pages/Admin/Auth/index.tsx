@@ -9,6 +9,7 @@ const Auth = () => {
         <Route index element={<Login />} />
         <Route path="login" element={<Login />} />
         <Route path="register" element={<Register />} />
+        <Route path="recover" element={<Register />} />
       </Routes>
     </div>
   );

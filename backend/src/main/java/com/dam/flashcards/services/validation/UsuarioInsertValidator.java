@@ -2,6 +2,7 @@ package com.dam.flashcards.services.validation;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
@@ -14,29 +15,30 @@ import com.dam.flashcards.repositories.UsuarioRepository;
 import com.dam.flashcards.resources.exceptions.FieldMessage;
 
 public class UsuarioInsertValidator implements ConstraintValidator<UsuarioInsertValid, UsuarioInsertDTO> {
-	
+
 	@Autowired
 	private UsuarioRepository repository;
-	
+
 	@Override
 	public void initialize(UsuarioInsertValid ann) {
 	}
 
 	@Override
 	public boolean isValid(UsuarioInsertDTO dto, ConstraintValidatorContext context) {
-		
+
 		List<FieldMessage> list = new ArrayList<>();
-		
-		Usuario usuario = repository.findByEmail(dto.getEmail());
-		if(usuario != null) {
+
+		Optional<Usuario> obj = repository.findByEmail(dto.getEmail());
+
+		if (obj.isPresent()) {
 			list.add(new FieldMessage("Email", "El correo electrónico ya existe."));
 		}
-		
-		usuario = repository.findByNombreDeUsuario(dto.getNombreDeUsuario());
-		if(usuario != null) {
+
+		obj = repository.findByNombreDeUsuario(dto.getNombreDeUsuario());
+		if (obj.isPresent()) {
 			list.add(new FieldMessage("nombreDeUsuario", "El nombre de usuario ya existe."));
 		}
-		
+
 		for (FieldMessage e : list) {
 			context.disableDefaultConstraintViolation();
 			context.buildConstraintViolationWithTemplate(e.getFieldMessage()).addPropertyNode(e.getFieldName())

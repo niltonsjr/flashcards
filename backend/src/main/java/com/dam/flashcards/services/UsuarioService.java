@@ -88,13 +88,14 @@ public class UsuarioService implements UserDetailsService {
 
 	@Transactional(readOnly = true)
 	public Usuario findUsuarioByNombreDeUsuario(String nombreDeUsuario) {
-		return repository.findByNombreDeUsuario(nombreDeUsuario);
+		Optional<Usuario> obj = repository.findByNombreDeUsuario(nombreDeUsuario);
+		return obj.orElseThrow(() -> new ResourceNotFoundException("El usuario no existe en el sistema."));
 	}
 
 	@Transactional
 	public void updateResetToken(String token, String email) {
 		Optional<Usuario> obj = repository.findByEmail(email);
-		Usuario usuario = obj.orElseThrow(() -> new ResourceNotFoundException("Correo no existente"));
+		Usuario usuario = obj.orElseThrow(() -> new ResourceNotFoundException("Usuario no encontrado"));
 		usuario.setResetToken(token);
 		repository.save(usuario);
 	}
@@ -102,7 +103,13 @@ public class UsuarioService implements UserDetailsService {
 	@Transactional(readOnly = true)
 	public Usuario findUsuarioByResetToken(String token) {
 		Optional<Usuario> obj = repository.findByResetToken(token);
-		return obj.orElseThrow(() -> new ResourceNotFoundException("Correo no existente"));
+		return obj.orElseThrow(() -> new ResourceNotFoundException("Usuario no encontrado"));
+	}
+
+	@Transactional(readOnly = true)
+	public Usuario findByUsuarioEmail(String email) {
+		Optional<Usuario> obj = repository.findByEmail(email);
+		return obj.orElseThrow(() -> new ResourceNotFoundException("Usuario no encontrado"));
 	}
 
 	@Transactional
@@ -202,13 +209,13 @@ public class UsuarioService implements UserDetailsService {
 
 	@Override
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-		Usuario usuario = repository.findByNombreDeUsuario(username);
-		if (usuario == null) {
+		Optional<Usuario> obj = repository.findByNombreDeUsuario(username);
+		if (!obj.isPresent()) {
 			logger.error("Usuario no encontrado: " + username);
 			throw new UsernameNotFoundException("Nombre de usuario no encontrado");
 		}
 		logger.info("Usuario encontrado: " + username);
-		return usuario;
+		return obj.get();
 	}
 
 }

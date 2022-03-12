@@ -2,6 +2,7 @@ package com.dam.flashcards.components;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.oauth2.common.DefaultOAuth2AccessToken;
@@ -21,7 +22,8 @@ public class JwtTokenEnhancer implements TokenEnhancer {
 
 	@Override
 	public OAuth2AccessToken enhance(OAuth2AccessToken accessToken, OAuth2Authentication authentication) {
-		Usuario usuario = usuarioRepository.findByNombreDeUsuario(authentication.getName());
+		Optional<Usuario> obj = usuarioRepository.findByNombreDeUsuario(authentication.getName());
+		Usuario usuario = obj.orElseThrow();
 		Map<String, Object> map = new HashMap<>();
 		map.put("nombre", usuario.getNombre());
 		map.put("apellidos", usuario.getApellidos());

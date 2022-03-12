@@ -10,6 +10,7 @@ public class MockEmailService implements EmailService {
 
     public void sendEmail(EmailDTO dto) {
         LOG.info("Enviando email a: " + dto.getTo());
+        LOG.info("Cuerpo del mensaje: " + dto.getBody());
         LOG.info("¡Email enviado!");
     }
 
