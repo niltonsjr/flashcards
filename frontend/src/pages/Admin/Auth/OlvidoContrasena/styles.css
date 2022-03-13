@@ -1,0 +1,8 @@
+.login-page-container {
+    background-color: #FFE749;
+    display: flex;
+    justify-content: center;
+    min-width: 400px;
+    height: 88vh;
+    align-items: center;
+}

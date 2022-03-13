@@ -16,36 +16,38 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 @RestController
 @RequestMapping(value = "/contrasena_olvidada")
 public class OlvidoContrasenaResource {
 
-    @Autowired
-    private UsuarioService service;
+        @Autowired
+        private UsuarioService service;
 
-    @Autowired
-    private EmailService emailService;
+        @Autowired
+        private EmailService emailService;
 
-    @PostMapping
-    public ResponseEntity<Void> enviarEmailContrasenaOlvidada(@RequestBody UsuarioEmailDTO usuarioEmail,
-            HttpServletRequest request) {
-        Usuario usuario = service.findByUsuarioEmail(usuarioEmail.getEmail());
-        String token = UUID.randomUUID().toString();
-        service.updateResetToken(token, usuario.getEmail());
-        String resetContrasenaLink = "http://" + request.getServerName() + ":" + request.getServerPort()
-                + "/reset_contrasena?token=" + token;
-        EmailDTO emailDTO = new EmailDTO();
-        emailDTO.setFromEmail("contacto@niltonsj.es");
-        emailDTO.setFromName("FlashCards");
-        emailDTO.setReplyTo("contacto@niltonsj.es");
-        emailDTO.setTo(usuario.getEmail());
-        emailDTO.setSubject("Contraseña olvidada");
-        emailDTO.setBody(
-                "Para resetear su contraseña, por favor, pulse en el link siguiente: <br /> " + resetContrasenaLink);
-        emailDTO.setContentType("text/html");
-        emailService.sendEmail(emailDTO);
-        return ResponseEntity.ok().build();
-    }
+        @PostMapping
+        public ResponseEntity<Void> enviarEmailContrasenaOlvidada(@RequestBody UsuarioEmailDTO usuarioEmail,
+                        HttpServletRequest request) {
+                Usuario usuario = service.findByUsuarioEmail(usuarioEmail.getEmail());
+                String token = UUID.randomUUID().toString();
+                service.updateResetToken(token, usuario.getEmail());
+                String resetContrasenaLink = ServletUriComponentsBuilder.fromRequestUri(request).replacePath(null)
+                                .path("/reset_contrasena").queryParam("token", token).build().toString();
+                EmailDTO emailDTO = new EmailDTO();
+                emailDTO.setFromEmail("contacto@niltonsj.es");
+                emailDTO.setFromName("FlashCards");
+                emailDTO.setReplyTo("contacto@niltonsj.es");
+                emailDTO.setTo(usuario.getEmail());
+                emailDTO.setSubject("Contraseña olvidada");
+                emailDTO.setBody(
+                                "Para resetear su contraseña, por favor, pulse en el link siguiente: <br /> "
+                                                + resetContrasenaLink);
+                emailDTO.setContentType("text/html");
+                emailService.sendEmail(emailDTO);
+                return ResponseEntity.ok().build();
+        }
 
 }
