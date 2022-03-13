@@ -157,7 +157,19 @@ public class UsuarioService implements UserDetailsService {
 		} catch (EntityNotFoundException e) {
 			throw new ResourceNotFoundException("Usuario no encontrada: " + id);
 		}
+	}
 
+	@Transactional
+	public void resetPassword(Long id, NuevaContrasenaDTO dto) {
+		Usuario entity;
+		try {
+			entity = repository.getById(id);
+			entity.setContrasena(passwordEncoder.encode(dto.getNuevaContrasena()));
+			entity.setResetToken(null);
+			repository.save(entity);
+		} catch (EntityNotFoundException e) {
+			throw new ResourceNotFoundException("Usuario no encontrada: " + id);
+		}
 	}
 
 	public void delete(Long id) {

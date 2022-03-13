@@ -28,11 +28,10 @@ public class ResourceServerConfig extends ResourceServerConfigurerAdapter {
 	@Autowired
 	private JwtTokenStore tokenStore;
 
-	private static final String[] PUBLIC = { "oauth/token", "/h2-console/**", "/registro", "/contrasena_olvidada" };
+	private static final String[] PUBLIC = { "oauth/token", "/h2-console/**", "/registro", "/contrasena_olvidada",
+			"/reset_contrasena" };
 
 	private static final String[] USUARIO_O_ADMINISTRADOR = { "/tarjetas/**", "/categorias/**" };
-
-	//private static final String[] USUARIOS = { "/usuarios/**" };
 
 	private static final String[] ADMINISTRADOR = { "/roles/**" };
 
@@ -50,12 +49,10 @@ public class ResourceServerConfig extends ResourceServerConfigurerAdapter {
 
 		http.authorizeRequests().antMatchers(PUBLIC).permitAll()
 				.antMatchers(USUARIO_O_ADMINISTRADOR).hasAnyRole("USUARIO", "ADMINISTRADOR")
-				//.antMatchers(HttpMethod.GET, USUARIOS).hasAnyRole("USUARIO")
-				//.antMatchers(USUARIOS).hasAnyRole("ADMINISTRADOR")
 				.antMatchers(ADMINISTRADOR).hasRole("ADMINISTRADOR")
 				.anyRequest().authenticated();
 
-				http.cors().configurationSource(corsConfigurationSource());
+		http.cors().configurationSource(corsConfigurationSource());
 	}
 
 	@Bean

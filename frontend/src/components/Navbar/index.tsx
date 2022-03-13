@@ -32,16 +32,16 @@ const Navbar = () => {
     });
     navigate("/");
   };
-  
-  const handleRegisterClick = (event : React.MouseEvent<HTMLButtonElement>) => {
+
+  const handleRegisterClick = (event: React.MouseEvent<HTMLButtonElement>) => {
     event.preventDefault();
     navigate("/auth/register");
-  }
+  };
 
   const handleLoginClick = (event: React.MouseEvent<HTMLButtonElement>) => {
     event.preventDefault();
     navigate("/auth/login");
-  }
+  };
   return (
     <nav className="navbar navbar-expand-md navbar-light main-nav">
       <div className="container-fluid">
