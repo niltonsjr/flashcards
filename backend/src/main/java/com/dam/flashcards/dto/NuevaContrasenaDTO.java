@@ -7,20 +7,39 @@ public class NuevaContrasenaDTO implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	private String nuevaContrasena;
+	private String token;
 
 	public NuevaContrasenaDTO() {
 	}
 
-	public NuevaContrasenaDTO(String nuevaContrasena) {
+	public NuevaContrasenaDTO(String nuevaContrasena, String token) {
 		this.nuevaContrasena = nuevaContrasena;
+		this.token = token;
 	}
 
 	public String getNuevaContrasena() {
-		return nuevaContrasena;
+		return this.nuevaContrasena;
 	}
 
 	public void setNuevaContrasena(String nuevaContrasena) {
 		this.nuevaContrasena = nuevaContrasena;
 	}
 
+	public String getToken() {
+		return this.token;
+	}
+
+	public void setToken(String token) {
+		this.token = token;
+	}
+
+	public NuevaContrasenaDTO nuevaContrasena(String nuevaContrasena) {
+		setNuevaContrasena(nuevaContrasena);
+		return this;
+	}
+
+	public NuevaContrasenaDTO token(String token) {
+		setToken(token);
+		return this;
+	}
 }

@@ -16,7 +16,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
@@ -36,8 +35,10 @@ public class OlvidoContrasenaResource {
                 Usuario usuario = service.findByUsuarioEmail(usuarioEmail.getEmail());
                 String token = UUID.randomUUID().toString();
                 service.updateResetToken(token, usuario.getEmail());
+                String referrer = request.getHeader("referer");
+                System.out.println(referrer);
                 String resetContrasenaLink = ServletUriComponentsBuilder.fromRequestUri(request).replacePath(null)
-                                .path("/reset_contrasena").queryParam("token", token).build().toString();
+                                .path("/auth/reset_contrasena").queryParam("token", token).build().toString();
                 EmailDTO emailDTO = new EmailDTO();
                 emailDTO.setFromEmail("contacto@niltonsj.es");
                 emailDTO.setFromName("FlashCards");
@@ -56,11 +57,9 @@ public class OlvidoContrasenaResource {
         }
 
         @PostMapping(value = "/reset_contrasena")
-        public ResponseEntity<Void> resetearContrasena(@RequestParam(value = "token") String token,
-                        @RequestBody NuevaContrasenaDTO contrasena) {
-                Usuario usuario = service.findUsuarioByResetToken(token);
+        public ResponseEntity<Void> resetearContrasena(@RequestBody NuevaContrasenaDTO contrasena) {
+                Usuario usuario = service.findUsuarioByResetToken(contrasena.getToken());
                 service.resetPassword(usuario.getId(), contrasena);
                 return ResponseEntity.ok().build();
         }
-
 }
