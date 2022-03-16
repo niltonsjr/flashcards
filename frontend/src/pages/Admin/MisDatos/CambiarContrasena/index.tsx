@@ -68,7 +68,9 @@ const CambiarContrasena = () => {
         toast.success("Contraseña actualizada correctamente.");
       })
       .catch((error) => {
-        toast.error(`Error al actualizar la contraseña: ${error.message}`);
+        toast.error(
+          `Error al actualizar la contraseña: ${error.response.data.message}`
+        );
       });
   };
 
@@ -125,11 +127,12 @@ const CambiarContrasena = () => {
             </label>
             <input
               {...register2("nuevaContrasena", {
-                required: "Campo obligatorio",
+                required: {
+                  value: true,
+                  message: "Campo obligatorio",
+                },
                 pattern: {
-                  value: new RegExp(
-                    "^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z]).{8,}$"
-                  ),
+                  value: /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z]).{8,}$/,
                   message: "La contraseña no cumple con las condiciones.",
                 },
               })}

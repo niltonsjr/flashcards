@@ -1,6 +1,7 @@
 import { AxiosRequestConfig } from "axios";
 import { useForm } from "react-hook-form";
 import { useNavigate, useSearchParams } from "react-router-dom";
+import { toast } from "react-toastify";
 import ReactTooltip from "react-tooltip";
 import { requestBackend } from "util/requests";
 import "./styles.css";
@@ -31,10 +32,14 @@ const ResetearContrasenaCard = () => {
 
     requestBackend(config)
       .then((response) => {
-        console.log("Hecho");
+        navigate("/auth/login");
+        toast.success("Contraseña cambiada con éxito.");
       })
       .catch((error) => {
-        console.log("Error" + error.getMessage);
+        navigate("/auth/login");
+        toast.error(
+          `Error al cambiar la contraseña: ${error.response.data.message}`
+        );
       });
   };
 
@@ -55,13 +60,13 @@ const ResetearContrasenaCard = () => {
           </label>
           <input
             {...register("nuevaContrasena", {
-              required: "Campo obligatorio",
+              required: {
+                value: true,
+                message: "Campo obligatorio"},
               pattern: {
-                value: new RegExp(
-                  "^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z]).{8,}$"
-                ),
+                value: /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z]).{8,}$/,
                 message: "La contraseña no cumple con las condiciones.",
-              },
+              }
             })}
             type="password"
             id="nuevaContrasena"

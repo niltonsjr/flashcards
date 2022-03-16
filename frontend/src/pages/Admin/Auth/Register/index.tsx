@@ -3,8 +3,8 @@ import { useForm } from "react-hook-form";
 import { Link, useNavigate } from "react-router-dom";
 import { requestBackendRegister } from "util/requests";
 import ReactTooltip from "react-tooltip";
-import "./styles.css";
 import { toast } from "react-toastify";
+import "./styles.css";
 
 type RegisterData = {
   nombreDeUsuario: string;
@@ -29,11 +29,21 @@ const Register = () => {
       .then((response) => {
         console.log("Suceso", response);
         toast.success("Usuario creado correctamente.");
-        navigate("/auth/login")
+        navigate("/auth/login");
       })
       .catch((error) => {
         console.log("Erro:", error);
-        toast.error(`Error al crear el usuario: ${error.message}`);
+        toast.error(
+          `Error al crear el usuario: \n
+           ${error.response.data.errors.map(
+             (e: { fieldName: string; fieldMessage: string }) => {
+               return e.fieldName
+                 .concat(": ")
+                 .concat(e.fieldMessage)
+                 .concat("\n");
+             }
+           )}`
+        );
       });
   };
 
@@ -55,11 +65,13 @@ const Register = () => {
                 </label>
                 <input
                   {...register("nombreDeUsuario", {
-                    required: "Campo obligatorio",
+                    required: {
+                      value: true,
+                      message: "Campo obligatorio",
+                    },
                     pattern: {
-                      value: new RegExp(
-                        "^[a-zA-Z0-9]([._-](?![._-])|[a-zA-Z0-9]){3,18}[a-zA-Z0-9]$"
-                      ),
+                      value:
+                        /^[a-zA-Z0-9]([._-](?![._-])|[a-zA-Z0-9]){3,18}[a-zA-Z0-9]$/,
                       message:
                         "El nombre de usuario no cumple con las condiciones.",
                     },
@@ -81,10 +93,9 @@ const Register = () => {
                 >
                   <p>
                     Condiciones del nombre de usuario: <br />
-                    - Tener una longitud de entre 5 y 20 caracteres. <br />
-                    - Puede contener letras mayúsculas o minúsculas y números.{" "}
-                    <br />
-                    - Las letras acentuadas y las eñes no están admitidas.{" "}
+                    - Tener una longitud de entre 5 y 20 caracteres. <br />-
+                    Puede contener letras mayúsculas o minúsculas y números.{" "}
+                    <br />- Las letras acentuadas y las eñes no están admitidas.{" "}
                     <br />
                     - Puede contener los siguientes símbolos: <br />
                     punto (.), guión bajo (_), guión medio (-) siempre que no se
@@ -102,11 +113,13 @@ const Register = () => {
                 </label>
                 <input
                   {...register("contrasena", {
-                    required: "Campo obligatorio",
+                    required: {
+                      value: true,
+                      message: "Campo obligatorio",
+                    },
                     pattern: {
-                      value: new RegExp(
-                        "^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z]).{8,}$"
-                      ),
+                      value:
+                        /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z]).{8,}$/,
                       message: "La contraseña no cumple con las condiciones.",
                     },
                   })}

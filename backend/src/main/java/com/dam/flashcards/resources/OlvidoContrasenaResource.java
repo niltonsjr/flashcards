@@ -36,9 +36,10 @@ public class OlvidoContrasenaResource {
                 String token = UUID.randomUUID().toString();
                 service.updateResetToken(token, usuario.getEmail());
                 String referrer = request.getHeader("referer");
+                String resetContrasenaLink = referrer.concat("auth/reset_contrasena?token=").concat(token);
                 System.out.println(referrer);
-                String resetContrasenaLink = ServletUriComponentsBuilder.fromRequestUri(request).replacePath(null)
-                                .path("/auth/reset_contrasena").queryParam("token", token).build().toString();
+                // String resetContrasenaLink = ServletUriComponentsBuilder.fromRequestUri(request).replacePath(null)
+                //                 .path("/auth/reset_contrasena").queryParam("token", token).build().toString();
                 EmailDTO emailDTO = new EmailDTO();
                 emailDTO.setFromEmail("contacto@niltonsj.es");
                 emailDTO.setFromName("FlashCards");
