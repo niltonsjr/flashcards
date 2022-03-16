@@ -1,7 +1,7 @@
 import { AxiosRequestConfig } from "axios";
 import { useEffect, useState } from "react";
 import { Controller, useForm } from "react-hook-form";
-import { Link, useNavigate, useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import Select from "react-select";
 import { toast } from "react-toastify";
 import { Rol } from "types/rol";
@@ -25,7 +25,7 @@ const UsuariosForm = () => {
   const navigate = useNavigate();
   const isEditing = usuarioId !== "nuevo";
   const [selectRoles, setSelectRoles] = useState<Rol[]>([]);
-  const contrasenaPorDefecto = 123456;
+  const [user, setUser] = useState<Usuario>();
 
   useEffect(() => {
     const config: AxiosRequestConfig = {
@@ -54,6 +54,7 @@ const UsuariosForm = () => {
         setValue("apellidos", usuario.apellidos);
         setValue("email", usuario.email);
         setValue("roles", usuario.roles);
+        setUser(usuario);
         console.log(usuario);
       });
     }
@@ -67,7 +68,7 @@ const UsuariosForm = () => {
       apellidos: formData.apellidos,
       email: formData.email,
       roles: formData.roles,
-      contrasena: isEditing ? null : contrasenaPorDefecto,
+      contrasena: isEditing ? null : "123456"
     };
 
     const config: AxiosRequestConfig = {
@@ -82,27 +83,34 @@ const UsuariosForm = () => {
         toast.success(
           `Usuario ${isEditing ? "actualizado" : "creado"} de forma correcta.`
         );
-        navigate("/admin/usuarios");
+        navigate("/admin/usuarios");        
       })
-      .catch(() => {
+      .catch((error) => {
         toast.error(
           `Ocurrió un error al ${
             isEditing ? "actualizar" : "crear"
-          } el usuario.`
+          } el usuario.: ${error.response.data.errors.map(
+            (e: { fieldName: string; fieldMessage: string }) => {
+              return e.fieldName
+                .concat(": ")
+                .concat(e.fieldMessage)
+                .concat("\n");
+            }
+          )}`
         );
       });
   };
 
-  const handleContranaPorDefecto = () => {
+  const handleResetearContrasena = () => {
     const data = {
-      nuevaContrasena: contrasenaPorDefecto,
+      email: user?.email,
     };
 
     const config: AxiosRequestConfig = {
-      method: "PUT",
-      url: `/usuarios/nuevacontrasena/${usuarioId}`,
+      method: "POST",
+      url: "/contrasena_olvidada",
       data,
-      withCredentials: true,
+      withCredentials: false,
     };
 
     requestBackend(config)
@@ -207,14 +215,11 @@ const UsuariosForm = () => {
             <button
               type="button"
               className="btn btn-outline-danger col-12 fw-bold"
-              onClick={handleContranaPorDefecto}
+              onClick={handleResetearContrasena}
             >
-              Asignar contraseña por defecto
+              Enviar correo para resetear contraseña
             </button>
           </div>
-          // <div className="row row-cols-lg-1 g-3 mb-3 mis-datos-cambiar-contrasena-link">
-          //   <Link to="/admin/cambiar-contrasena">Resetear contraseña</Link>
-          // </div>
         )}
         <div className="row row-cols-lg-2 row-cols-sm-2 g-3">
           <div className="col-12">
