@@ -13,6 +13,7 @@ type RegisterData = {
   nombre: string;
   apellidos: string;
   email: string;
+  terms: boolean;
 };
 
 const Register = () => {
@@ -180,24 +181,40 @@ const Register = () => {
                   Nombre:
                 </label>
                 <input
-                  {...register("nombre")}
+                  {...register("nombre", {
+                    required: {
+                      value: true,
+                      message: "Campo obligatorio",
+                    },
+                  })}
                   type="text"
                   id="nombre"
                   className="form-control base-input"
                   name="nombre"
                 />
+                <div className="invalid-feedback d-block">
+                  {errors.nombre?.message}
+                </div>
               </div>
               <div className="col-12">
                 <label htmlFor="apellidos" className="form-label">
                   Apellidos:
                 </label>
                 <input
-                  {...register("apellidos")}
+                  {...register("apellidos", {
+                    required: {
+                      value: true,
+                      message: "Campo obligatorio",
+                    },
+                  })}
                   type="text"
                   id="apellidos"
                   className="form-control base-input"
                   name="apellidos"
                 />
+                <div className="invalid-feedback d-block">
+                  {errors.apellidos?.message}
+                </div>
               </div>
             </div>
             <div className="row row-cols-lg-1 g-3">
@@ -206,23 +223,42 @@ const Register = () => {
                   Correo electrónico:
                 </label>
                 <input
-                  {...register("email")}
+                  {...register("email", {
+                    required: {
+                      value: true,
+                      message: "Campo obligatorio",
+                    },
+                    pattern: {
+                      value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
+                      message: "Correo electrónico inválido.",
+                    },
+                  })}
                   type="email"
                   id="email"
                   className="form-control base-input"
                   name="email"
                 />
+                <div className="invalid-feedback d-block">
+                  {errors.email?.message}
+                </div>
               </div>
             </div>
             <div className="row row-cols-lg-2 g-3">
               <div className="col-12">
                 <div className="form-check">
                   <input
+                    {...register("terms", {
+                      required: {
+                        value: true,
+                        message: "Campo obligatorio",
+                      },
+                    })}
                     className="form-check-input"
                     type="checkbox"
                     value=""
                     id="flexCheckDefault"
                   />
+
                   <label
                     className="form-check-label"
                     htmlFor="flexCheckDefault"
@@ -237,6 +273,9 @@ const Register = () => {
                     y doy mi consentimiento para el uso de datos tal y como se
                     detalla en la Política de Privacidad.
                   </label>
+                  <div className="invalid-feedback d-block">
+                    {errors.terms?.message}
+                  </div>
                 </div>
               </div>
               <div className="col-12">
