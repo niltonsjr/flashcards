@@ -1,4 +1,5 @@
 import { AxiosRequestConfig } from "axios";
+import DotsLoader from "components/DotsLoader";
 import Pagination from "components/Pagination";
 import UsuarioCard from "components/UsuarioCard";
 import UsuariosFilter, { UsuarioFilterData } from "components/UsuariosFilter";
@@ -14,6 +15,7 @@ type ControlComponentsData = {
 
 const UsuariosList = () => {
   const [page, setPage] = useState<SpringPage<Usuario>>();
+  const [isLoading, setIsLoading] = useState(false);
   const [controlComponentsData, setControlComponentsData] =
     useState<ControlComponentsData>({
       activePage: 0,
@@ -38,10 +40,14 @@ const UsuariosList = () => {
         rolId: controlComponentsData.filterData.rol?.id,
       },
     };
-
-    requestBackend(config).then((response) => {
-      setPage(response.data);
-    });
+    setIsLoading(true);
+    requestBackend(config)
+      .then((response) => {
+        setPage(response.data);
+      })
+      .finally(() => {
+        setIsLoading(false);
+      });
   }, [controlComponentsData]);
 
   const handleSubmitFilter = (data: UsuarioFilterData) => {
@@ -59,11 +65,15 @@ const UsuariosList = () => {
     <div>
       <UsuariosFilter onSubmitFilter={handleSubmitFilter} />
       <div>
-        {page?.content.map((usuario) => (
-          <div key={usuario.id}>
-            <UsuarioCard usuario={usuario} onDelete={getUsuarios} />
-          </div>
-        ))}
+        {isLoading ? (
+          <DotsLoader />
+        ) : (
+          page?.content.map((usuario) => (
+            <div key={usuario.id}>
+              <UsuarioCard usuario={usuario} onDelete={getUsuarios} />
+            </div>
+          ))
+        )}
       </div>
       <Pagination
         pageCount={page ? page?.totalPages : 0}

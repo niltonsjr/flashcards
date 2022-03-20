@@ -1,4 +1,5 @@
 import { AxiosRequestConfig } from "axios";
+import DotsLoader from "components/DotsLoader";
 import { useEffect, useState } from "react";
 import { Controller, useForm } from "react-hook-form";
 import { useNavigate, useParams } from "react-router-dom";
@@ -26,6 +27,7 @@ const UsuariosForm = () => {
   const isEditing = usuarioId !== "nuevo";
   const [selectRoles, setSelectRoles] = useState<Rol[]>([]);
   const [user, setUser] = useState<Usuario>();
+  const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
     const config: AxiosRequestConfig = {
@@ -46,17 +48,20 @@ const UsuariosForm = () => {
         url: `/usuarios/basico/${usuarioId}`,
         withCredentials: true,
       };
-
-      requestBackend(config).then((response) => {
-        const usuario = response.data as Usuario;
-        setValue("nombreDeUsuario", usuario.nombreDeUsuario);
-        setValue("nombre", usuario.nombre);
-        setValue("apellidos", usuario.apellidos);
-        setValue("email", usuario.email);
-        setValue("roles", usuario.roles);
-        setUser(usuario);
-        console.log(usuario);
-      });
+      setIsLoading(true);
+      requestBackend(config)
+        .then((response) => {
+          const usuario = response.data as Usuario;
+          setValue("nombreDeUsuario", usuario.nombreDeUsuario);
+          setValue("nombre", usuario.nombre);
+          setValue("apellidos", usuario.apellidos);
+          setValue("email", usuario.email);
+          setValue("roles", usuario.roles);
+          setUser(usuario);
+        })
+        .finally(() => {
+          setIsLoading(false);
+        });
     }
   }, [isEditing, setValue, usuarioId]);
 
@@ -68,7 +73,7 @@ const UsuariosForm = () => {
       apellidos: formData.apellidos,
       email: formData.email,
       roles: formData.roles,
-      contrasena: isEditing ? null : "123456"
+      contrasena: isEditing ? null : "123456",
     };
 
     const config: AxiosRequestConfig = {
@@ -83,7 +88,7 @@ const UsuariosForm = () => {
         toast.success(
           `Usuario ${isEditing ? "actualizado" : "creado"} de forma correcta.`
         );
-        navigate("/admin/usuarios");        
+        navigate("/admin/usuarios");
       })
       .catch((error) => {
         toast.error(
@@ -115,10 +120,10 @@ const UsuariosForm = () => {
 
     requestBackend(config)
       .then((response) => {
-        toast.success("Contraseña actualizada correctamente.");
+        toast.success("Correo enviado correctamente.");
       })
       .catch((error) => {
-        toast.error(`Error al actualizar la contraseña: ${error.message}`);
+        toast.error(`Error al enviar correo: ${error.response.data.message}`);
       });
   };
 
@@ -128,119 +133,123 @@ const UsuariosForm = () => {
 
   return (
     <div className="usuario-datos-container base-card">
-      <form onSubmit={handleSubmit(onSubmit)}>
-        <div className="row row-cols-lg-2 g-3 mb-3">
-          <div className="col-12">
-            <label htmlFor="nombreDeUsuario" className="form-label">
-              Nombre de usuario:
-            </label>
-            <input
-              {...register("nombreDeUsuario")}
-              type="text"
-              id="nombreDeUsuario"
-              className="form-control base-input bg-white"
-              name="nombreDeUsuario"
-            />
-          </div>
-        </div>
-        <div className="tarjeta-select-container mb-3">
-          <Controller
-            name="roles"
-            control={control}
-            rules={{ required: true }}
-            render={({ field }) => (
-              <Select
-                {...field}
-                classNamePrefix="tarjeta-filter-select"
-                options={selectRoles}
-                getOptionLabel={(rol: Rol) => rol.nombre.split("_")[1]}
-                getOptionValue={(rol: Rol) => String(rol.id)}
-                placeholder="Roles"
-                isClearable
-                isMulti
+      {isLoading ? (
+        <DotsLoader />
+      ) : (
+        <form onSubmit={handleSubmit(onSubmit)}>
+          <div className="row row-cols-lg-2 g-3 mb-3">
+            <div className="col-12">
+              <label htmlFor="nombreDeUsuario" className="form-label">
+                Nombre de usuario:
+              </label>
+              <input
+                {...register("nombreDeUsuario")}
+                type="text"
+                id="nombreDeUsuario"
+                className="form-control base-input bg-white"
+                name="nombreDeUsuario"
               />
-            )}
-          />
-          {errors.roles && (
-            <div className="invalid-feedback d-block">Campo obligatorio.</div>
-          )}
-        </div>
-        <div className="row row-cols-lg-2 g-3 mb-3">
-          <div className="col-12">
-            <label htmlFor="nombre" className="form-label">
-              Nombre:
-            </label>
-            <input
-              {...register("nombre", {
-                required: "Campo obligatorio",
-              })}
-              type="text"
-              id="nombre"
-              className="form-control base-input bg-white"
-              name="nombre"
-            />
-            <div className="invalid-feedback d-block">
-              {errors.nombre?.message}
             </div>
           </div>
-          <div className="col-12">
-            <label htmlFor="apellidos" className="form-label">
-              Apellidos:
-            </label>
-            <input
-              {...register("apellidos")}
-              type="text"
-              id="apellidos"
-              className="form-control base-input bg-white"
-              name="apellidos"
+          <div className="tarjeta-select-container mb-3">
+            <Controller
+              name="roles"
+              control={control}
+              rules={{ required: true }}
+              render={({ field }) => (
+                <Select
+                  {...field}
+                  classNamePrefix="tarjeta-filter-select"
+                  options={selectRoles}
+                  getOptionLabel={(rol: Rol) => rol.nombre.split("_")[1]}
+                  getOptionValue={(rol: Rol) => String(rol.id)}
+                  placeholder="Roles"
+                  isClearable
+                  isMulti
+                />
+              )}
             />
+            {errors.roles && (
+              <div className="invalid-feedback d-block">Campo obligatorio.</div>
+            )}
           </div>
-        </div>
-        <div className="row row-cols-lg-1 g-3 mb-3">
-          <div className="col-12">
-            <label htmlFor="email" className="form-label">
-              Correo electrónico:
-            </label>
-            <input
-              {...register("email")}
-              type="email"
-              id="email"
-              className="form-control base-input bg-white"
-              name="email"
-            />
+          <div className="row row-cols-lg-2 g-3 mb-3">
+            <div className="col-12">
+              <label htmlFor="nombre" className="form-label">
+                Nombre:
+              </label>
+              <input
+                {...register("nombre", {
+                  required: "Campo obligatorio",
+                })}
+                type="text"
+                id="nombre"
+                className="form-control base-input bg-white"
+                name="nombre"
+              />
+              <div className="invalid-feedback d-block">
+                {errors.nombre?.message}
+              </div>
+            </div>
+            <div className="col-12">
+              <label htmlFor="apellidos" className="form-label">
+                Apellidos:
+              </label>
+              <input
+                {...register("apellidos")}
+                type="text"
+                id="apellidos"
+                className="form-control base-input bg-white"
+                name="apellidos"
+              />
+            </div>
           </div>
-        </div>
-        {isEditing && (
-          <div className="col-12">
-            <button
-              type="button"
-              className="btn btn-outline-danger col-12 fw-bold"
-              onClick={handleResetearContrasena}
-            >
-              Enviar correo para resetear contraseña
-            </button>
+          <div className="row row-cols-lg-1 g-3 mb-3">
+            <div className="col-12">
+              <label htmlFor="email" className="form-label">
+                Correo electrónico:
+              </label>
+              <input
+                {...register("email")}
+                type="email"
+                id="email"
+                className="form-control base-input bg-white"
+                name="email"
+              />
+            </div>
           </div>
-        )}
-        <div className="row row-cols-lg-2 row-cols-sm-2 g-3">
-          <div className="col-12">
-            <button
-              type="button"
-              className="mis-datos-buttom mis-datos-cancelar-buttom col-12"
-              onClick={handleCancel}
-            >
-              Cancelar
-            </button>
+          {isEditing && (
+            <div className="col-12">
+              <button
+                type="button"
+                className="btn btn-outline-danger col-12 fw-bold"
+                onClick={handleResetearContrasena}
+              >
+                Enviar correo para resetear contraseña
+              </button>
+            </div>
+          )}
+          <div className="row row-cols-lg-2 row-cols-sm-2 g-3">
+            <div className="col-12">
+              <button
+                type="button"
+                className="mis-datos-buttom mis-datos-cancelar-buttom col-12"
+                onClick={handleCancel}
+              >
+                Cancelar
+              </button>
+            </div>
+            <div className="col-12">
+              <button
+                type="submit"
+                className="mis-datos-buttom mis-datos-editar-buttom col-12"
+              >
+                Aceptar
+              </button>
+            </div>
           </div>
-          <div className="col-12">
-            <button
-              type="submit"
-              className="mis-datos-buttom mis-datos-editar-buttom col-12"
-            >
-              Aceptar
-            </button>
-          </div>
-        </div>
-      </form>
+        </form>
+      )}
     </div>
   );
 };
