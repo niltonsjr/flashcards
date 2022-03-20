@@ -1,5 +1,6 @@
 import { AxiosRequestConfig } from "axios";
 import CategoriaCard from "components/CategoriaCard";
+import DotsLoader from "components/DotsLoader";
 import Pagination from "components/Pagination";
 import { useCallback, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
@@ -14,6 +15,7 @@ type ControlComponentsData = {
 
 const CategoriasList = () => {
   const [page, setPage] = useState<SpringPage<Categoria>>();
+  const [isLoading, setIsLoading] = useState(false);
   const [controlComponentsData, setControlComponentsData] =
     useState<ControlComponentsData>({
       activePage: 0,
@@ -30,9 +32,13 @@ const CategoriasList = () => {
       },
     };
 
+    setIsLoading(true);
     requestBackend(config).then((response) => {
       setPage(response.data);
-    });
+    }).finally(() => {
+      setIsLoading(false);
+    })
+    ;
   }, [controlComponentsData]);
 
   useEffect(() => {
@@ -55,7 +61,7 @@ const CategoriasList = () => {
         </Link>
       </div>
       <div className="tarjetas-list-container">
-        {page?.content.map((categoria) => (
+        {isLoading ? <DotsLoader /> : page?.content.map((categoria) => (
           <div key={categoria.id}>
             <CategoriaCard categoria={categoria} onDelete={getCategorias} />
           </div>
