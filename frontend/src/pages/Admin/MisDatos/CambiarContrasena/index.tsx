@@ -2,6 +2,7 @@ import { AuthContext } from "AuthContext";
 import { AxiosRequestConfig } from "axios";
 import { useContext, useState } from "react";
 import { useForm } from "react-hook-form";
+import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import ReactTooltip from "react-tooltip";
 import { requestBackend, requestBackendLogin } from "util/requests";
@@ -23,6 +24,7 @@ const CambiarContrasena = () => {
   const [validActualPassword, setValidActualPassword] =
     useState<boolean>(false);
   const { authContextData } = useContext(AuthContext);
+  const navigate = useNavigate();
   const {
     register,
     handleSubmit,
@@ -75,13 +77,7 @@ const CambiarContrasena = () => {
   };
 
   const handleCancel = (event: React.MouseEvent) => {
-    event.preventDefault();
-    setValue("password", "");
-    setValue2("nuevaContrasena", "");
-    setValue2("confirmaNuevaContrasena", "");
-    clearErrors("confirmaNuevaContrasena");
-    clearErrors("nuevaContrasena");
-    setValidActualPassword(false);
+    navigate("/admin/misdatos");
   };
 
   return (
@@ -198,7 +194,6 @@ const CambiarContrasena = () => {
               type="button"
               className="mis-datos-buttom mis-datos-cancelar-buttom col-6"
               onClick={handleCancel}
-              disabled={!validActualPassword}
             >
               Cancelar
             </button>
