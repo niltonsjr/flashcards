@@ -3,6 +3,7 @@ import Pagination from "components/Pagination";
 import TarjetaCard from "components/TarjetaCard";
 import TarjetaFilter, { TarjetaFilterData } from "components/TarjetaFilter";
 import { useCallback, useEffect, useState } from "react";
+import { Categoria } from "types/categoria";
 import { SpringPage } from "types/spring";
 import { Tarjeta } from "types/tarjeta";
 import { requestBackend } from "util/requests";
@@ -12,7 +13,11 @@ type ControlComponentsData = {
   filterData: TarjetaFilterData;
 };
 
-const TarjetasList = () => {
+type Props = {
+  categorias: Categoria[];
+};
+
+const TarjetasList = ({ categorias }: Props) => {
   const [page, setPage] = useState<SpringPage<Tarjeta>>();
   const [controlComponentsData, setControlComponentsData] =
     useState<ControlComponentsData>({
@@ -58,19 +63,27 @@ const TarjetasList = () => {
 
   return (
     <>
-      <TarjetaFilter onSubmitFilter={handleSubmitFilter} />
-      <div>
-        {page?.content.map((tarjeta) => (
-          <div key={tarjeta.id}>
-            <TarjetaCard tarjeta={tarjeta} onDelete={getTarjetas} />
+      {!categorias.length ? (
+        <div className="base-card w-100 h-100 p-3">
+          <span>Por favor, acceda al apartado de <b>Mis Categorias</b> para crear una categoria.</span>
+        </div>
+      ) : (
+        <>
+          <TarjetaFilter onSubmitFilter={handleSubmitFilter} />
+          <div>
+            {page?.content.map((tarjeta) => (
+              <div key={tarjeta.id}>
+                <TarjetaCard tarjeta={tarjeta} onDelete={getTarjetas} />
+              </div>
+            ))}
           </div>
-        ))}
-      </div>
-      <Pagination
-        pageCount={page ? page?.totalPages : 0}
-        range={2}
-        onChange={handlePageChange}
-      />
+          <Pagination
+            pageCount={page ? page?.totalPages : 0}
+            range={2}
+            onChange={handlePageChange}
+          />
+        </>
+      )}
     </>
   );
 };

@@ -1,16 +1,15 @@
 import PrivateRoute from "components/PrivateRoute";
 import { Route, Routes } from "react-router-dom";
 import Categorias from "./Categorias";
-import MisDatos from "./MisDatos";
-import Navbar from "./Navbar";
-import Tarjetas from "./Tarjetas";
-import CambiarContrasena from "./MisDatos/CambiarContrasena";
 import GestionUsuarios from "./GestionUsuarios";
+import MisDatos from "./MisDatos";
+import CambiarContrasena from "./MisDatos/CambiarContrasena";
+import Navbar from "./Navbar";
 import "./styles.css";
-
+import Tarjetas from "./Tarjetas";
 
 const Admin = () => {
-  
+ 
   return (
     <div className="admin-container">
       <Navbar />
