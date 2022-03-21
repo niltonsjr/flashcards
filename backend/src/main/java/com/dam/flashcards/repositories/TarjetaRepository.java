@@ -18,7 +18,7 @@ public interface TarjetaRepository extends JpaRepository<Tarjeta, Long> {
 			"AND :usuario = tar.usuario " +
 			"AND ((LOWER(tar.frontal) LIKE LOWER(CONCAT('%',:texto,'%'))) " +
 			"OR (LOWER(tar.trasera) LIKE LOWER(CONCAT('%',:texto,'%')))) " +
-			"ORDER BY tar.conocida, tar.fechaUltimaRespuesta ASC NULLS FIRST")
+			"ORDER BY tar.fechaUltimaRespuesta ASC NULLS FIRST, tar.conocida")
 	Page<Tarjeta> findByUsuarioAndCategoria(Usuario usuario, Categoria categoria, String texto, Pageable pageable);
 
 }
