@@ -49,6 +49,16 @@ const Estudiar = () => {
     });
   };
 
+  if (page?.empty) {
+    return (
+      <div className="estudiar-container">
+        <p className="base-card p-3 mr-2">
+          Aún no hay nada que estudiar. Crea algunas tarjetas para empezar.
+        </p>
+      </div>
+    );
+  }
+
   return (
     <div className="estudiar-container">
       <div className="estudiar-filter-container">
