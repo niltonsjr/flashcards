@@ -5,11 +5,19 @@ const Home = () => {
   return (
     <div className="home-container">
       <div className="home-left-container">
-        <h1>
-          Crea tarjetas de memoria <br />
-          para ayudarte a retener información <br /> en menos tiempo y accede a
-          ellas <br /> desde cualquier lugar.
-        </h1>
+        <h1>Nuestros cerebros crean recuerdos a través de la repetición.</h1>
+        <div className="home-left-text">
+          <p>
+            Cuanto más veces repitamos algo, más probable es de que lo
+            recordemos.
+            <br />
+            Las Flashcards son una excelente herramienta para ayudarte a retener
+            información y acelerar tu aprendizaje. <br />
+            Regístrate para crear tus propias Flashcards y utilízalas para
+            estudiar desde cualquier lugar.
+          </p>
+        </div>
+
         <LargeImage />
       </div>
     </div>
