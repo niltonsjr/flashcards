@@ -1,4 +1,4 @@
-import { ReactComponent as LargeImage } from "assets/images/home-image-large.svg";
+import { Link } from "react-router-dom";
 import "./styles.css";
 
 const Home = () => {
@@ -13,12 +13,12 @@ const Home = () => {
             <br />
             Las Flashcards son una excelente herramienta para ayudarte a retener
             información y acelerar tu aprendizaje. <br />
-            Regístrate para crear tus propias Flashcards y utilízalas para
-            estudiar desde cualquier lugar.
+            <Link to="/auth/register" className="conditions-link-register">
+              Regístrate
+            </Link>{" "}para crear tus propias Flashcards y utilízalas para estudiar desde
+            cualquier lugar.
           </p>
         </div>
-
-        <LargeImage />
       </div>
     </div>
   );
