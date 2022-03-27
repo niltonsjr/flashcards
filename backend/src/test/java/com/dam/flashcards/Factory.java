@@ -2,6 +2,7 @@ package com.dam.flashcards;
 
 import java.time.Instant;
 
+import com.dam.flashcards.dto.CategoriaBasicaDTO;
 import com.dam.flashcards.dto.TarjetaBasicaDTO;
 import com.dam.flashcards.dto.TarjetaDTO;
 import com.dam.flashcards.entities.Categoria;
@@ -19,7 +20,8 @@ public class Factory {
     }
 
     public static TarjetaDTO createTarjetaDTO() {
-        return new TarjetaDTO(createTarjeta());
+        return new TarjetaDTO(null, "Frontal de la tarjeta", "Trasera de la tarjeta", false, Instant.parse("2020-10-20T20:50:07Z"),
+        0,  0, new CategoriaBasicaDTO(1L, "Vocabulario Inglés", 1L), 1L);
      }
 
      public static TarjetaBasicaDTO createTarjetaBasicaDTO() {
@@ -35,6 +37,7 @@ public class Factory {
 
      public static Categoria createCategoria() {
          Categoria categoria = new Categoria(1L, "Vocabulario Inglés");
+         categoria.setUsuario(createUsuario());
          return categoria;
      }
 

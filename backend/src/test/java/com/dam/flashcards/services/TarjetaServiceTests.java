@@ -17,7 +17,10 @@ import com.dam.flashcards.repositories.UsuarioRepository;
 import com.dam.flashcards.services.exceptions.DatabaseException;
 import com.dam.flashcards.services.exceptions.ResourceNotFoundException;
 
+import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -70,7 +73,7 @@ public class TarjetaServiceTests {
         categoria = Factory.createCategoria();
         tarjetaDTO = Factory.createTarjetaDTO();
 
-        page = new PageImpl<>(List.of(tarjeta));
+        page = new PageImpl<Tarjeta>(List.of(tarjeta));
 
         Mockito.when(authService.autenticado()).thenReturn(usuario);
 
@@ -82,8 +85,9 @@ public class TarjetaServiceTests {
         Mockito.doThrow(EmptyResultDataAccessException.class).when(repository).deleteById(nonExistingId);
         Mockito.doThrow(DataIntegrityViolationException.class).when(repository).deleteById(dependentId);
 
-       // Mockito.when(repository.findByUsuarioAndCategoria(ArgumentMatchers.any(Usuario.class),
-       //         ArgumentMatchers.any(Categoria.class), ArgumentMatchers.any(Pageable.class))).thenReturn(page);
+        Mockito.when(repository.findByUsuarioAndCategoria(ArgumentMatchers.any(Usuario.class),
+                ArgumentMatchers.any(Categoria.class), ArgumentMatchers.anyString(),
+                ArgumentMatchers.any(Pageable.class))).thenReturn(page);
         Mockito.when(repository.save(ArgumentMatchers.any())).thenReturn(tarjeta);
 
         Mockito.when(repository.findById(existingId)).thenReturn(Optional.of(tarjeta));
@@ -94,7 +98,61 @@ public class TarjetaServiceTests {
     }
 
     @Test
-    public void deleteShouldDoNothingWhenIdExists() {
+    void findAllPagedShoultReturnPage() {
+        Pageable pageable = PageRequest.of(0, 10);
+        Page<TarjetaBasicaDTO> result = service.findAllPaged(1L, "prueba", pageable);
+        Assertions.assertNotNull(result);
+        Mockito.verify(authService, Mockito.times(1)).autenticado();
+        Mockito.verify(categoriaRepository, Mockito.times(1)).getById(1L);
+        Mockito.verify(repository, Mockito.times(1)).findByUsuarioAndCategoria(usuario, categoria, "prueba", pageable);
+    }
+
+    @Test
+    void findAllCompletePagedSholdReturnPage() {
+        Pageable pageable = PageRequest.of(0, 10);
+        Page<TarjetaDTO> result = service.findAllCompletePaged(existingId, "prueba", pageable);
+        Assertions.assertNotNull(result);
+        Mockito.verify(authService, Mockito.times(1)).autenticado();
+        Mockito.verify(categoriaRepository, Mockito.times(1)).getById(existingId);
+        Mockito.verify(repository, Mockito.times(1)).findByUsuarioAndCategoria(usuario, categoria, "prueba", pageable);
+    }
+
+    @Test
+    void findByIdShouldReturnTarjetaDTOWhenIdExists() {
+        TarjetaDTO dto = service.findById(existingId);
+        Assertions.assertNotNull(dto);
+        Mockito.verify(repository, Mockito.times(1)).findById(existingId);
+    }
+
+    @Test
+    void findByIdShouldThrowResourceNotFoundExceptionWhenIdDoesNotExists() {
+        Assertions.assertThrows(ResourceNotFoundException.class, () -> {
+            service.findById(nonExistingId);
+        });
+    }
+
+    @Test
+    void insertSholdReturnTarjetaDTO() {
+        TarjetaDTO dto = service.insert(tarjetaDTO);
+        Assertions.assertNotNull(dto);
+        Mockito.verify(repository, Mockito.times(1)).save(tarjeta);
+    }
+
+    @Test
+    void updateShouldReturnTarjetaDTOWhenIdExists() {
+        TarjetaDTO dto = service.update(existingId, tarjetaDTO);
+        Assertions.assertNotNull(dto);
+    }
+
+    @Test
+    void updateShouldThrowResourceNotFoundExceptionWhenIdDoesNotExists() {
+        Assertions.assertThrows(ResourceNotFoundException.class, () -> {
+            service.update(nonExistingId, tarjetaDTO);
+        });
+    }
+
+    @Test
+    void deleteShouldDoNothingWhenIdExists() {
         Assertions.assertDoesNotThrow(() -> {
             service.delete(existingId);
         });
@@ -102,7 +160,7 @@ public class TarjetaServiceTests {
     }
 
     @Test
-    public void deleteShouldThrowResourceNotFoundExceptionWhenIdDoesNotExists() {
+    void deleteShouldThrowResourceNotFoundExceptionWhenIdDoesNotExists() {
         Assertions.assertThrows(ResourceNotFoundException.class, () -> {
             service.delete(nonExistingId);
         });
@@ -110,44 +168,11 @@ public class TarjetaServiceTests {
     }
 
     @Test
-    public void deleteShouldThrowDatabaseExceptionWhenDependentId() {
+    void deleteShouldThrowDatabaseExceptionWhenDependentId() {
         Assertions.assertThrows(DatabaseException.class, () -> {
             service.delete(dependentId);
         });
         Mockito.verify(repository, Mockito.times(1)).deleteById(dependentId);
     }
 
-   /* @Test
-    public void findAllPagedShoultReturnPage() {
-        Pageable pageable = PageRequest.of(0, 10);
-        Page<TarjetaBasicaDTO> result = service.findAllPaged(existingId, pageable);
-        Assertions.assertNotNull(result);
-        Mockito.verify(repository, Mockito.times(1)).findByUsuarioAndCategoria(usuario, categoria, pageable);
-    }
-*/
-    @Test
-    public void findByIdShouldReturnTarjetaDTOWhenIdExists() {
-        TarjetaDTO dto = service.findById(existingId);
-        Assertions.assertNotNull(dto);
-    }
-
-    @Test
-    public void findByIdShouldThrowResourceNotFoundExceptionWhenIdDoesNotExists() {
-        Assertions.assertThrows(ResourceNotFoundException.class, () -> {
-            service.findById(nonExistingId);
-        });
-    }
-
-    @Test
-    public void updateShouldReturnTarjetaDTOWhenIdExists() {
-        TarjetaDTO dto = service.update(existingId, tarjetaDTO);
-        Assertions.assertNotNull(dto);
-    }
-
-    @Test
-    public void updateShouldThrowResourceNotFoundExceptionWhenIdDoesNotExists() {
-        Assertions.assertThrows(ResourceNotFoundException.class, () -> {
-            service.update(nonExistingId, tarjetaDTO);
-        });
-    }
 }

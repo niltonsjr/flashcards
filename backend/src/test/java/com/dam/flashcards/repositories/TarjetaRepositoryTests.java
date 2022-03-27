@@ -86,6 +86,6 @@ class TarjetaRepositoryTests {
         Assertions.assertFalse(tarjetas.stream().allMatch((t) -> t.getCategoria().equals(new Categoria(1000L, "nombre"))));   
         Assertions.assertEquals(2, tarjetas.size());    
         Assertions.assertEquals("Funny", tarjetas.get(0).getFrontal());
-        Assertions.assertEquals("Fat", tarjetas.get(1).getFrontal());
+        Assertions.assertEquals("Fat", tarjetas.get(1).getFrontal());        
     }
 }
