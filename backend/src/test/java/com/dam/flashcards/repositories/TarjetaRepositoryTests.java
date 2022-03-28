@@ -16,7 +16,6 @@ import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Sort;
 
 @DataJpaTest
 class TarjetaRepositoryTests {
@@ -80,10 +79,8 @@ class TarjetaRepositoryTests {
         Page<Tarjeta> result = repository.findByUsuarioAndCategoria(existingUser, existingCategory, "f", pageRequest);
         Assertions.assertTrue(result.hasContent());
         List<Tarjeta> tarjetas = result.getContent();
-        Assertions.assertTrue(tarjetas.stream().allMatch((t) -> t.getUsuario().equals(existingUser)));        
-        Assertions.assertFalse(tarjetas.stream().allMatch((t) -> t.getUsuario().equals(new Usuario(1000L, "nombreDeUsuario", "nombre", "apellidos", "email", "contrasena"))));        
+        Assertions.assertTrue(tarjetas.stream().allMatch((t) -> t.getUsuario().equals(existingUser)));          
         Assertions.assertTrue(tarjetas.stream().allMatch((t) -> t.getCategoria().equals(existingCategory)));
-        Assertions.assertFalse(tarjetas.stream().allMatch((t) -> t.getCategoria().equals(new Categoria(1000L, "nombre"))));   
         Assertions.assertEquals(2, tarjetas.size());    
         Assertions.assertEquals("Funny", tarjetas.get(0).getFrontal());
         Assertions.assertEquals("Fat", tarjetas.get(1).getFrontal());        

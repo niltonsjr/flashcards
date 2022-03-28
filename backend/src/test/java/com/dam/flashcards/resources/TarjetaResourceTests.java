@@ -37,19 +37,19 @@ public class TarjetaResourceTests {
     private TarjetaBasicaDTO tarjetaBasicaDTO;
     private Long existingId;
 
-    @BeforeEach
-    void setUp() throws Exception {
-        existingId = 1L;
-        tarjetaDTO = Factory.createTarjetaDTO();
-        tarjetaBasicaDTO = Factory.createTarjetaBasicaDTO();
-        pageTarjetaBasicaDto = new PageImpl<>(List.of(tarjetaBasicaDTO));
-        pageTarjetaDto = new PageImpl<>(List.of(tarjetaDTO));
+    // @BeforeEach
+    // void setUp() throws Exception {
+    //     existingId = 1L;
+    //     tarjetaDTO = Factory.createTarjetaDTO();
+    //     tarjetaBasicaDTO = Factory.createTarjetaBasicaDTO();
+    //     pageTarjetaBasicaDto = new PageImpl<>(List.of(tarjetaBasicaDTO));
+    //     pageTarjetaDto = new PageImpl<>(List.of(tarjetaDTO));
 
-        //Mockito.when(service.findAllPaged(ArgumentMatchers.anyLong(), ArgumentMatchers.any())).thenReturn(pageTarjetaBasicaDto);
-    }
+    //     //Mockito.when(service.findAllPaged(ArgumentMatchers.anyLong(), ArgumentMatchers.any())).thenReturn(pageTarjetaBasicaDto);
+    // }
 
-    @Test
-    public void findAllShouldReturnPage() throws Exception {
-        mockMvc.perform(get("/tarjetas")).andExpect(status().isOk());
-    }
+    // @Test
+    // public void findAllShouldReturnPage() throws Exception {
+    //     mockMvc.perform(get("/tarjetas")).andExpect(status().isOk());
+    // }
 }
