@@ -88,6 +88,9 @@ public class TarjetaServiceTests {
         Mockito.when(repository.findByUsuarioAndCategoria(ArgumentMatchers.any(Usuario.class),
                 ArgumentMatchers.any(Categoria.class), ArgumentMatchers.anyString(),
                 ArgumentMatchers.any(Pageable.class))).thenReturn(page);
+        Mockito.when(repository.findByUsuarioAndCategoria(ArgumentMatchers.any(Usuario.class),
+                ArgumentMatchers.isNull(), ArgumentMatchers.anyString(), ArgumentMatchers.any(Pageable.class)))
+                .thenReturn(page);
         Mockito.when(repository.save(ArgumentMatchers.any())).thenReturn(tarjeta);
 
         Mockito.when(repository.findById(existingId)).thenReturn(Optional.of(tarjeta));
@@ -98,7 +101,7 @@ public class TarjetaServiceTests {
     }
 
     @Test
-    void findAllPagedShoultReturnPage() {
+    void findAllPagedShoultReturnPageOfTarjetaBasicaDTOOfProvidedCategoria() {
         Pageable pageable = PageRequest.of(0, 10);
         Page<TarjetaBasicaDTO> result = service.findAllPaged(1L, "prueba", pageable);
         Assertions.assertNotNull(result);
@@ -106,15 +109,35 @@ public class TarjetaServiceTests {
         Mockito.verify(categoriaRepository, Mockito.times(1)).getById(1L);
         Mockito.verify(repository, Mockito.times(1)).findByUsuarioAndCategoria(usuario, categoria, "prueba", pageable);
     }
+    
+    @Test
+    void findAllPagedShoultReturnPageOfTarjetaBasicaDTOWithAllCategoriasWhenCategoriaIsNotProvided() {
+        Pageable pageable = PageRequest.of(0, 10);
+        Page<TarjetaBasicaDTO> result = service.findAllPaged(0L, "prueba", pageable);
+        Assertions.assertNotNull(result);
+        Mockito.verify(authService, Mockito.times(1)).autenticado();
+        Mockito.verify(categoriaRepository, Mockito.times(0)).getById(1L);
+        Mockito.verify(repository, Mockito.times(1)).findByUsuarioAndCategoria(usuario, null, "prueba", pageable);
+    }
 
     @Test
-    void findAllCompletePagedSholdReturnPage() {
+    void findAllCompletePagedSholdReturnPageOfTarjetaDTOOfProvidedCategoria() {
         Pageable pageable = PageRequest.of(0, 10);
         Page<TarjetaDTO> result = service.findAllCompletePaged(existingId, "prueba", pageable);
         Assertions.assertNotNull(result);
         Mockito.verify(authService, Mockito.times(1)).autenticado();
         Mockito.verify(categoriaRepository, Mockito.times(1)).getById(existingId);
         Mockito.verify(repository, Mockito.times(1)).findByUsuarioAndCategoria(usuario, categoria, "prueba", pageable);
+    } 
+    
+    @Test
+    void findAllCompletePagedSholdReturnPageOfTarjetaDTOWithAllCategoriasWhenCategoriaIsNotProvided() {
+        Pageable pageable = PageRequest.of(0, 10);
+        Page<TarjetaDTO> result = service.findAllCompletePaged(0L, "prueba", pageable);
+        Assertions.assertNotNull(result);
+        Mockito.verify(authService, Mockito.times(1)).autenticado();
+        Mockito.verify(categoriaRepository, Mockito.times(0)).getById(existingId);
+        Mockito.verify(repository, Mockito.times(1)).findByUsuarioAndCategoria(usuario, null, "prueba", pageable);
     }
 
     @Test
