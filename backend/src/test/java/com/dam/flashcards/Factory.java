@@ -30,12 +30,19 @@ public class Factory {
         return new TarjetaBasicaDTO(createTarjeta());
     }
 
-    public static Usuario createUsuario() {
+    public static Usuario createUsuarioAdministrador() {
         Usuario usuario = new Usuario(1L, "juanpg", "Juan", "Perez Gonzalez", "juan@gmail.com", "123456");
-        usuario.getRoles().add(new Rol(1L, "ROLE_USUARIO"));
-        usuario.getRoles().add(new Rol(2L, "ROLE_ADMINISTRADOR"));
+        usuario.getRoles().add(createRolUsuario());
+        usuario.getRoles().add(createRolAdministrador());
         return usuario;
     }
+
+    public static Usuario createUsuario() {
+        Usuario usuario = new Usuario(1L, "mariafs", "Maria", "Fernandez Silva", "maria@gmail.com", "123456");
+        usuario.getRoles().add(createRolUsuario());
+        return usuario;
+    }
+
 
     public static Categoria createCategoria() {
         Categoria categoria = new Categoria(1L, "Vocabulario Inglés");

@@ -34,16 +34,14 @@ public class AuthServiceTests {
     @Mock
     private Authentication authentication;
 
-    private Long existingId;
     private Long nonExistingId;
     private String nombreUsuario;
     private Usuario usuario;
 
     @BeforeEach
     void setUp() throws Exception {
-        existingId = 1L;
-        nonExistingId = 2L;
-        nombreUsuario = "juanpg";
+        nonExistingId = 1000L;
+        nombreUsuario = "mariafs";
         usuario = Factory.createUsuario();
 
         Mockito.when(securityContext.getAuthentication()).thenReturn(authentication);
@@ -62,9 +60,9 @@ public class AuthServiceTests {
     }
 
     @Test
-    void validarUsuarioLogadoOAdministradorShouldThrowForbiddenExceptionIfProvidedUsuarioIdIsNotSameAsUsuarioAutenticadoAndUsuarioNotAdministrador() {
+    void validarUsuarioLogadoOAdministradorShouldThrowForbiddenExceptionIfProvidedUsuarioIdIsNotSameAsUsuarioAutenticadoAndUsuarioLogadoIsNotAdministrador() {
         Assertions.assertThrows(ForbiddenException.class, () -> {
-            service.validarUsuarioLogadoOAdministrador(existingId);
+            service.validarUsuarioLogadoOAdministrador(nonExistingId);
         });
     }
 
