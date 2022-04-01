@@ -4,6 +4,7 @@ import java.time.Instant;
 
 import com.dam.flashcards.dto.CategoriaBasicaDTO;
 import com.dam.flashcards.dto.CategoriaDTO;
+import com.dam.flashcards.dto.RolDTO;
 import com.dam.flashcards.dto.TarjetaBasicaDTO;
 import com.dam.flashcards.dto.TarjetaDTO;
 import com.dam.flashcards.entities.Categoria;
@@ -61,6 +62,10 @@ public class Factory {
 
     public static Rol createRolAdministrador() {
         return new Rol(2L, "ROLE_ADMINISTRADOR");
+    }
+
+    public static RolDTO createRolDTO() {
+        return new RolDTO(createRolUsuario());
     }
 
 }
