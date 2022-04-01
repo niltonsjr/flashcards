@@ -40,7 +40,7 @@ class TarjetaServiceTests {
     private TarjetaService service;
 
     @Mock
-    private TarjetaRepository repository;
+    private TarjetaRepository tarjetaRepository;
 
     @Mock
     private AuthService authService;
@@ -59,6 +59,7 @@ class TarjetaServiceTests {
     private Usuario usuario;
     private Categoria categoria;
     private TarjetaDTO tarjetaDTO;
+    private Pageable pageable;
 
     @BeforeEach
     void setUp() throws Exception {
@@ -72,76 +73,78 @@ class TarjetaServiceTests {
 
         page = new PageImpl<Tarjeta>(List.of(tarjeta));
 
+        pageable = PageRequest.of(0, 10);
+
         Mockito.when(authService.autenticado()).thenReturn(usuario);
 
         Mockito.when(categoriaRepository.getById(existingId)).thenReturn(categoria);
 
         Mockito.when(usuarioRepository.getById(existingId)).thenReturn(usuario);
 
-        Mockito.doNothing().when(repository).deleteById(existingId);
-        Mockito.doThrow(EmptyResultDataAccessException.class).when(repository).deleteById(nonExistingId);
-        Mockito.doThrow(DataIntegrityViolationException.class).when(repository).deleteById(dependentId);
+        Mockito.doNothing().when(tarjetaRepository).deleteById(existingId);
+        Mockito.doThrow(EmptyResultDataAccessException.class).when(tarjetaRepository).deleteById(nonExistingId);
+        Mockito.doThrow(DataIntegrityViolationException.class).when(tarjetaRepository).deleteById(dependentId);
 
-        Mockito.when(repository.findByUsuarioAndCategoria(ArgumentMatchers.any(Usuario.class),
+        Mockito.when(tarjetaRepository.findByUsuarioAndCategoria(ArgumentMatchers.any(Usuario.class),
                 ArgumentMatchers.any(Categoria.class), ArgumentMatchers.anyString(),
                 ArgumentMatchers.any(Pageable.class))).thenReturn(page);
-        Mockito.when(repository.findByUsuarioAndCategoria(ArgumentMatchers.any(Usuario.class),
+        Mockito.when(tarjetaRepository.findByUsuarioAndCategoria(ArgumentMatchers.any(Usuario.class),
                 ArgumentMatchers.isNull(), ArgumentMatchers.anyString(), ArgumentMatchers.any(Pageable.class)))
                 .thenReturn(page);
-        Mockito.when(repository.save(ArgumentMatchers.any())).thenReturn(tarjeta);
+        Mockito.when(tarjetaRepository.save(ArgumentMatchers.any())).thenReturn(tarjeta);
 
-        Mockito.when(repository.findById(existingId)).thenReturn(Optional.of(tarjeta));
-        Mockito.when(repository.findById(nonExistingId)).thenReturn(Optional.empty());
+        Mockito.when(tarjetaRepository.findById(existingId)).thenReturn(Optional.of(tarjeta));
+        Mockito.when(tarjetaRepository.findById(nonExistingId)).thenReturn(Optional.empty());
 
-        Mockito.when(repository.getById(existingId)).thenReturn(tarjeta);
-        Mockito.doThrow(EntityNotFoundException.class).when(repository).getById(nonExistingId);
+        Mockito.when(tarjetaRepository.getById(existingId)).thenReturn(tarjeta);
+        Mockito.doThrow(EntityNotFoundException.class).when(tarjetaRepository).getById(nonExistingId);
     }
 
     @Test
     void findAllPagedShoultReturnPageOfTarjetaBasicaDTOOfProvidedCategoria() {
-        Pageable pageable = PageRequest.of(0, 10);
         Page<TarjetaBasicaDTO> result = service.findAllPaged(1L, "prueba", pageable);
         Assertions.assertNotNull(result);
         Mockito.verify(authService, Mockito.times(1)).autenticado();
         Mockito.verify(categoriaRepository, Mockito.times(1)).getById(1L);
-        Mockito.verify(repository, Mockito.times(1)).findByUsuarioAndCategoria(usuario, categoria, "prueba", pageable);
+        Mockito.verify(tarjetaRepository, Mockito.times(1)).findByUsuarioAndCategoria(usuario, categoria, "prueba",
+                pageable);
     }
-    
+
     @Test
     void findAllPagedShoultReturnPageOfTarjetaBasicaDTOWithAllCategoriasWhenCategoriaIsNotProvided() {
-        Pageable pageable = PageRequest.of(0, 10);
         Page<TarjetaBasicaDTO> result = service.findAllPaged(0L, "prueba", pageable);
         Assertions.assertNotNull(result);
         Mockito.verify(authService, Mockito.times(1)).autenticado();
         Mockito.verify(categoriaRepository, Mockito.times(0)).getById(1L);
-        Mockito.verify(repository, Mockito.times(1)).findByUsuarioAndCategoria(usuario, null, "prueba", pageable);
+        Mockito.verify(tarjetaRepository, Mockito.times(1)).findByUsuarioAndCategoria(usuario, null, "prueba",
+                pageable);
     }
 
     @Test
     void findAllCompletePagedSholdReturnPageOfTarjetaDTOOfProvidedCategoria() {
-        Pageable pageable = PageRequest.of(0, 10);
         Page<TarjetaDTO> result = service.findAllCompletePaged(existingId, "prueba", pageable);
         Assertions.assertNotNull(result);
         Mockito.verify(authService, Mockito.times(1)).autenticado();
         Mockito.verify(categoriaRepository, Mockito.times(1)).getById(existingId);
-        Mockito.verify(repository, Mockito.times(1)).findByUsuarioAndCategoria(usuario, categoria, "prueba", pageable);
-    } 
-    
+        Mockito.verify(tarjetaRepository, Mockito.times(1)).findByUsuarioAndCategoria(usuario, categoria, "prueba",
+                pageable);
+    }
+
     @Test
     void findAllCompletePagedSholdReturnPageOfTarjetaDTOWithAllCategoriasWhenCategoriaIsNotProvided() {
-        Pageable pageable = PageRequest.of(0, 10);
         Page<TarjetaDTO> result = service.findAllCompletePaged(0L, "prueba", pageable);
         Assertions.assertNotNull(result);
         Mockito.verify(authService, Mockito.times(1)).autenticado();
         Mockito.verify(categoriaRepository, Mockito.times(0)).getById(existingId);
-        Mockito.verify(repository, Mockito.times(1)).findByUsuarioAndCategoria(usuario, null, "prueba", pageable);
+        Mockito.verify(tarjetaRepository, Mockito.times(1)).findByUsuarioAndCategoria(usuario, null, "prueba",
+                pageable);
     }
 
     @Test
     void findByIdShouldReturnTarjetaDTOWhenIdExists() {
         TarjetaDTO dto = service.findById(existingId);
         Assertions.assertNotNull(dto);
-        Mockito.verify(repository, Mockito.times(1)).findById(existingId);
+        Mockito.verify(tarjetaRepository, Mockito.times(1)).findById(existingId);
     }
 
     @Test
@@ -155,7 +158,7 @@ class TarjetaServiceTests {
     void insertSholdReturnTarjetaDTO() {
         TarjetaDTO dto = service.insert(tarjetaDTO);
         Assertions.assertNotNull(dto);
-        Mockito.verify(repository, Mockito.times(1)).save(tarjeta);
+        Mockito.verify(tarjetaRepository, Mockito.times(1)).save(tarjeta);
     }
 
     @Test
@@ -176,7 +179,7 @@ class TarjetaServiceTests {
         Assertions.assertDoesNotThrow(() -> {
             service.delete(existingId);
         });
-        Mockito.verify(repository, Mockito.times(1)).deleteById(existingId);
+        Mockito.verify(tarjetaRepository, Mockito.times(1)).deleteById(existingId);
     }
 
     @Test
@@ -184,7 +187,7 @@ class TarjetaServiceTests {
         Assertions.assertThrows(ResourceNotFoundException.class, () -> {
             service.delete(nonExistingId);
         });
-        Mockito.verify(repository, Mockito.times(1)).deleteById(nonExistingId);
+        Mockito.verify(tarjetaRepository, Mockito.times(1)).deleteById(nonExistingId);
     }
 
     @Test
@@ -192,7 +195,7 @@ class TarjetaServiceTests {
         Assertions.assertThrows(DatabaseException.class, () -> {
             service.delete(dependentId);
         });
-        Mockito.verify(repository, Mockito.times(1)).deleteById(dependentId);
+        Mockito.verify(tarjetaRepository, Mockito.times(1)).deleteById(dependentId);
     }
 
 }

@@ -3,6 +3,7 @@ package com.dam.flashcards;
 import java.time.Instant;
 
 import com.dam.flashcards.dto.CategoriaBasicaDTO;
+import com.dam.flashcards.dto.CategoriaDTO;
 import com.dam.flashcards.dto.TarjetaBasicaDTO;
 import com.dam.flashcards.dto.TarjetaDTO;
 import com.dam.flashcards.entities.Categoria;
@@ -48,6 +49,10 @@ public class Factory {
         Categoria categoria = new Categoria(1L, "Vocabulario Inglés");
         categoria.setUsuario(createUsuario());
         return categoria;
+    }
+
+    public static CategoriaDTO createCategoriaDTO(){
+        return new CategoriaDTO(createCategoria());
     }
 
     public static Rol createRolUsuario() {
