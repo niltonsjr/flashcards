@@ -23,7 +23,7 @@ public class Factory {
     }
 
     public static TarjetaDTO createTarjetaDTO() {
-        return new TarjetaDTO(null, "Frontal de la tarjeta", "Trasera de la tarjeta", false,
+        return new TarjetaDTO(1L, "Frontal de la tarjeta", "Trasera de la tarjeta", false,
                 Instant.parse("2020-10-20T20:50:07Z"),
                 0, 0, new CategoriaBasicaDTO(1L, "Vocabulario Inglés", 1L), 1L);
     }
