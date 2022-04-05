@@ -28,6 +28,12 @@ public class Factory {
                 0, 0, new CategoriaBasicaDTO(1L, "Vocabulario Inglés", 1L), 1L);
     }
 
+    public static TarjetaDTO createTarjetaDTO(Long id) {
+       TarjetaDTO dto = createTarjetaDTO();
+       dto.setId(id);
+       return dto;
+    }
+
     public static TarjetaBasicaDTO createTarjetaBasicaDTO() {
         return new TarjetaBasicaDTO(createTarjeta());
     }

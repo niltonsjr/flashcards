@@ -4,11 +4,14 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.ArgumentMatchers.eq;
+import static org.mockito.Mockito.doNothing;
+import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.when;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.httpBasic;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -19,6 +22,7 @@ import com.dam.flashcards.Factory;
 import com.dam.flashcards.dto.TarjetaBasicaDTO;
 import com.dam.flashcards.dto.TarjetaDTO;
 import com.dam.flashcards.services.TarjetaService;
+import com.dam.flashcards.services.exceptions.DatabaseException;
 import com.dam.flashcards.services.exceptions.ResourceNotFoundException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -60,35 +64,44 @@ class TarjetaResourceTests {
     private PageImpl<TarjetaDTO> pageTarjetaDto;
     private PageImpl<TarjetaBasicaDTO> pageTarjetaBasicaDto;
     private TarjetaDTO tarjetaDTO;
+    private TarjetaDTO newTarjetaDTO;
     private TarjetaBasicaDTO tarjetaBasicaDTO;
     private Long existingId;
     private Long nonExistingId;
+    private Long dependentId;
 
-    private String operatorUsername;
-    private String operatorPassword;
     private String adminUsername;
     private String adminPassword;
 
     @BeforeEach
     void setUp() throws Exception {
-        operatorUsername = "mariafs";
-        operatorPassword = "123456";
         adminUsername = "juanpg";
         adminPassword = "123456";
 
         existingId = 1L;
-        nonExistingId = 2000L;
+        nonExistingId = 2L;
+        dependentId = 3L;
         tarjetaDTO = Factory.createTarjetaDTO();
+        newTarjetaDTO = Factory.createTarjetaDTO(null);
+
         tarjetaBasicaDTO = Factory.createTarjetaBasicaDTO();
         pageTarjetaBasicaDto = new PageImpl<>(List.of(tarjetaBasicaDTO));
         pageTarjetaDto = new PageImpl<>(List.of(tarjetaDTO));
 
         when(service.findAllPaged(anyLong(), anyString(), any(Pageable.class))).thenReturn(pageTarjetaBasicaDto);
         when(service.findAllCompletePaged(anyLong(), anyString(), any(Pageable.class))).thenReturn(pageTarjetaDto);
+
         when(service.findById(existingId)).thenReturn(tarjetaDTO);
         when(service.findById(nonExistingId)).thenThrow(ResourceNotFoundException.class);
+
+        when(service.insert(any())).thenReturn(tarjetaDTO);
+
         when(service.update(eq(existingId), any())).thenReturn(tarjetaDTO);
         when(service.update(eq(nonExistingId), any())).thenThrow(ResourceNotFoundException.class);
+
+        doNothing().when(service).delete(existingId);
+        doThrow(ResourceNotFoundException.class).when(service).delete(nonExistingId);
+        doThrow(DatabaseException.class).when(service).delete(dependentId);
     }
 
     @Test
@@ -127,6 +140,26 @@ class TarjetaResourceTests {
     }
 
     @Test
+    void insertShouldReturnCreatedWhenDataAreValid() throws Exception {
+        String accessToken = obtainAccessToken(adminUsername, adminPassword);
+        String jsonBody = objectMapper.writeValueAsString(newTarjetaDTO);
+        ResultActions result = mockMvc.perform(post("/tarjetas/").header("Authorization", "Bearer " + accessToken)
+                .content(jsonBody).contentType(MediaType.APPLICATION_JSON).accept(MediaType.APPLICATION_JSON));
+        result.andExpect(status().isCreated());
+    }
+
+    @Test
+    void insertShouldReturnUnprocessableEntityWhenDataAreNotValid() throws Exception {
+        String accessToken = obtainAccessToken(adminUsername, adminPassword);
+        TarjetaDTO invalidTarjetaDTO = Factory.createTarjetaDTO();
+        invalidTarjetaDTO.setFrontal(null);
+        String jsonBody = objectMapper.writeValueAsString(invalidTarjetaDTO);
+        ResultActions result = mockMvc.perform(post("/tarjetas").header("Authorization", "Bearer " + accessToken)
+                .content(jsonBody).contentType(MediaType.APPLICATION_JSON).accept(MediaType.APPLICATION_JSON));
+        result.andExpect(status().isUnprocessableEntity());
+    }
+
+    @Test
     void updateShouldReturnTarjetaDTOWhenIdExists() throws Exception {
         String accessToken = obtainAccessToken(adminUsername, adminPassword);
         String jsonBody = objectMapper.writeValueAsString(tarjetaDTO);
@@ -151,7 +184,22 @@ class TarjetaResourceTests {
                         .contentType(MediaType.APPLICATION_JSON)
                         .accept(MediaType.APPLICATION_JSON));
         result.andExpect(status().isNotFound());
+    }
 
+    @Test
+    void deleteShouldReturnNotFoundWhenIdDoesNotExists() throws Exception {
+        String accessToken = obtainAccessToken(adminUsername, adminPassword);
+        ResultActions result = mockMvc.perform(delete("/tarjetas/{id}", nonExistingId)
+                .header("Authorization", "Bearer " + accessToken));
+        result.andExpect(status().isNotFound());
+    }
+
+    @Test
+    void deleteShouldReturnNoContentWhenIdExists() throws Exception {
+        String accessToken = obtainAccessToken(adminUsername, adminPassword);
+        ResultActions result = mockMvc.perform(delete("/tarjetas/{id}", existingId)
+                .header("Authorization", "Bearer " + accessToken));
+        result.andExpect(status().isNoContent());
     }
 
     private String obtainAccessToken(String username, String password) throws Exception {
