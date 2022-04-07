@@ -78,6 +78,12 @@ public class Factory {
         return new CategoriaDTO(createCategoria());
     }
 
+    public static CategoriaDTO createCategoriaDTO(Long id) {
+        CategoriaDTO dto = createCategoriaDTO();
+        dto.setId(id);
+        return dto;
+    }
+
     public static Rol createRolUsuario() {
         return new Rol(1L, "ROLE_USUARIO");
     }
