@@ -96,4 +96,10 @@ public class Factory {
         return new RolDTO(createRolUsuario());
     }
 
+    public static RolDTO createRolDTO(Long id) {
+        RolDTO dto = createRolDTO();
+        dto.setId(id);
+        return dto;
+    }
+
 }
