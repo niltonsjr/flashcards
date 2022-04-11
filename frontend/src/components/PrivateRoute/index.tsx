@@ -1,6 +1,7 @@
 import React from "react";
 import { Navigate, useLocation } from "react-router-dom";
-import { hasAnyRoles, isAuthenticated, Role } from "util/auth";
+import { Role } from "types/Role";
+import { hasAnyRoles, isAuthenticated } from "util/auth";
 
 const PrivateRoute: React.FC<{ children: JSX.Element; roles?: Role[] }> = ({
   children,

@@ -54,7 +54,13 @@ public class Factory {
     }
 
     public static UsuarioDTO createUsuarioDTO() {
-        return new UsuarioDTO(createUsuario());
+        return new UsuarioDTO(createUsuarioAdministrador());
+    }
+
+    public static UsuarioDTO createUsuarioDTO(Long id) {
+        UsuarioDTO dto = new UsuarioDTO(createUsuarioAdministrador());
+        dto.setId(id);
+        return dto;
     }
 
     public static UsuarioRegistroDTO createUsuarioRegistroDTO(String nombreDeUsuario) {

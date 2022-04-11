@@ -4,9 +4,9 @@ import { useCallback, useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { Link } from "react-router-dom";
 import { Usuario } from "types/usuario";
-import { getTokenData, TokenData } from "util/auth";
 import { requestBackend } from "util/requests";
 import { getAuthData } from "util/storage";
+import { getTokenData, TokenData } from "util/token";
 import "./styles.css";
 
 const MisDatos = () => {
