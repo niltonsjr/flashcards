@@ -34,7 +34,7 @@ const LoginCard = () => {
         navigate("/admin/tarjetas");
         setHasError(false);
       })
-      .catch((error) => {
+      .catch(() => {
         setHasError(true);
       });
   };
