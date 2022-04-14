@@ -27,7 +27,7 @@ const OlvidoContrasenaCard = () => {
     };
 
     requestBackend(config)
-      .then((response) => {
+      .then(() => {
         setEnviado(true);
       })
       .catch(() => {
