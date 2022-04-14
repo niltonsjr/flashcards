@@ -31,7 +31,7 @@ const ResetearContrasenaCard = () => {
     };
 
     requestBackend(config)
-      .then((response) => {
+      .then(() => {
         navigate("/auth/login");
         toast.success("Contraseña cambiada con éxito.");
       })
