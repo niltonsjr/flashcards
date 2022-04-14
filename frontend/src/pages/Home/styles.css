@@ -13,7 +13,7 @@
   text-align: center;
 }
 
-.home-left-text {
+.home-left-text {  
   background-image: url(assets/images/front-text-background.svg);
   background-position: center;
   background-size: contain;
@@ -65,5 +65,11 @@
 @media (min-width: 1200px) {
   .home-container {
     padding: 0 20vw 30px;
+  }
+
+  @media (min-width: 1700px) {
+    .home-left-text {  
+      margin-top: 150px;
+    }
   }
 }
