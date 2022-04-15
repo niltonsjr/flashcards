@@ -100,6 +100,7 @@ const TarjetasForm = () => {
         className="tarjeta-card-container base-card"
       >
         <div className="tarjeta-select-container">
+          <label htmlFor="categoria" className="d-none">Categorias</label>          
           <Controller
             name="categoria"
             control={control}
@@ -113,6 +114,7 @@ const TarjetasForm = () => {
                 getOptionValue={(cat: Categoria) => String(cat.id)}
                 placeholder="Categoría"
                 isClearable
+                inputId="categoria"
               />
             )}
           />

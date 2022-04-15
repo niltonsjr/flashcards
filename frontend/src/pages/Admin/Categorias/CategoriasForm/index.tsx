@@ -81,6 +81,7 @@ const CategoriasForm = () => {
         name="nombre"
         className="form-control base-input"
         placeholder="Nombre de la categoría"
+        data-testid="nombre"
       />
       <div className="invalid-feedback d-block">{errors.nombre?.message}</div>
 
