@@ -98,6 +98,7 @@ const TarjetasForm = () => {
       <form
         onSubmit={handleSubmit(onSubmit)}
         className="tarjeta-card-container base-card"
+        data-testid="form"
       >
         <div className="tarjeta-select-container">
           <label htmlFor="categoria" className="d-none">Categorias</label>          

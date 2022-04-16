@@ -68,7 +68,7 @@ describe("CategoriasForm create tests", () => {
     expect(history.location.pathname).toEqual("/admin/categorias");
   });
 
-  test("shouldshow validation error message when submit form whithout fill categoria name", async () => {
+  test("should show validation error message when submit form whithout fill categoria name", async () => {
     render(
       <CustomRouter history={history}>
         <Routes>
@@ -135,25 +135,6 @@ describe("CategoriasForm update tests", () => {
     (useParams as jest.Mock).mockReturnValue({
       categoriaId: "1",
     });
-  });
-
-  test("should render CategoriaForm", () => {
-    render(
-      <CustomRouter history={history}>
-        <ToastContainer />
-        <Routes>
-          <Route path="/*" element={<CategoriasForm />} />
-        </Routes>
-      </CustomRouter>
-    );
-
-    const nombreInput = screen.getByTestId("nombre");
-    const guardarButton = screen.getByRole("button", { name: "Guardar" });
-    const cancelarButton = screen.getByRole("button", { name: "Cancelar" });
-
-    expect(nombreInput).toBeInTheDocument();
-    expect(guardarButton).toBeInTheDocument();
-    expect(cancelarButton).toBeInTheDocument();
   });
 
   test("should render editing Categoria and show toast and redirect when submited correctly", async () => {

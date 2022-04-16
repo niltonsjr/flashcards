@@ -36,7 +36,6 @@ const CambiarContrasena = () => {
     handleSubmit: handleSubmit2,
     setValue: setValue2,
     getValues,
-    clearErrors,
     formState: { errors: errors2 },
   } = useForm<NewPasswordData>();
 
@@ -47,7 +46,7 @@ const CambiarContrasena = () => {
           setValidActualPassword(true);
         }
       })
-      .catch((error) => {
+      .catch(() => {
         setValidActualPassword(false);
         toast.error("Contraseña actual incorrecta");
       });
@@ -62,7 +61,7 @@ const CambiarContrasena = () => {
     };
 
     requestBackend(config)
-      .then((response) => {
+      .then(() => {
         setValue("password", "");
         setValue2("nuevaContrasena", "");
         setValue2("confirmaNuevaContrasena", "");
@@ -76,7 +75,7 @@ const CambiarContrasena = () => {
       });
   };
 
-  const handleCancel = (event: React.MouseEvent) => {
+  const handleCancel = () => {
     navigate("/admin/misdatos");
   };
 
