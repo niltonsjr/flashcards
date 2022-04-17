@@ -48,6 +48,8 @@ public class ResourceServerConfig extends ResourceServerConfigurerAdapter {
 		}
 
 		http.authorizeRequests().antMatchers(PUBLIC).permitAll()
+				.antMatchers("/v2/api-docs", "/configuration/**", "/swagger*/**", "/webjars/**")
+				.permitAll()
 				.antMatchers(USUARIO_O_ADMINISTRADOR).hasAnyRole("USUARIO", "ADMINISTRADOR")
 				.antMatchers(ADMINISTRADOR).hasRole("ADMINISTRADOR")
 				.anyRequest().authenticated();
