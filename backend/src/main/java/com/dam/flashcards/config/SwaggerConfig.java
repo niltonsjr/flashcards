@@ -21,16 +21,17 @@ public class SwaggerConfig {
                 .select()
                 .apis(RequestHandlerSelectors.basePackage("com.dam.flashcards.resources"))
                 .paths(PathSelectors.any())
-                .build();
+                .build()
+                .apiInfo(apiInfo());
     }
 
     private ApiInfo apiInfo() {
         return new ApiInfo(
-                "Dog REST API",
-                "This API returns a list of dogs.",
+                "Flashcards",
+                "Aplicación para almacenar flashcards.",
                 "1.0",
-                "http://www.udacity.com/tos",
-                new Contact("Udacious Student", "www.udacity.com", "myeaddress@udacity.com"),
-                "License of API", "http://www.udacity.com/license", Collections.emptyList());
+                "",
+                new Contact("Nilton da Silva Junior", "https://github.com/niltonsjr", "nilton.s.j@outlook.es"),
+                "", "", Collections.emptyList());
     }
 }
