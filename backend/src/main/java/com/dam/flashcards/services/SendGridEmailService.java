@@ -22,6 +22,11 @@ public class SendGridEmailService implements EmailService {
     @Autowired
     private SendGrid sendGrid;
 
+    /**
+     * Implementación del método para enviar un Email
+     * 
+     * @param dto los datos del email a ser enviado
+     */
     public void sendEmail(EmailDTO dto) {
         Email from = new Email(dto.getFromEmail(), dto.getFromName());
         Email to = new Email(dto.getTo());

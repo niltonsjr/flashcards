@@ -28,11 +28,14 @@ public class ResourceServerConfig extends ResourceServerConfigurerAdapter {
 	@Autowired
 	private JwtTokenStore tokenStore;
 
+	// Rutas de acceso público
 	private static final String[] PUBLIC = { "oauth/token", "/h2-console/**", "/registro", "/contrasena_olvidada",
 			"/reset_contrasena" };
 
+	// Rutas de acceso para usuario logado
 	private static final String[] USUARIO_O_ADMINISTRADOR = { "/tarjetas/**", "/categorias/**" };
 
+	// Rutas de acceso solo para usuarios con rol Administrador
 	private static final String[] ADMINISTRADOR = { "/roles/**" };
 
 	@Override
@@ -42,11 +45,11 @@ public class ResourceServerConfig extends ResourceServerConfigurerAdapter {
 
 	@Override
 	public void configure(HttpSecurity http) throws Exception {
-		// para liberar acceso a la consola de H2 en test
+		// para liberar acceso a la consola de H2 en perfil test
 		if (Arrays.asList(env.getActiveProfiles()).contains("test")) {
 			http.headers().frameOptions().disable();
 		}
-
+		// configuración de los accesos a las rutas de la aplicación
 		http.authorizeRequests().antMatchers(PUBLIC).permitAll()
 				.antMatchers("/v2/api-docs", "/configuration/**", "/swagger*/**", "/webjars/**")
 				.permitAll()
@@ -57,6 +60,7 @@ public class ResourceServerConfig extends ResourceServerConfigurerAdapter {
 		http.cors().configurationSource(corsConfigurationSource());
 	}
 
+	// Configuración para CORS
 	@Bean
 	public CorsConfigurationSource corsConfigurationSource() {
 		CorsConfiguration corsConfig = new CorsConfiguration();
@@ -70,6 +74,7 @@ public class ResourceServerConfig extends ResourceServerConfigurerAdapter {
 		return source;
 	}
 
+	// Configuración para CORS
 	@Bean
 	public FilterRegistrationBean<CorsFilter> corsFilter() {
 		FilterRegistrationBean<CorsFilter> bean = new FilterRegistrationBean<>(

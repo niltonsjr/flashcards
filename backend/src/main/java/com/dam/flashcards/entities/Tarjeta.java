@@ -12,6 +12,9 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+/**
+ * Entidad tarjeta para ser almacenada en la base de datos
+ */
 @Entity
 @Table(name = "tb_tarjeta")
 public class Tarjeta implements Serializable {
@@ -30,7 +33,10 @@ public class Tarjeta implements Serializable {
 	@Column(columnDefinition = "TIMESTAMP WITHOUT TIME ZONE")
 	private Instant fechaUltimaRespuesta;
 
+	// número de veces que se ha indicado que la respuesta de la tarjeta es conocida
 	private Integer totalConocidas;
+	// número de veces que se ha indicado que la respuesta de la tarjeta es no
+	// conocida
 	private Integer totalNoConocidas;
 
 	@ManyToOne

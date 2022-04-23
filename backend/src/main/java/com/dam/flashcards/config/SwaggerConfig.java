@@ -15,6 +15,12 @@ import java.util.Collections;
 @Configuration
 @EnableSwagger2
 public class SwaggerConfig {
+
+    /**
+     * Método de configuración de Swagger para documentación de API
+     * 
+     * @return Docket Información de la aplicación para la configuración de Swagger
+     */
     @Bean
     public Docket api() {
         return new Docket(DocumentationType.SWAGGER_2)
@@ -25,6 +31,11 @@ public class SwaggerConfig {
                 .apiInfo(apiInfo());
     }
 
+    /**
+     * Información de la aplicación para la configuración de Swagger
+     * 
+     * @return ApiInfo objeto con la información de la aplicación
+     */
     private ApiInfo apiInfo() {
         return new ApiInfo(
                 "Flashcards",

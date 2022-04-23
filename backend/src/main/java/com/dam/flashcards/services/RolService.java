@@ -24,12 +24,24 @@ public class RolService {
 	@Autowired
 	private RolRepository repository;
 
+	/**
+	 * Método para obtgener la lista de Roles
+	 * 
+	 * @param pageable
+	 * @return Page<RolDTO> La lista de roles paginada
+	 */
 	@Transactional(readOnly = true)
 	public Page<RolDTO> findAllPaged(Pageable pageable) {
 		Page<Rol> list = repository.findAll(pageable);
 		return list.map(RolDTO::new);
 	}
 
+	/**
+	 * Método para obtener un Rol por ID
+	 * 
+	 * @param id El ID del Rol
+	 * @return RolDTO Los datos del Rol
+	 */
 	@Transactional(readOnly = true)
 	public RolDTO findById(Long id) {
 		Optional<Rol> obj = repository.findById(id);
@@ -37,7 +49,13 @@ public class RolService {
 				.orElseThrow(() -> new ResourceNotFoundException("El rol no existe en el sistema."));
 		return new RolDTO(entity);
 	}
-	
+
+	/**
+	 * Método para añadir un Rol
+	 * 
+	 * @param dto Los datos del Rol a añadir
+	 * @return RolDTO Los datos del Rol añadiddo
+	 */
 	@Transactional
 	public RolDTO insert(RolDTO dto) {
 		Rol entity = new Rol();
@@ -46,6 +64,13 @@ public class RolService {
 		return new RolDTO(entity);
 	}
 
+	/**
+	 * Método para actualizar un Rol
+	 * 
+	 * @param id  El ID del Rol a actualizar
+	 * @param dto Los datos del Rol actualizados
+	 * @return RolDTO Los datos del Rol tras actualizarlo
+	 */
 	@Transactional
 	public RolDTO update(Long id, RolDTO dto) {
 		Rol entity;
@@ -60,6 +85,11 @@ public class RolService {
 
 	}
 
+	/**
+	 * Método para borrar un Rol
+	 * 
+	 * @param id El Id del Rol a borrar
+	 */
 	public void delete(Long id) {
 		try {
 			repository.deleteById(id);

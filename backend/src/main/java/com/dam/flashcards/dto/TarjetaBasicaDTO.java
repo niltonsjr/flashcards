@@ -4,6 +4,9 @@ import java.io.Serializable;
 
 import com.dam.flashcards.entities.Tarjeta;
 
+/**
+ * Clase DTO con datos de Tarjeta básicos
+ */
 public class TarjetaBasicaDTO implements Serializable {
 
 	private static final long serialVersionUID = 1L;

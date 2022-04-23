@@ -11,6 +11,11 @@ import org.springframework.context.annotation.Profile;
 @Profile("dev")
 public class DevConfig {
 
+    /**
+     * Bean de EmailServide para perfil dev
+     * 
+     * @return EmailService
+     */
     @Bean
     public EmailService emailService() {
         return new SendGridEmailService();

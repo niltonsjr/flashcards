@@ -7,6 +7,9 @@ import java.util.Set;
 import com.dam.flashcards.entities.Categoria;
 import com.dam.flashcards.entities.Tarjeta;
 
+/**
+ * Clase de DTO con datos de categoría completos
+ */
 public class CategoriaDTO implements Serializable {
 
 	private static final long serialVersionUID = 1L;

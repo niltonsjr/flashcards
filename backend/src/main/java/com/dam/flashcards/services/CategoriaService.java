@@ -38,6 +38,12 @@ public class CategoriaService {
 	@Autowired
 	private AuthService authService;
 
+	/**
+	 * Método para buscar una lista paginada de categorías
+	 * 
+	 * @param pageable
+	 * @return Page<CategoriaDTO> La lista de categorías paginada
+	 */
 	@Transactional(readOnly = true)
 	public Page<CategoriaDTO> findAllPaged(Pageable pageable) {
 		Usuario usuario = authService.autenticado();
@@ -45,6 +51,12 @@ public class CategoriaService {
 		return list.map(CategoriaDTO::new);
 	}
 
+	/**
+	 * Método para buscar una categoría por su ID
+	 * 
+	 * @param id La ID de la categoría
+	 * @return CategoriaDTO Los datos de la categoría
+	 */
 	@Transactional(readOnly = true)
 	public CategoriaDTO findById(Long id) {
 		Optional<Categoria> obj = repository.findById(id);
@@ -53,6 +65,12 @@ public class CategoriaService {
 		return new CategoriaDTO(entity, entity.getTarjetas());
 	}
 
+	/**
+	 * Método para añadir una categoría
+	 * 
+	 * @param dto Los datos de la categoría a añadir
+	 * @return CategoriaDTO Los datos de la categoría tras añadirla
+	 */
 	@Transactional
 	public CategoriaDTO insert(CategoriaDTO dto) {
 		Categoria entity = new Categoria();
@@ -61,6 +79,13 @@ public class CategoriaService {
 		return new CategoriaDTO(entity);
 	}
 
+	/**
+	 * Método para actualizar una categoría
+	 * 
+	 * @param id  La ID de la categoría a actualizar
+	 * @param dto Los datos de la categoría actualizados
+	 * @return CategoriaDTO La categoría tras actualizarla
+	 */
 	@Transactional
 	public CategoriaDTO update(Long id, CategoriaDTO dto) {
 		Categoria entity;
@@ -75,6 +100,11 @@ public class CategoriaService {
 
 	}
 
+	/**
+	 * Método para borrar una categoría
+	 * 
+	 * @param id La ID de la categoría a borrar
+	 */
 	public void delete(Long id) {
 		try {
 			repository.deleteById(id);
@@ -85,6 +115,12 @@ public class CategoriaService {
 		}
 	}
 
+	/**
+	 * Método para copiar los datos de una categoríaDTO a una categoría
+	 * 
+	 * @param dto    La categoríaDTO que será copiada
+	 * @param entity La categoría que recibirá los datos copiados
+	 */
 	private void copyDtoToEntity(CategoriaDTO dto, Categoria entity) {
 		entity.setNombre(dto.getNombre());
 		entity.setUsuario(usuarioRepository.getById(dto.getUsuarioId()));

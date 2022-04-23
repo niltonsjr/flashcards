@@ -7,6 +7,9 @@ import javax.validation.constraints.NotBlank;
 
 import com.dam.flashcards.entities.Tarjeta;
 
+/**
+ * Clase DTO con datos de una tarjeta completos
+ */
 public class TarjetaDTO implements Serializable {
 
 	private static final long serialVersionUID = 1L;

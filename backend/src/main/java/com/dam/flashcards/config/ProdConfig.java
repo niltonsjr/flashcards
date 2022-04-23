@@ -11,6 +11,11 @@ import org.springframework.context.annotation.Profile;
 @Profile("prod")
 public class ProdConfig {
 
+    
+    /** 
+     * Bean de EmailServide para perfil prod
+     * @return EmailService
+     */
     @Bean
     public EmailService emailService() {
         return new SendGridEmailService();

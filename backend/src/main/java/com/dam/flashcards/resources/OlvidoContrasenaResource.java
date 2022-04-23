@@ -28,6 +28,13 @@ public class OlvidoContrasenaResource {
         @Autowired
         private EmailService emailService;
 
+        /**
+         * Método para enviar correo de contraseña olvidada
+         * 
+         * @param usuarioEmail El email del usuario
+         * @param request
+         * @return ResponseEntity<Void>
+         */
         @PostMapping(value = "/contrasena_olvidada")
         public ResponseEntity<Void> enviarEmailContrasenaOlvidada(@RequestBody UsuarioEmailDTO usuarioEmail,
                         HttpServletRequest request) {
@@ -36,9 +43,6 @@ public class OlvidoContrasenaResource {
                 service.updateResetToken(token, usuario.getEmail());
                 String referrer = request.getHeader("referer");
                 String resetContrasenaLink = referrer.concat("auth/reset_contrasena?token=").concat(token);
-                System.out.println(referrer);
-                // String resetContrasenaLink = ServletUriComponentsBuilder.fromRequestUri(request).replacePath(null)
-                //                 .path("/auth/reset_contrasena").queryParam("token", token).build().toString();
                 EmailDTO emailDTO = new EmailDTO();
                 emailDTO.setFromEmail("contacto@niltonsj.es");
                 emailDTO.setFromName("FlashCards");
@@ -56,6 +60,14 @@ public class OlvidoContrasenaResource {
                 return ResponseEntity.ok().build();
         }
 
+        /**
+         * Método para reasignar la contraseña del usuario desde el enlace del correo
+         * electrónico de olvidó su contraseña enviado
+         * 
+         * @param contrasena La nueva contraseña junto con el Token del usuario cuya
+         *                   contraseña se reasignará
+         * @return ResponseEntity<Void>
+         */
         @PostMapping(value = "/reset_contrasena")
         public ResponseEntity<Void> resetearContrasena(@RequestBody NuevaContrasenaDTO contrasena) {
                 Usuario usuario = service.findUsuarioByResetToken(contrasena.getToken());

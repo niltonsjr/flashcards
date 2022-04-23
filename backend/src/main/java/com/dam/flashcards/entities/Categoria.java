@@ -14,6 +14,9 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+/**
+ * Entidad categoría para ser almacenada en la base de datos
+ */
 @Entity
 @Table(name = "tb_categoria")
 public class Categoria implements Serializable {

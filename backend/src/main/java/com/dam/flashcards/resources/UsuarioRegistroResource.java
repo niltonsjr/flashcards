@@ -24,6 +24,12 @@ public class UsuarioRegistroResource {
 	@Autowired
 	private UsuarioService service;
 
+	/**
+	 * Método para registrar un nuevo usuario
+	 * 
+	 * @param dto Los datos del usuario a registrar
+	 * @return ResponseEntity<UsuarioDTO> Los datos del usuario regitrado
+	 */
 	@PostMapping
 	public ResponseEntity<UsuarioDTO> registrarUsuario(@Valid @RequestBody UsuarioRegistroDTO dto) {
 		try {

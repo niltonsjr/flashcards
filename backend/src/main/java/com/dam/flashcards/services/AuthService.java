@@ -18,6 +18,11 @@ public class AuthService {
 	@Autowired
 	private UsuarioRepository usuarioRepository;
 
+	/**
+	 * Método para obtener los datos del usuario autenticado en la aplicación
+	 * 
+	 * @return Usuario Los datos del usuario
+	 */
 	@Transactional(readOnly = true)
 	public Usuario autenticado() {
 		String username = SecurityContextHolder.getContext().getAuthentication().getName();
@@ -25,6 +30,12 @@ public class AuthService {
 		return obj.orElseThrow(() -> new UnauthorizedException("Usuario inválido."));
 	}
 
+	/**
+	 * Método para comprobar si el usuario cuyo ID facilitado es el mismo del que
+	 * está autenticado o tiene Rol de Administrador
+	 * 
+	 * @param usuarioId El ID del usuario a comprobar
+	 */
 	@Transactional
 	public void validarUsuarioLogadoOAdministrador(Long usuarioId) {
 		Usuario usuario = autenticado();

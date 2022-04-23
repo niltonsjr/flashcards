@@ -38,6 +38,14 @@ public class TarjetaService {
 	@Autowired
 	private UsuarioRepository usuarioRepository;
 
+	/**
+	 * Método para obtener la lista de Tarjetas paginada en formato reducido
+	 * 
+	 * @param categoriaId El ID de la categoría si se desea filtrar la lista por
+	 *                    ategoría
+	 * @param texto       Un texto si se desea filtar la lista por Texto
+	 * @return Page<TarjetaBasicaDTO> La lista de tarjetas paginada
+	 */
 	@Transactional(readOnly = true)
 	public Page<TarjetaBasicaDTO> findAllPaged(Long categoriaId, String texto, Pageable pageable) {
 		Usuario usuario = authService.autenticado();
@@ -46,6 +54,14 @@ public class TarjetaService {
 		return list.map(TarjetaBasicaDTO::new);
 	}
 
+	/**
+	 * Método para obtener la lista de Tarjetas paginada en formato completo
+	 * 
+	 * @param categoriaId El ID de la categoría si se desea filtrar la lista por
+	 *                    categoría
+	 * @param texto       Un texto si se desea filtar la lista por Texto
+	 * @return Page<TarjetaDTO> La lista de tarjetas paginada
+	 */
 	@Transactional(readOnly = true)
 	public Page<TarjetaDTO> findAllCompletePaged(Long categoriaId, String texto, Pageable pageable) {
 		Usuario usuario = authService.autenticado();
@@ -54,6 +70,12 @@ public class TarjetaService {
 		return list.map(TarjetaDTO::new);
 	}
 
+	/**
+	 * Método para obtener una tarjeta por su ID
+	 * 
+	 * @param id El ID de la tarjeta a buscar
+	 * @return TarjetaDTO Los datos de la tarjeta
+	 */
 	@Transactional(readOnly = true)
 	public TarjetaDTO findById(Long id) {
 		Optional<Tarjeta> obj = repository.findById(id);
@@ -61,6 +83,12 @@ public class TarjetaService {
 		return new TarjetaDTO(entity);
 	}
 
+	/**
+	 * Método para añadir una tarjeta
+	 * 
+	 * @param dto Los datos de la tarjeta a añadir
+	 * @return TarjetaDTO Los datos de la tarjeta añadida
+	 */
 	@Transactional
 	public TarjetaDTO insert(TarjetaDTO dto) {
 		Tarjeta entity = new Tarjeta();
@@ -69,6 +97,13 @@ public class TarjetaService {
 		return new TarjetaDTO(entity);
 	}
 
+	/**
+	 * Método para actualizar una tarjeta
+	 * 
+	 * @param id  El ID de la tarjeta a actualizar
+	 * @param dto Los datos de la tarjeta actualizados
+	 * @return TarjetaDTO La tarjeta tras actualizarla
+	 */
 	@Transactional
 	public TarjetaDTO update(Long id, TarjetaDTO dto) {
 		Tarjeta entity;
@@ -83,6 +118,11 @@ public class TarjetaService {
 
 	}
 
+	/**
+	 * Método para borrar una tarjeta
+	 * 
+	 * @param id El ID de la tarjeta a borrar
+	 */
 	public void delete(Long id) {
 		try {
 			repository.deleteById(id);
@@ -93,6 +133,12 @@ public class TarjetaService {
 		}
 	}
 
+	/**
+	 * Método para copiar una tarjetaDTO a una tarjeta
+	 * 
+	 * @param dto    La tarjetaDTO que será copiada
+	 * @param entity La tarjeta que recibirá los datos copiados
+	 */
 	private void copyDtoToEntity(TarjetaDTO dto, Tarjeta entity) {
 		entity.setFrontal(dto.getFrontal());
 		entity.setTrasera(dto.getTrasera());

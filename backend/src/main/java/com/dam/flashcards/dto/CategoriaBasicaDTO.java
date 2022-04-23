@@ -3,7 +3,9 @@ package com.dam.flashcards.dto;
 import java.io.Serializable;
 
 import com.dam.flashcards.entities.Categoria;
-
+/**
+ * Clase DTO de categoría con datos básicos
+ */
 public class CategoriaBasicaDTO implements Serializable {
 
 	private static final long serialVersionUID = 1L;

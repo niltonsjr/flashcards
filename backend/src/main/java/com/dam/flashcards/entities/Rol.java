@@ -8,6 +8,9 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+/**
+ * Entidad Rol para ser almacenada en la base de datos
+ */
 @Entity
 @Table(name = "tb_rol") 
 public class Rol implements Serializable {

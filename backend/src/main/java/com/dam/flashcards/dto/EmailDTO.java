@@ -2,6 +2,9 @@ package com.dam.flashcards.dto;
 
 import java.io.Serializable;
 
+/**
+ * Clase de EmailDTO con datos para envío de un correo electrónico
+ */
 public class EmailDTO implements Serializable {
     private static final long serialVersionUID = 1L;
 

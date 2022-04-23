@@ -11,6 +11,11 @@ import org.springframework.context.annotation.Profile;
 @Profile("test")
 public class TestConfig {
 
+    
+    /** 
+     * Bean de emailService para el perfil Test
+     * @return EmailService
+     */
     @Bean
     public EmailService emailService() {
         return new MockEmailService();

@@ -3,7 +3,9 @@ package com.dam.flashcards.dto;
 import java.io.Serializable;
 
 import com.dam.flashcards.entities.Rol;
-
+/**
+ * Clase DTO con datos de Rol
+ */
 public class RolDTO implements Serializable {
 
 	private static final long serialVersionUID = 1L;

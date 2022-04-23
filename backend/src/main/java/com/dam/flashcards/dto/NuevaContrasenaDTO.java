@@ -2,6 +2,10 @@ package com.dam.flashcards.dto;
 
 import java.io.Serializable;
 
+/**
+ * Clase DTO con datos de nueva contraseña y token para uso en método para
+ * reasignar contraseña desde olvidó su contraseña
+ */
 public class NuevaContrasenaDTO implements Serializable {
 
 	private static final long serialVersionUID = 1L;

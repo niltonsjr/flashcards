@@ -17,9 +17,15 @@ public class EmailResource {
     @Autowired
     private EmailService service;
 
+    /**
+     * Método para enviar un correo electrónico
+     * 
+     * @param dto los datos del correo a enviar
+     * @return ResponseEntity<Void>
+     */
     @PostMapping
     public ResponseEntity<Void> send(@RequestBody EmailDTO dto) {
         service.sendEmail(dto);
         return ResponseEntity.noContent().build();
-    }    
+    }
 }

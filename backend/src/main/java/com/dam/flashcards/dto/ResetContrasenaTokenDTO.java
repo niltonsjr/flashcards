@@ -2,6 +2,9 @@ package com.dam.flashcards.dto;
 
 import java.io.Serializable;
 
+/**
+ * Clase DTO con datos de resetToken
+ */
 public class ResetContrasenaTokenDTO implements Serializable {
 
     private static final long serialVersionUID = 1L;
