@@ -70,9 +70,21 @@ Enlace a la aplicación: [Flashcards](https://dam-flashcards.netlify.app/)
 
 ## :camera: Capturas de pantalla
 
+### Acceso como usuario administrador:
 <p align="center">
    <img width="80%" height="80%" src="https://github.com/niltonsjr/assets/blob/main/Flashcards_readme/flashcards_inicio_perfil_administrador.gif?raw=true">
 </p>
+
+### Formulario de registro
+<p align="center">
+   <img width="80%" height="80%" src="https://github.com/niltonsjr/assets/blob/main/Flashcards_readme/flashcards_nuevo_registro.gif?raw=true">
+</p>
+
+### Pantalla adaptativa
+<p align="center">
+   <img width="80%" height="80%" src="https://github.com/niltonsjr/assets/blob/main/Flashcards_readme/flashcards_pantalla_adaptativa.gif?raw=true">
+</p>
+
 
 ### License
 
